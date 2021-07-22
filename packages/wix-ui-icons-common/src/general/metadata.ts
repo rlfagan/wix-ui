@@ -1151,6 +1151,14 @@ sizes: { "18": "GetStartedSmall", "24": "GetStarted" },
     tags: ["clock", "hours"],
     sizes: { "18": "TimeSmall", "24": "Time" },
   },
+	{
+    title: "DateSync",
+    category: "Date & Time",
+    description:
+      "Button - enables sync with external calandar. Static Indicator - marks that calendar is in sync with external calendar",
+    tags: ["calendar", "connect"],
+    sizes: { "18": "DateSyncSmall", "24": "DateSync" },
+  },
   {
     title: "ArrowLeft",
     category: "Arrows",
