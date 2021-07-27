@@ -18,7 +18,7 @@ export interface InputProps
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   value?: string;
-  inputRef?: React.MutableRefObject<HTMLInputElement>;
+  inputRef?(input: HTMLInputElement): void;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
@@ -57,7 +57,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     this.input = ref;
     if (inputRef) {
-      inputRef.current = ref;
+      inputRef(ref);
     }
   };
 

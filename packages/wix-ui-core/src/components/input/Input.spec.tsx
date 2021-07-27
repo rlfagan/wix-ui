@@ -82,11 +82,12 @@ describe('Input', () => {
 
   it('should pass ref attribute to native input', async () => {
     const expectedType = 'password';
-    const ref = React.createRef<HTMLInputElement>();
+    let ref;
+    const inputRef = (input) => (ref = input);
 
-    await render(<Input inputRef={ref} type={expectedType} />);
+    await render(<Input inputRef={inputRef} type={expectedType} />);
 
-    expect(ref.current.type).toEqual(expectedType);
+    expect(ref.type).toEqual(expectedType);
   });
 
   describe('Imperative API', () => {
