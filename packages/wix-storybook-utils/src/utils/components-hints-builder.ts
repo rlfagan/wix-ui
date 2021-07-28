@@ -83,11 +83,15 @@ export const getComponentsHints = (componentsScope?: ComponentsScope) => {
   return Object.keys(componentsScope)
     .sort()
     .reduce(
-      (result, componentName) => ({
-        ...result,
-        ...getParsedComponent(componentsScope, componentName),
-        ...getCompoundComponentsHints(componentsScope, componentName),
-      }),
+      (result, componentName) => (
+          !componentsScope[componentName] ?
+              result
+              : {
+                ...result,
+                ...getParsedComponent(componentsScope, componentName),
+                ...getCompoundComponentsHints(componentsScope, componentName),
+              }
+          ),
       {},
     );
 };
