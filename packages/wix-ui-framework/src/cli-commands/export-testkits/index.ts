@@ -9,8 +9,10 @@ import { fileExists } from '../../file-exists';
 import { objectEntries } from '../../object-entries';
 import { Options } from './typings';
 
-const pathResolver = (cwd: string) => (...a: string[]) =>
-  path.resolve(cwd, ...a);
+const pathResolver =
+  (cwd: string) =>
+  (...a: string[]) =>
+    path.resolve(cwd, ...a);
 
 export const warningBanner = (templatePath: string) =>
   `/* eslint-disable */
@@ -71,7 +73,9 @@ const resolveTemplate = async ({ requirePath }) => {
 
   try {
     return fs.readFileSync(requirePath, 'utf8');
-  } catch (e) {}
+  } catch (e) {
+    //
+  }
 };
 
 const guards: (a: Options) => Promise<void> = async (optionsRaw) => {

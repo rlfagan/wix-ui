@@ -9,10 +9,14 @@ import {
 
 let isGitRepoCleanSpy;
 
-const mockGitStatus = (isClean) => {
+const mockGitStatus = (isClean: boolean) => {
   isGitRepoCleanSpy = jest
     .spyOn(utils, 'isGitRepoClean')
     .mockImplementation(() => Promise.resolve(isClean));
+};
+
+const noop = () => {
+  //
 };
 
 describe('verifyWorkingDirectory', () => {
@@ -20,10 +24,11 @@ describe('verifyWorkingDirectory', () => {
   let exitSpy;
 
   beforeEach(() => {
-    errorSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
-    // @ts-ignore
-    exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
-    jest.spyOn(logger, 'divider').mockImplementation(() => {});
+    errorSpy = jest.spyOn(logger, 'error').mockImplementation(noop);
+    exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {
+      return undefined as never;
+    });
+    jest.spyOn(logger, 'divider').mockImplementation(noop);
   });
 
   afterEach(() => {
@@ -39,7 +44,7 @@ describe('verifyWorkingDirectory', () => {
     mockGitStatus(true);
 
     const fakeFs = cista();
-    await verifyWorkingDirectory(fakeFs.dir);
+    await verifyWorkingDirectory({ cwd: fakeFs.dir });
 
     expect(errorSpy).not.toHaveBeenCalled();
     expect(exitSpy).not.toHaveBeenCalled();
@@ -49,7 +54,7 @@ describe('verifyWorkingDirectory', () => {
     mockGitStatus(false);
 
     const fakeFs = cista();
-    await verifyWorkingDirectory(fakeFs.dir);
+    await verifyWorkingDirectory({ cwd: fakeFs.dir });
 
     expect(exitSpy).toHaveBeenCalledWith(1);
     expect(errorSpy).toHaveBeenCalledWith(errorMessage);

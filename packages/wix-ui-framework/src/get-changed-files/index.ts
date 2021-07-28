@@ -11,7 +11,9 @@ export const getChangedFiles = async ({ cwd }) => {
       exec('git rev-parse --is-inside-work-tree 2> /dev/null').trim() ===
       'true';
     gitRootPath = exec('git rev-parse --show-toplevel').trim();
-  } catch (e) {}
+  } catch (e) {
+    //
+  }
 
   if (!isGitRepo) {
     throw new Error('wuf must be used inside a git repository');

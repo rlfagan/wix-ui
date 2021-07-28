@@ -1,7 +1,7 @@
 import { isPascalCase, pascalToCamel, pascalToKebab } from '../utils';
 
 describe('isPascalCase', () => {
-  ['camelCase', 'snake-case', 'nocase', 'MaybeNumbers123'].map(assert =>
+  ['camelCase', 'snake-case', 'nocase', 'MaybeNumbers123'].map((assert) =>
     it(`should return true for ${assert}`, () =>
       expect(isPascalCase(assert)).toBe(false)),
   );

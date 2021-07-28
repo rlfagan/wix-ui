@@ -1,4 +1,4 @@
-const defineTest = require('jscodeshift/dist/testUtils').defineTest;
+import { defineTest } from 'jscodeshift/dist/testUtils';
 
 const options = {
   ComponentName: 'MyNewComponent',

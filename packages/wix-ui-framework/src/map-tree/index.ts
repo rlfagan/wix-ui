@@ -32,9 +32,14 @@ const isObject = (o) => o && o.toString() === '[object Object]';
 
 export const mapTree = (
   input: object,
-  fn?: (a: { key: string; value: any; parent: object; path: string }) => any,
-  path: string = '',
-) =>
+  fn?: (a: {
+    key: string;
+    value: unknown;
+    parent: object;
+    path: string;
+  }) => unknown,
+  path = '',
+): object =>
   typeof fn === 'function' && isObject(input)
     ? Object.keys(input).reduce((output, key) => {
         const candidate = fn({

@@ -27,7 +27,7 @@ export const replaceTemplates = (source: string, scope: Object) => {
   const replaceDeprecatedSyntax = source.replace(/{%[\w-]+%}/g, (match) => {
     const key = match.slice(2, -2);
 
-    if (!scope.hasOwnProperty(key)) {
+    if (!(key in scope)) {
       throw new Error(`key '${key}' must be one of: [${Object.keys(scope)}]`);
     }
 

@@ -14,8 +14,10 @@ import { getChangedFiles } from '../../get-changed-files';
 const fsReadFile = promisify(fs.readFile);
 const fsWriteFile = promisify(fs.writeFile);
 
-const pathResolver = (cwd: string) => (...a: string[]) =>
-  path.resolve(cwd, ...a);
+const pathResolver =
+  (cwd: string) =>
+  (...a: string[]) =>
+    path.resolve(cwd, ...a);
 
 interface Options {
   shape?: Path;

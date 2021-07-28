@@ -7,16 +7,21 @@ const fsWriteFile = promisify(fs.writeFile);
 
 type Queue = {
   type: 'files' | 'up' | 'down';
-  entry?: [string, unknown];
+  entry?: Entry;
   name?: string;
 }[];
+
+type Entry = [string, string | object];
+type Tree = {
+  [key: string]: string | object;
+};
 
 export const jsonToFs = async ({ tree = {}, cwd }) => {
   if (!cwd) {
     return Promise.reject('jsonToFs expects `cwd` to be passed');
   }
 
-  const makeQueue: (a: any) => Queue = (tree) =>
+  const makeQueue = (tree: Tree): Queue =>
     Object.entries(tree).map((entry) => ({
       type: 'files',
       entry,
@@ -34,7 +39,7 @@ export const jsonToFs = async ({ tree = {}, cwd }) => {
           encoding: 'utf8',
         });
       } else {
-        queue.unshift({ type: 'down', name }, ...makeQueue(content), {
+        queue.unshift({ type: 'down', name }, ...makeQueue(content as Tree), {
           type: 'up',
         });
       }
