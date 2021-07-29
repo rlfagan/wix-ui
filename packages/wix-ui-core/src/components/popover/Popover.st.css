@@ -31,6 +31,7 @@
 .root:fluid {
   /* for stretching the container alongside the positioning mechanism */
   display: block;
+  width: 100%;
 }
 
 .popoverAnimation {}

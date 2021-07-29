@@ -69,6 +69,9 @@ export interface TooltipProps {
    * When true - onClickOutside will be called only when popover content is shown
    */
   disableClickOutsideWhenClosed?: boolean;
+
+  /** stretch root element to the width of its container. */
+  fluid?: boolean;
 }
 
 export interface TooltipState {
@@ -175,6 +178,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       className,
       contentClassName,
       disableClickOutsideWhenClosed,
+      fluid,
     } = this.props;
 
     return (
@@ -202,6 +206,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         maxWidth={maxWidth}
         contentClassName={contentClassName}
         disableClickOutsideWhenClosed={disableClickOutsideWhenClosed}
+        fluid={fluid}
         {...filterDataProps(this.props)}
       >
         <Popover.Element>{this._renderElement()}</Popover.Element>
