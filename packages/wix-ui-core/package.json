@@ -65,7 +65,7 @@
     "storybook-start": "npm run storybook",
     "storybook:visual": "start-storybook -c ./.storybook/visual -p 6007",
     "start": "run-p yoshi-start storybook-start",
-    "release": "npx @wix/yoshi@4 release && npx janet deploy --ci",
+    "release": "npx @wix/yoshi@4 release && npx build-storybook && npx janet deploy --ci",
     "storybook": "start-storybook -p 6006",
     "import-path": "node scripts/import-path.js",
     "bundles:analyse": "npm run transpile && npm run analyze --prefix .perfer",
