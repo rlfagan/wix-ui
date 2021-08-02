@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { st, classes } from './InputWithOptions.st.css';
 import { Dropdown, DropdownProps } from '../dropdown';
-import { Placement, PopoverProps } from '../popover';
+import { Placement, PopoverProps, AppendTo } from '../popover';
 import { Option, OptionFactory } from '../dropdown-option';
 import { IDOMid } from '../dropdown-content';
 import { OPEN_TRIGGER_TYPE } from '../dropdown/constants';
@@ -64,7 +64,8 @@ export type InputWithOptionsProps = Pick<
     emptyStateStyle?: React.CSSProperties;
     /** Options box z-index */
     optionsContainerZIndex?: number;
-
+    /** Enables calculations in relation to a dom element */
+    appendTo?: AppendTo;
     className?: string;
   };
 
@@ -232,6 +233,7 @@ export class InputWithOptions extends React.PureComponent<
       fixed,
       moveBy,
       optionsContainerZIndex,
+      appendTo,
       className,
     } = this.props;
 
@@ -265,6 +267,7 @@ export class InputWithOptions extends React.PureComponent<
         contentId={contentId}
         onExpandedChange={this.changeExpanded}
         optionsContainerZIndex={optionsContainerZIndex}
+        appendTo={appendTo}
         {...filterDataProps(this.props)}
       >
         <Input

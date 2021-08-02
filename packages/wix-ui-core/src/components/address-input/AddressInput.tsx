@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { st, classes } from './AddressInput.st.css';
+import { AppendTo } from '../popover';
 import {
   InputWithOptions,
   InputWithOptionsProps,
@@ -131,6 +132,8 @@ export type AddressInputProps = Pick<
   externalBaseUrl?: string;
   /** Maps locale */
   locale?: string;
+  /** Element to append the dropdown container to */
+  appendTo?: AppendTo;
 };
 
 export interface AddressInputState {
@@ -520,6 +523,7 @@ export class AddressInput extends React.PureComponent<
       inputClassName,
       optionsContainerZIndex,
       className,
+      appendTo,
     } = this.props;
     const options = this._options();
 
@@ -574,6 +578,7 @@ export class AddressInput extends React.PureComponent<
         emptyStateMessage={emptyStateMessage}
         emptyStateStyle={optionStyle}
         optionsContainerZIndex={optionsContainerZIndex}
+        appendTo={appendTo}
         {...filterDataProps(this.props)}
       />
     );

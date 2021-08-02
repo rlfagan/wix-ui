@@ -39,6 +39,18 @@ describe('AddressInput', () => {
     );
   };
 
+  const createAddressInput = (props = {}) => (
+    <AddressInput
+    apiKey={helper.API_KEY}
+    lang="en"
+    Client={GoogleMapsClientStub}
+    onSelect={onSelectSpy}
+    handler={Handler.geocode}
+    throttleInterval={0}
+    {...props}
+    />
+  );
+
   beforeAll(() => {
     jest.spyOn(GoogleMapsClientStub.prototype, 'autocomplete');
     jest.spyOn(GoogleMapsClientStub.prototype, 'geocode');
@@ -1258,6 +1270,29 @@ describe('AddressInput', () => {
           mount,
         ),
       ).toBe(true);
+    });
+  });
+
+  describe('Should pass the correct props to Popover', () => {
+    /*
+     * Some props are passed down to `<Popover>` component used internally.
+     * Behaviour of those props are tested in `<Popover>` implementation.
+     * Thus, these tests just confirm that props are really passed
+     */
+
+    const propsAndValues = {
+      placement: 'test',
+      appendTo: 'test',
+      timeout: 0,
+      id: 'test',
+      flip: 'test',
+    };
+
+    Object.entries(propsAndValues).forEach(([prop, value]) => {
+      it(`Popover should receive ${prop}=${value} prop`, () => {
+        const mounted = mount(createAddressInput({ [prop]: value }),);
+        expect(mounted.find('Popover').props()[prop]).toEqual(value);
+      });
     });
   });
 });

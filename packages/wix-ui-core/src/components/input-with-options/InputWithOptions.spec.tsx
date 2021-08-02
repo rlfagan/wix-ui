@@ -359,4 +359,29 @@ describe('InputWithOptions', () => {
       expect(input.getAttribute('aria-activedescendant')).toBeNull();
     });
   });
+
+  describe('Should pass the correct props to Popover', () => {
+    /*
+     * Some props are passed down to `<Popover>` component used internally.
+     * Behaviour of those props are tested in `<Popover>` implementation.
+     * Thus, these tests just confirm that props are really passed
+     */
+
+    const propsAndValues = {
+      placement: 'test',
+      appendTo: 'test',
+      timeout: 0,
+      id: 'test',
+      flip: 'test',
+    };
+
+    Object.entries(propsAndValues).forEach(([prop, value]) => {
+      it(`Popover should receive ${prop}=${value} prop`, () => {
+        const mounted = mount(
+          createInputWithOptions({ options, [prop]: value }),
+        );
+        expect(mounted.find('Popover').props()[prop]).toEqual(value);
+      });
+    });
+  });
 });
