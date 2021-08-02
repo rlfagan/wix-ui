@@ -1,6 +1,0 @@
-{
-  "name": "wix-ui-core",
-  "rootDir": "storybook-static",
-  "files": ["*"],
-  "exposure": ["wix-pages"]
-}
