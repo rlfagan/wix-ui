@@ -41,13 +41,13 @@ describe('AddressInput', () => {
 
   const createAddressInput = (props = {}) => (
     <AddressInput
-    apiKey={helper.API_KEY}
-    lang="en"
-    Client={GoogleMapsClientStub}
-    onSelect={onSelectSpy}
-    handler={Handler.geocode}
-    throttleInterval={0}
-    {...props}
+      apiKey={helper.API_KEY}
+      lang="en"
+      Client={GoogleMapsClientStub}
+      onSelect={onSelectSpy}
+      handler={Handler.geocode}
+      throttleInterval={0}
+      {...props}
     />
   );
 
@@ -1286,11 +1286,12 @@ describe('AddressInput', () => {
       timeout: 0,
       id: 'test',
       flip: 'test',
+      dynamicWidth: true,
     };
 
     Object.entries(propsAndValues).forEach(([prop, value]) => {
       it(`Popover should receive ${prop}=${value} prop`, () => {
-        const mounted = mount(createAddressInput({ [prop]: value }),);
+        const mounted = mount(createAddressInput({ [prop]: value }));
         expect(mounted.find('Popover').props()[prop]).toEqual(value);
       });
     });

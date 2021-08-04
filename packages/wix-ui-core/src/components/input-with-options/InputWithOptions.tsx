@@ -17,7 +17,7 @@ export type InputWithOptionsProps = Pick<
   PopoverProps,
   'fixed' | 'flip' | 'moveBy'
 > &
-  Pick<DropdownProps, 'onContentMouseDown'> & {
+  Pick<DropdownProps, 'onContentMouseDown' | 'dynamicWidth'> & {
     /** hook for testing purposes */
     'data-hook'?: string;
     /** The location to display the content */
@@ -235,6 +235,7 @@ export class InputWithOptions extends React.PureComponent<
       optionsContainerZIndex,
       appendTo,
       className,
+      dynamicWidth,
     } = this.props;
 
     const contentId = id ? `${id}-content` : null;
@@ -268,6 +269,7 @@ export class InputWithOptions extends React.PureComponent<
         onExpandedChange={this.changeExpanded}
         optionsContainerZIndex={optionsContainerZIndex}
         appendTo={appendTo}
+        dynamicWidth={dynamicWidth}
         {...filterDataProps(this.props)}
       >
         <Input

@@ -16,7 +16,7 @@ let dummyGoogleMapsMock,
   mockGetDetailsResult,
   mockGeocodeResult;
 
-describe('googleRequestHandler', async () => {
+describe('googleRequestHandler', () => {
   beforeEach(() => {
     postMessageMock = jest.fn();
     dummyGoogleMapsMock = GoogleMapsMock();

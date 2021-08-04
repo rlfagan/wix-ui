@@ -6,7 +6,10 @@ import { Option } from '../dropdown-option';
 import { CLICK, HOVER, OPEN_TRIGGER_TYPE } from './constants';
 import { filterDataProps } from '../../utils/filter-data-props';
 
-export type DropdownProps = Pick<PopoverProps, 'fixed' | 'flip' | 'moveBy'> & {
+export type DropdownProps = Pick<
+  PopoverProps,
+  'fixed' | 'flip' | 'moveBy' | 'contentClassName'
+> & {
   /** hook for testing purposes */
   'data-hook'?: string;
   /** The location to display the content */
@@ -322,6 +325,7 @@ export class DropdownComponent extends React.PureComponent<
       dynamicWidth,
       appendTo,
       className,
+      contentClassName,
     } = this.props;
     const { isOpen, selectedIds } = this.state;
     const hasContent = Boolean(
@@ -333,6 +337,7 @@ export class DropdownComponent extends React.PureComponent<
     return (
       <Popover
         className={st(classes.root, { 'content-visible': shown }, className)}
+        contentClassName={contentClassName}
         placement={placement}
         shown={shown}
         showArrow={showArrow}

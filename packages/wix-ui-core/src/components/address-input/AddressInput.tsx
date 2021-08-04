@@ -37,7 +37,12 @@ export enum Converter {
 
 export type AddressInputProps = Pick<
   InputWithOptionsProps,
-  'fixed' | 'flip' | 'moveBy' | 'placement' | 'emptyStateMessage'
+  | 'fixed'
+  | 'flip'
+  | 'moveBy'
+  | 'placement'
+  | 'emptyStateMessage'
+  | 'dynamicWidth'
 > & {
   /** hook for testing purposes */
   'data-hook'?: string;
@@ -524,6 +529,7 @@ export class AddressInput extends React.PureComponent<
       optionsContainerZIndex,
       className,
       appendTo,
+      dynamicWidth,
     } = this.props;
     const options = this._options();
 
@@ -579,6 +585,7 @@ export class AddressInput extends React.PureComponent<
         emptyStateStyle={optionStyle}
         optionsContainerZIndex={optionsContainerZIndex}
         appendTo={appendTo}
+        dynamicWidth={dynamicWidth}
         {...filterDataProps(this.props)}
       />
     );

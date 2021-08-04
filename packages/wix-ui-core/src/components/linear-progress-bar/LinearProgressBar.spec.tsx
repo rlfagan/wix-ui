@@ -154,7 +154,7 @@ describe('ProgressBar', () => {
         expect(await driver.getValue()).toBe('0%');
       });
 
-      describe('Precision prop', async () => {
+      describe('Precision prop', () => {
         it('should show value in percentages rounded down by default', async () => {
           const floatValue = 3.9;
           const floatValueRoundDown = Math.floor(floatValue);

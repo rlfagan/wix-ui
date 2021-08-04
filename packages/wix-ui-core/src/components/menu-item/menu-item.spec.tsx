@@ -42,7 +42,7 @@ describe('MenuItem', () => {
     ['highlighted', 'isHighlighted'],
     ['disabled', 'isDisabled'],
   ].map(([prop, method]) =>
-    describe(`\`${prop}\` prop`, async () => {
+    describe(`\`${prop}\` prop`, () => {
       it('should be false by default', async () => {
         const driver = await createDriver(<MenuItem>hello</MenuItem>);
         expect(await driver[method]()).toBe(false);
