@@ -76,6 +76,11 @@ $font: (
   }
 }
 
+/** This mixin is used to define the preview examples' font */
+@mixin previewExampleFont($type: madeFor) {
+  font-family: var(--preview-example-font, --wix-font-stack), $font-fallback;
+}
+
 @mixin fontWeight($type) {
   @if map-has-key($fontWeight, $type) {
     font-weight: map-get($fontWeight, $type);

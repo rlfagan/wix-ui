@@ -1,5 +1,6 @@
 @import '../mixins.scss';
 @import '../common.scss';
+@import '../ui/typography.scss';
 
 .wrapper {
   margin-bottom: 54px;
@@ -46,6 +47,8 @@
 }
 
 .liveExampleWrapper {
+  @include previewExampleFont();
+
   display: flex;
   border: 1px solid #e5e5e5;
 

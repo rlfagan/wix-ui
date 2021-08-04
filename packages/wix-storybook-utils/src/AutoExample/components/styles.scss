@@ -1,5 +1,6 @@
 @import '../../mixins.scss';
 @import '../../common.scss';
+@import '../../ui/typography.scss';
 
 .wrapper {
   box-sizing: border-box;
@@ -41,6 +42,8 @@
 }
 
 .preview {
+  @include previewExampleFont();
+
   padding: 60px 20px;
 
   border: 1px solid #dee6ed;
