@@ -77,7 +77,7 @@ $font: (
 }
 
 /** This mixin is used to define the preview examples' font */
-@mixin previewExampleFont($type: madeFor) {
+@mixin previewExampleFont() {
   font-family: var(--preview-example-font, --wix-font-stack), $font-fallback;
 }
 
