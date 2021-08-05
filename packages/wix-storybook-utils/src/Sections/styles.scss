@@ -34,7 +34,6 @@
   color: #32536a;
 }
 
-
 .section {
   margin-bottom: 30px;
 }
@@ -65,8 +64,6 @@
 .tab {
   margin-top: -30px;
   margin-bottom: 30px;
-  @include font();
-  @include fontWeight(medium);
 }
 
 .divider {

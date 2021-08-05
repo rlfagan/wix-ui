@@ -64,15 +64,15 @@ $fontWeight: (
 );
 
 $font: (
-  madeFor: var(--wix-font-stack),
+  madeFor: var(--wix-font-stack, $font-fallback),
   code: $font-code,
 );
 
 @mixin font($type: madeFor) {
   @if map-has-key($font, $type) {
-    font-family: unquote(map-get($font, $type)), $font-fallback;
+    font-family: unquote(map-get($font, $type));
   } @else {
-    font-family: var(--wix-font-stack), $font-fallback;
+    font-family: var(--wix-font-stack, $font-fallback);
   }
 }
 
