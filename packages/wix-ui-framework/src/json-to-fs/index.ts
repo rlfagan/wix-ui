@@ -1,9 +1,5 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
-import { promisify } from 'util';
-
-const fsMkdir = promisify(fs.mkdir);
-const fsWriteFile = promisify(fs.writeFile);
 
 type Queue = {
   type: 'files' | 'up' | 'down';
@@ -35,7 +31,7 @@ export const jsonToFs = async ({ tree = {}, cwd }) => {
     if (current.type === 'files') {
       const [name, content] = current.entry;
       if (typeof content === 'string') {
-        await fsWriteFile(path.join(currentPath, name), content, {
+        await fs.writeFile(path.join(currentPath, name), content, {
           encoding: 'utf8',
         });
       } else {
@@ -48,7 +44,7 @@ export const jsonToFs = async ({ tree = {}, cwd }) => {
     if (current.type === 'down') {
       currentPath = path.join(currentPath, current.name);
       try {
-        await fsMkdir(currentPath);
+        await fs.mkdir(currentPath);
       } catch (e) {
         // TODO: consider a nicer handling for the case when we try to create folder that already exists
       }

@@ -1,18 +1,17 @@
-#!/usr/bin/env node
-
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const commandMatcher = /^\s{2}(\S[\w-]+)/;
 let allCommands = execSync('npm run wuf -- --help', { encoding: 'utf8' });
 allCommands = removeUntil({ string: allCommands, match: /^Commands/ });
 allCommands = allCommands
   .split('\n')
-  .filter(i => i)
-  .map(command => command.match(/[a-zA-Z0-9-]+/)[0]);
+  .filter((i) => i.match(commandMatcher))
+  .map((command) => command.match(commandMatcher)[1]);
 
 const commandsDocs = allCommands
-  .map(command => {
+  .map((command) => {
     const output = execSync(`npm run wuf -- ${command} --help `, {
       encoding: 'utf8',
     });

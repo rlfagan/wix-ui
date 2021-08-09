@@ -134,4 +134,26 @@ describe('wuf', () => {
       });
     });
   });
+
+  describe('make', () => {
+    it('should not fail with `unknown command`', (done) => {
+      nixt()
+        .expect(({ stderr }) => {
+          expect(stderr).not.toMatch(/unknown command 'make'/);
+        })
+        .run(cli(`make`))
+        .end(done);
+    });
+
+    describe('--help', () => {
+      it('should render help text', (done) => {
+        nixt()
+          .expect(({ stdout }) => {
+            expect(stdout).toMatchSnapshot();
+          })
+          .run(cli('make --help'))
+          .end(done);
+      });
+    });
+  });
 });

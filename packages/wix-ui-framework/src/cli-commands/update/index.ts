@@ -1,6 +1,5 @@
 import path from 'path';
-import fs from 'fs';
-import { promisify } from 'util';
+import fs from 'fs/promises';
 import minimatch from 'minimatch';
 
 import { Path, Process, Components } from '../../typings.d';
@@ -10,9 +9,6 @@ import { fsToJson } from '../../fs-to-json';
 import { mapTree } from '../../map-tree';
 import { getDirtyComponents } from '../../get-dirty-components';
 import { getChangedFiles } from '../../get-changed-files';
-
-const fsReadFile = promisify(fs.readFile);
-const fsWriteFile = promisify(fs.writeFile);
 
 const pathResolver =
   (cwd: string) =>
@@ -31,7 +27,7 @@ interface Options {
 
 const readOutputFile = async (path = '') => {
   try {
-    const outputRaw = await fsReadFile(path, 'utf8');
+    const outputRaw = await fs.readFile(path, 'utf8');
     return JSON.parse(outputRaw);
   } catch (e) {
     return {};
@@ -94,7 +90,7 @@ const guards: (a: Options) => Promise<void> = async (unsafeOptions) => {
 };
 
 const makeOutput: (a: Options) => Promise<void> = async (options) => {
-  const shapeRaw = await fsReadFile(options.shape, 'utf8');
+  const shapeRaw = await fs.readFile(options.shape, 'utf8');
   const shape = JSON.parse(shapeRaw);
   const output = await readOutputFile(options.output);
 
@@ -200,13 +196,13 @@ const makeOutput: (a: Options) => Promise<void> = async (options) => {
       changedFiles,
     });
 
-    await fsWriteFile(
+    await fs.writeFile(
       options.verboseOutput,
       JSON.stringify(verboseOutput, null, 2),
     );
   }
 
-  await fsWriteFile(options.output, JSON.stringify(jsonOutput, null, 2));
+  await fs.writeFile(options.output, JSON.stringify(jsonOutput, null, 2));
 };
 
-export const updateComponentsList: (a: Options) => Promise<void> = guards;
+export const update: (a: Options) => Promise<void> = guards;

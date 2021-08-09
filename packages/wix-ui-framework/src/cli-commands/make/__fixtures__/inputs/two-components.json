@@ -1,0 +1,4 @@
+{
+  "ComponentA": { "path": "src/a" },
+  "ComponentB": { "path": "src/b" }
+}

@@ -1,11 +1,10 @@
-import fs from 'fs';
-import { promisify } from 'util';
+import { constants } from 'fs';
+import fs from 'fs/promises';
 
 import { Path } from './typings.d';
 
-const fsAccess = promisify(fs.access);
-
 export const fileExists: (a: Path) => Promise<boolean> = (path) =>
-  fsAccess(path, fs.constants.F_OK)
+  fs
+    .access(path, constants.F_OK)
     .then(() => true)
     .catch(() => false);

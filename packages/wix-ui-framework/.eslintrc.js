@@ -28,6 +28,8 @@ module.exports = {
         './src/cli-commands/generate/tasks/run-codemods.ts',
         './src/cli-commands/generate/run-tasks.ts',
         './src/cli-commands/export-testkits/index.ts',
+        './src/cli-commands/make/index.ts',
+        './src/**/__fixtures__/**/*',
       ],
       rules: {
         '@typescript-eslint/no-var-requires': 0,

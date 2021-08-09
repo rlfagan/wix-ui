@@ -6,8 +6,11 @@ import { cli as generateCli } from './cli-commands/generate/cli';
 import { exportTestkits } from './cli-commands/export-testkits';
 import { cli as exportTestkitsCli } from './cli-commands/export-testkits/cli';
 
-import { updateComponentsList } from './cli-commands/update-components-list';
-import { cli as updateComponentsListCli } from './cli-commands/update-components-list/cli';
+import { update } from './cli-commands/update';
+import { cli as updateCli } from './cli-commands/update/cli';
+
+import { make } from './cli-commands/make';
+import { cli as makeCli } from './cli-commands/make/cli';
 
 const extendOptions = (options) => ({
   ...options,
@@ -29,7 +32,9 @@ export const cli = ({ version }) => {
 
   exportTestkitsCli(program).action(run(exportTestkits));
 
-  updateComponentsListCli(program).action(run(updateComponentsList));
+  updateCli(program).action(run(update));
+
+  makeCli(program).action(run(make));
 
   if (!process.argv.slice(2).length) {
     program.help();

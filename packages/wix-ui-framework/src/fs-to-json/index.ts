@@ -1,5 +1,4 @@
-import fs from 'fs';
-import { promisify } from 'util';
+import fs from 'fs/promises';
 import { resolve as pathResolve } from 'path';
 import minimatch from 'minimatch';
 
@@ -11,10 +10,6 @@ interface Config {
   withContent?: boolean;
   exclude?: string[];
 }
-
-const fsReaddir = promisify(fs.readdir);
-const fsReadFile = promisify(fs.readFile);
-const fsStat = promisify(fs.stat);
 
 export const fsToJson: (config: Config) => Promise<Object> = async ({
   cwd,
@@ -41,26 +36,28 @@ export const fsToJson: (config: Config) => Promise<Object> = async ({
             return acc;
           }
 
-          const entryStats = await fsStat(entryPath);
+          const entryStats = await fs.stat(entryPath);
 
           return entryStats.isDirectory()
             ? {
                 ...acc,
                 [entry]: await recursion({
-                  entries: await fsReaddir(entryPath),
+                  entries: await fs.readdir(entryPath),
                   entryCwd: entryPath,
                 }),
               }
             : {
                 ...acc,
-                [entry]: withContent ? await fsReadFile(entryPath, 'utf8') : '',
+                [entry]: withContent
+                  ? await fs.readFile(entryPath, 'utf8')
+                  : '',
               };
         }),
       Promise.resolve({}),
     );
 
   return recursion({
-    entries: await fsReaddir(pathResolve(cwd, path)),
+    entries: await fs.readdir(pathResolve(cwd, path)),
     entryCwd: cwd,
   });
 };

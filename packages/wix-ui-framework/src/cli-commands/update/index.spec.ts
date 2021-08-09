@@ -4,9 +4,9 @@ import fs from 'fs';
 
 import { GitTestkit } from '../../../test/git-testkit';
 
-import { updateComponentsList } from '.';
+import { update } from '.';
 
-describe('updateComponentsList', () => {
+describe('update', () => {
   beforeEach(() => {
     cista().cleanup();
   });
@@ -15,7 +15,7 @@ describe('updateComponentsList', () => {
     it('should reject with error', () => {
       const fakeFs = cista();
       return expect(
-        updateComponentsList({
+        update({
           shape: 'non-existing',
           _process: { cwd: fakeFs.dir },
         }),
@@ -31,7 +31,7 @@ describe('updateComponentsList', () => {
         '.wuf/required-component-files.json': '',
       });
       return expect(
-        updateComponentsList({
+        update({
           components: 'non-existing',
           _process: { cwd: fakeFs.dir },
         }),
@@ -54,7 +54,7 @@ describe('updateComponentsList', () => {
         },
       };
 
-      await updateComponentsList({
+      await update({
         maxMismatch: 2,
         _process: { cwd: fakeFs.dir },
       });
@@ -82,7 +82,7 @@ describe('updateComponentsList', () => {
         )
         .trim(); // fs.readFileSync adds new line at the end, so trimming it
 
-      await updateComponentsList({
+      await update({
         maxMismatch: 2,
         _process: { cwd: fakeFs.dir },
       });
@@ -129,7 +129,7 @@ describe('updateComponentsList', () => {
         },
       };
 
-      await updateComponentsList({
+      await update({
         maxMismatch: 4,
         _process: { cwd: fakeFs.dir },
       });
@@ -157,7 +157,7 @@ describe('updateComponentsList', () => {
         },
       };
 
-      await updateComponentsList({
+      await update({
         maxMismatch: 0,
         exclude: '(skipped-component|skipped-component2)',
         _process: { cwd: fakeFs.dir },
@@ -185,7 +185,7 @@ describe('updateComponentsList', () => {
         },
       };
 
-      await updateComponentsList({
+      await update({
         maxMismatch: 2,
         _process: { cwd: fakeFs.dir },
       });
@@ -206,7 +206,7 @@ describe('updateComponentsList', () => {
         'src/components/test-component/index.js': '',
       });
 
-      await updateComponentsList({
+      await update({
         verboseOutput: '.wuf/components.meta.json',
         _process: { cwd: fakeFs.dir },
       });
@@ -265,7 +265,7 @@ describe('updateComponentsList', () => {
 
       await gitTestkit.checkout('feature');
 
-      await updateComponentsList({
+      await update({
         components: 'src',
         verboseOutput: '.wuf/yo.whatsup',
         _process: { cwd: gitTestkit.cwd },
@@ -327,7 +327,7 @@ describe('updateComponentsList', () => {
 
       await gitTestkit.checkout('test');
 
-      await updateComponentsList({
+      await update({
         components: 'src/components',
         verboseOutput: '.wuf/components.meta.json',
         _process: { cwd: path.join(gitTestkit.cwd, 'packages/wix-ui-tpa') },
