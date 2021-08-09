@@ -626,6 +626,13 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     sizes: { "20":"MinimizeSmall", "24":"Minimize" },
   },
   {
+    title: "Replace",
+    category: "Arrows",
+    description: "",
+    tags: [],
+    sizes: { "24":"Replace" },
+  },
+  {
     title: "Sort",
     category: "Arrows",
     description: "",
