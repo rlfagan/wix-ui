@@ -1982,6 +1982,13 @@ sizes: { "18": "ESignatureSmall", "24": "ESignature" },
     tags: ["decoration", "ribbon"],
     sizes: { "18": "BowSmall", "24": "Bow" },
   },
+{
+    title: "Checkroom",
+    category: "Composer Venues",
+    description: "Button - changes icon to checkroom in the canvas",
+    tags: ["venues", "change", "hanger" ,"cloakroom"],
+    sizes: { "18": "CheckroomSmall", "24": "Checkroom" },
+},
   {
     title: "FoodInStock",
     category: "Food",
