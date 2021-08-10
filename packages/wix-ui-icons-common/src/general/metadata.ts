@@ -1336,6 +1336,27 @@ sizes: { "18": "GetStartedSmall", "24": "GetStarted" },
     sizes: { "18": "ListSmall", "24": "List" },
   },
   {
+    title: "LayoutTwoColumns",
+    category: "Layout & Sorting",
+    description: "Button - displays two column layout",
+    tags: [],
+    sizes: { "18": "LayoutTwoColumnsSmall", "24": "LayoutTwoColumns" },
+  },
+  {
+    title: "LayoutThreeColumns",
+    category: "Layout & Sorting",
+    description: "Button - displays three column layout",
+    tags: [],
+    sizes: { "18": "LayoutThreeColumnsSmall", "24": "LayoutThreeColumns" },
+  },
+ {
+    title: "LayoutFourColumns",
+    category: "Layout & Sorting",
+    description: "Button - displays four column layout",
+    tags: [],
+    sizes: { "18": "LayoutFourColumnsSmall", "24": "LayoutFourColumns" },
+  },
+  {
     title: "Image",
     category: "Media",
     description:
