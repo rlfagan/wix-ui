@@ -11,6 +11,10 @@ Types of changes:
 1. **Fixed** for any bug fixes.
 1. **Security** in case of vulnerabilities.
 
+# 3.7.0 - 2021-08-10
+## Added
+- `wuf make` - new CLI command for generating files
+
 # 3.6.0 - 2021-05-04
 ## Added
 - `wuf update` - add `--verbose-output` option to allow saving
