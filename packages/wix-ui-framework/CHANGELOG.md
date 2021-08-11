@@ -11,6 +11,10 @@ Types of changes:
 1. **Fixed** for any bug fixes.
 1. **Security** in case of vulnerabilities.
 
+# 3.7.1 - 2021-08-11
+## Added
+- `wuf make` - support plugins imported from `wix-ui-framework/plugins/{plugin-name}`
+
 # 3.7.0 - 2021-08-10
 ## Added
 - `wuf make` - new CLI command for generating files
