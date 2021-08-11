@@ -5,16 +5,7 @@ import { OptionsRaw, Options } from './typings';
 import { WufError, ErrorKind, resolveOrThrow } from '../../errors';
 import { renderTemplate } from './template';
 import { resolvePlugin } from './plugin';
-
-const pathResolver =
-  (cwd: string) =>
-  (...a: string[]) => {
-    if (path.isAbsolute(a[0])) {
-      return a[0];
-    } else {
-      return path.resolve(cwd, ...a);
-    }
-  };
+import { pathResolver } from './path-resolver';
 
 const resolveInput = ({ requirePath, cwd }) => {
   try {
@@ -91,24 +82,9 @@ const processRawOptions: (a: OptionsRaw) => Promise<void> = async (
 
   const pathResolve = pathResolver(optionsRaw._process.cwd);
 
-  const pluginPaths = (optionsRaw.plugin ?? []).map((p) => {
-    const pluginPath = pathResolve(p);
-    try {
-      return require.resolve(pluginPath);
-    } catch (error) {
-      const relativePath = path.relative(optionsRaw._process.cwd, pluginPath);
-      throw new WufError({
-        name: 'PluginError',
-        kind: ErrorKind.UserError,
-        message: `Plugin not found at "${relativePath}"`,
-        error,
-      });
-    }
-  });
-
   const options = {
     ...optionsRaw,
-    plugin: pluginPaths,
+    plugin: optionsRaw.plugin || [],
     template: optionsRaw.template ? pathResolve(optionsRaw.template) : null,
     output: pathResolve(optionsRaw.output),
     components: resolveInput({

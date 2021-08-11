@@ -12,6 +12,7 @@
   "files": [
     "dist",
     "src",
+    "plugins",
     "bin",
     "*.md",
     "*.json"
@@ -25,6 +26,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "postbuild": "cp -r dist/cli-commands/make/plugins plugins",
     "pretest": "npm run lint",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -49,6 +51,7 @@
     "mkdirp": "^0.5.1",
     "ora": "^3.4.0",
     "prompts": "^2.0.4",
+    "react-autodocs-utils": "^3.7.1",
     "simple-git": "^1.110.0"
   },
   "jest": {

@@ -1,3 +1,4 @@
 node_modules
 dist
 __testfixtures__
+/plugins

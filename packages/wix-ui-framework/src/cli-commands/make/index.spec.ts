@@ -240,7 +240,6 @@ describe('make', () => {
       );
     });
 
-    // TODO: implement better error handling for plugin runtime errors
     it('should fail if plugin is failing during runtime', async () => {
       const fakeFs = cista();
 
@@ -304,6 +303,33 @@ describe('make', () => {
       const assertion = fs.readFileSync(outputPath, 'utf8').trim();
 
       expect(assertion).toEqual(`2 ${fakeFs.dir} 42!`);
+    });
+
+    it('should be able to be imported from wix-ui-framework library, when given from CLI flag', async () => {
+      const fakeFs = cista({
+        'node_modules/wix-ui-framework/plugins/plugin-from-wuf.js':
+          'module.exports = () => ({ hello: "hello" })',
+
+        'node_modules/wix-ui-framework/plugins/plugin-with-default-export.js': `module.exports = {
+            default: () => ({ world: "world" })
+          }`,
+        'template.ejs': '<%= hello %> <%= world %>',
+      });
+
+      const outputPath = path.join(fakeFs.dir, 'output');
+
+      await make({
+        plugin: ['plugin-from-wuf', 'plugin-with-default-export'],
+        output: outputPath,
+        template: 'template.ejs',
+        _process: {
+          cwd: fakeFs.dir,
+        },
+      });
+
+      const assertion = fs.readFileSync(outputPath, 'utf8').trim();
+
+      expect(assertion).toEqual(`hello world`);
     });
   });
 
