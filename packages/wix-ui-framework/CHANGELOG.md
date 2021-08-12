@@ -11,6 +11,10 @@ Types of changes:
 1. **Fixed** for any bug fixes.
 1. **Security** in case of vulnerabilities.
 
+# 3.7.2 - 2021-08-12
+## Changed
+- `wuf make` and `wuf update` when with `--verbose-output` will now also resolve files that have same name as their folder
+
 # 3.7.1 - 2021-08-11
 ## Added
 - `wuf make` - support plugins imported from `wix-ui-framework/plugins/{plugin-name}`
