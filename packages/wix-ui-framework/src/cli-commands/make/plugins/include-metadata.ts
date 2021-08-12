@@ -1,12 +1,13 @@
 import path from 'path';
 import gatherAll from 'react-autodocs-utils/src/gather-all';
+import { resolveRequire } from '../../../resolve-require';
 
 export default async ({ components }, { cwd }) => {
   const componentsWithProps = await components.reduce(
     (promise, component) =>
       promise.then(async (accumulator) => {
         try {
-          const componentPath = require.resolve(
+          const componentPath = await resolveRequire(
             path.join(cwd, component.path, component.name),
           );
 

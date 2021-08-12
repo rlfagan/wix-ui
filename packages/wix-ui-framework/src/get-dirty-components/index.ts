@@ -2,6 +2,7 @@ import path from 'path';
 import dependencyTree from 'dependency-tree';
 
 import { Components } from '../typings';
+import { resolveRequire } from '../resolve-require';
 
 interface Config {
   rootPath: string;
@@ -19,8 +20,11 @@ export const getDirtyComponents = async ({
   );
 
   const visited = {};
-  const getDependencies = (componentPath: string) => {
-    const filename = require.resolve(path.resolve(rootPath, componentPath));
+  const getDependencies = async (componentPath: string) => {
+    const filename = await resolveRequire(
+      path.resolve(rootPath, componentPath),
+    );
+
     return dependencyTree.toList({
       filename,
       directory: path.dirname(filename),
@@ -36,12 +40,13 @@ export const getDirtyComponents = async ({
     });
   };
 
-  const componentsWithDependencyList: Record<string, string[]> = Object.entries(
-    components,
-  ).reduce((acc, [componentName, { path: componentPath }]) => {
-    acc[componentName] = getDependencies(componentPath);
-    return acc;
-  }, {});
+  const componentsWithDependencyList: Record<string, string[]> =
+    await Object.entries(components).reduce(async (accPromise, current) => {
+      const acc = await accPromise;
+      const [componentName, { path: componentPath }] = current;
+      acc[componentName] = await getDependencies(componentPath);
+      return acc;
+    }, Promise.resolve({}));
 
   const dirtyComponents = Object.entries(componentsWithDependencyList).reduce(
     (acc, [componentName, dependencies]) => {

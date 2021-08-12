@@ -55,6 +55,20 @@ describe('getDirtyComponents', () => {
     expect(dirtyComponents).toEqual(['Component']);
   });
 
+  it('should return list of dirty components with basic input when component has no index.js', async () => {
+    const fakeFs = cista({
+      './src/Component/Component.js': ';',
+    });
+
+    const dirtyComponents = await getDirtyComponents({
+      rootPath: fakeFs.dir,
+      components: { Component: { path: 'src/Component' } },
+      changedFiles: ['src/Component/Component.js'],
+    });
+
+    expect(dirtyComponents).toEqual(['Component']);
+  });
+
   it('should return list of dirty components when a dependency changed', async () => {
     const fakeFs = cista({
       './src/Component/Component.js': 'require("../AnotherComponent")',
