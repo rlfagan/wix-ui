@@ -38,28 +38,28 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@stylable/runtime": "^1.0.4",
-    "@types/enzyme": "^3.10.7",
-    "@types/express": "^4.17.12",
-    "@types/jest": "^22.1.1",
+    "@stylable/runtime": "^1.4.0",
+    "@types/enzyme": "^3.10.9",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^22.2.3",
     "@types/node": "12.12.47",
     "@types/puppeteer": "1.11.0",
-    "@types/react": "^16.9.51",
-    "@types/react-dom": "^16.9.8",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.0.5",
-    "express": "^4.16.2",
+    "@types/react": "^16.14.13",
+    "@types/react-dom": "^16.9.14",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "express": "^4.17.1",
     "import-path": "latest",
-    "protractor": "^5.3.0",
+    "protractor": "^5.4.4",
     "puppeteer": "1.11.0",
-    "raf": "^3.4.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "raf": "^3.4.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-test-renderer": "~16.4.2",
-    "ts-jest": "^22.0.3",
+    "ts-jest": "^22.4.6",
     "tslint-config-wix": "^1.0.31",
     "typescript": "~3.1.8",
-    "@wix/yoshi": "^3.31.2"
+    "@wix/yoshi": "^3.31.6"
   },
   "jest": {
     "transform": {
@@ -82,10 +82,10 @@
     ]
   },
   "dependencies": {
-    "@unidriver/core": "^1.1.2",
-    "@unidriver/jsdom-react": "^1.2.1",
-    "@unidriver/protractor": "^1.1.5",
-    "@unidriver/puppeteer": "^1.1.2",
-    "@stylable/uni-driver": "^2.4.1"
+    "@unidriver/core": "^1.2.3",
+    "@unidriver/jsdom-react": "^1.6.3",
+    "@unidriver/protractor": "^1.1.7",
+    "@unidriver/puppeteer": "^1.2.2",
+    "@stylable/uni-driver": "^2.5.3"
   }
 }

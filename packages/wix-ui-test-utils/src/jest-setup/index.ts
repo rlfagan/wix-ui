@@ -3,7 +3,7 @@ const originConsoleError = console.error;
 let errors: any[] = [];
 
 /* tslint:disable-next-line no-console*/
-console.error = (...args: any[]) => {
+console.error = (...args: [any?, ...any[]]) => {
   errors.push(args);
   originConsoleError.apply(console, args);
 };
