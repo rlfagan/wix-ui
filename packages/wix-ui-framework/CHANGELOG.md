@@ -11,6 +11,10 @@ Types of changes:
 1. **Fixed** for any bug fixes.
 1. **Security** in case of vulnerabilities.
 
+# 3.7.3 - 2021-08-17
+## Fixed
+- fixing a case where requiring `wix-ui-framework/plugins/{plugin-name}` could lead to failures, when imported file imports other files through relative path
+
 # 3.7.2 - 2021-08-12
 ## Changed
 - `wuf make` and `wuf update` when with `--verbose-output` will now also resolve files that have same name as their folder
