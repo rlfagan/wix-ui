@@ -46,6 +46,6 @@
     "react-docgen": "^4.1.1",
     "react-docgen-typescript": "1.18.0",
     "recast": "0.13.0",
-    "typescript": "^2.7.1"
+    "typescript": "^3.9.10"
   }
 }

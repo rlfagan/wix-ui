@@ -441,14 +441,14 @@ describe('Pagination', () => {
         <Pagination totalPages={3} currentPage={1} onChange={onChange} />,
       );
 
-      Simulate.keyDown(p.nextButton, { keyCode: 0 });
-      Simulate.keyDown(p.getPage(2), { keyCode: 0 });
+      Simulate.keyDown(p.nextButton);
+      Simulate.keyDown(p.getPage(2));
       expect(onChange).not.toBeCalled();
 
-      Simulate.keyDown(p.nextButton, { keyCode: 32 });
-      Simulate.keyDown(p.nextButton, { keyCode: 13 });
-      Simulate.keyDown(p.getPage(2), { keyCode: 32 });
-      Simulate.keyDown(p.getPage(2), { keyCode: 13 });
+      Simulate.keyDown(p.nextButton, { key: 'Space' });
+      Simulate.keyDown(p.nextButton, { key: 'Enter' });
+      Simulate.keyDown(p.getPage(2), { key: 'Space' });
+      Simulate.keyDown(p.getPage(2), { key: 'Enter' });
       expect(onChange).toHaveBeenCalledTimes(4);
     });
 

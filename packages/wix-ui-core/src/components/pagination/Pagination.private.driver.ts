@@ -64,6 +64,6 @@ export class PaginationDriver {
   }
 
   commitInput() {
-    Simulate.keyDown(this.input, { keyCode: 13 });
+    Simulate.keyDown(this.input, { key: 'Enter' });
   }
 }
