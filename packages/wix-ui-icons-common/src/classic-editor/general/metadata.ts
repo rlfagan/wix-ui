@@ -3195,6 +3195,50 @@ export const generalIconsMetadata: Array<IconMetadata> = [
     }
   },
   {
+    "title": "Accessibility",
+    "category": "Status",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Accessibility"
+    }
+  },
+  {
+    "title": "ArrowUpDown",
+    "category": "Arrows",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "ArrowUpDown"
+    }
+  },
+  {
+    "title": "ArrowDown",
+    "category": "Arrows",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "ArrowDown"
+    }
+  },
+  {
+    "title": "ArrowUp",
+    "category": "Arrows",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "ArrowUp"
+    }
+  },
+  {
+    "title": "Section",
+    "category": "Components",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Section"
+    }
+  }
     "title": "PageBackground",
     "category": "Composer",
     "description": "",
