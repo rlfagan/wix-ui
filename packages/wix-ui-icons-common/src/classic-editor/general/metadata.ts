@@ -3238,7 +3238,8 @@ export const generalIconsMetadata: Array<IconMetadata> = [
     "sizes": {
       "24": "Section"
     }
-  }
+  },
+  {
     "title": "PageBackground",
     "category": "Composer",
     "description": "",
