@@ -23,17 +23,18 @@ Usage: wuf make [options]
 combine data from `wuf update`, template and optional plugins to generate any kind of code.
 
 Options:
---input <string> Path to `components.json` file created with `wuf update`. Default is `.wuf/components.json`
---output <string> Path of root folder where generated files should be
-created. Default is `./src`
---template <string> Path to EJS template to be used for generating code.
-Can be path directly to a single ejs file, or path to a
-folder containing templates.
---plugin <string...> Name of a built-in plugin or path to one. This flag can
-be used multiple times to enable multiple plugins.
-Plugins are executed in the same order they are
-provided. By default, no plugins are used.
--h, --help display help for command
+  --input <string>      Path to `components.json` file created with `wuf
+                        update`. Default is `.wuf/components.json`
+  --output <string>     Path of root folder where generated files should be
+                        created. Default is `./src`
+  --template <string>   Path to EJS template to be used for generating code.
+                        Can be path directly to a single ejs file, or path to a
+                        folder containing templates.
+  --plugin <string...>  Name of a built-in plugin or path to one. This flag can
+                        be used multiple times to enable multiple plugins.
+                        Plugins are executed in the same order they are
+                        provided. By default, no plugins are used.
+  -h, --help            display help for command
 ```
 
 ## Usage
