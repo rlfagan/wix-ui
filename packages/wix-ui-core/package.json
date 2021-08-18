@@ -103,7 +103,7 @@
     "wix-eventually": "^2.3.0",
     "wix-ui-icons-common": "^2.0.341",
     "wix-ui-test-utils": "^1.0.183",
-    "yoshi-stylable-dependencies": "^4.331.3",
+    "yoshi-stylable-dependencies": "4.331.0",
     "@stylable/dom-test-kit": "^3.12.4"
   },
   "devDependencies": {
