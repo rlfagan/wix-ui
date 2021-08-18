@@ -3257,6 +3257,15 @@ export const generalIconsMetadata: Array<IconMetadata> = [
       "24": "QuickFormat"
     }
   },
+  {
+    "title": "Strikethrough",
+    "category": "Text Formatting",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Strikethrough"
+    }
+  },
 ]
 
 export default generalIconsMetadata;
