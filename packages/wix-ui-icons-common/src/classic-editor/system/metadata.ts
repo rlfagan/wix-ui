@@ -584,6 +584,13 @@ const systemIconsMetadata: Array<IconMetadata> = [
     tags: [],
     sizes: { "30": "ChevronLeft" },
   },
+  {
+    title: "Elements",
+    category: 'GFPP',
+    description: '',
+    tags: [],
+    sizes: { "30": "Elements" },
+  },
 ]
 
 export default systemIconsMetadata

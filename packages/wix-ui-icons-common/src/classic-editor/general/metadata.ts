@@ -3266,6 +3266,15 @@ export const generalIconsMetadata: Array<IconMetadata> = [
       "24": "Strikethrough"
     }
   },
+  {
+    "title": "Github",
+    "category": "Brand",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Github"
+    }
+  },
 ]
 
 export default generalIconsMetadata;
