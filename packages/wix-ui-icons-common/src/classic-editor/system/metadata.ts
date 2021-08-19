@@ -589,7 +589,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     category: 'GFPP',
     description: '',
     tags: [],
-    sizes: { "30": "Elements" },
+    sizes: { "26": "Elements" },
   },
 ]
 
