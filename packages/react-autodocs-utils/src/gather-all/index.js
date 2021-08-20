@@ -39,6 +39,9 @@ const gatherAll = (path, options = defaultOptions) =>
     })
 
     .then(async (metadata) => {
+      Object.values(metadata.props).forEach(p => {
+        p.description += ' VYTAS'
+      })
       const files = await readFolder(path, { recursive: true });
       const readMarkdown = (markdownPath) =>
         containsFile(files)(markdownPath)

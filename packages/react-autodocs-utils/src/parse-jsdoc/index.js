@@ -12,6 +12,7 @@ const iterateProps = props => fn =>
 
 const parseJSDoc = props =>
   new Promise(resolve => {
+    //console.log('VYTAS props', props)
     const parsedProps = iterateProps(props)(prop => {
       const { description, tags } = doctrine.parse(prop.description || '', { unwrap: true });
 

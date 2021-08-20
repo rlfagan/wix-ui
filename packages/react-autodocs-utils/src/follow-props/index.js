@@ -1,6 +1,10 @@
 /* global Promise */
 
+const fs = require('fs')
+const csvStringify = require('csv-stringify/lib/sync')
 const { join: pathJoin, dirname: pathDirname } = require('path');
+const { buildGenerator, getProgramFromFiles, generateSchema } = require('typescript-json-schema');
+const { createGenerator } = require('ts-json-schema-generator');
 const { reactDocgenParse } = require('../parser/react-docgen-parse');
 
 const readFile = require('../read-file');
@@ -81,11 +85,70 @@ const followComposedProps = (parsed, currentPath, options) =>
       return otherProps;
     });
 
-const followProps = ({ source, path, options = {} }) =>
-  parseDocgen({ source, path, options })
+const getTypeFromPath = path => {
+  const parts = path.split('/')
+  const fileName = parts[parts.length - 1]
+  return fileName.split('.')[0]
+}
+
+const getTypesPathFromPath = path => {
+  const parts = path.split('/')
+  parts.pop()
+  parts.push('index.d.ts')
+  return parts.join('/')
+}
+const append = (...cells) => fs.appendFileSync('/home/jakutis/results.csv', csvStringify([cells]))
+
+const followProps = ({ source, path, options = {} }) => {
+  const tsFile = getTypesPathFromPath(path)
+  const type = getTypeFromPath(path) + 'Props'
+  //console.log(path, tsFile, type)
+  const begin1 = Date.now()
+  try {
+    const schema = createGenerator({
+      path: tsFile,
+    }).createSchema(type);
+    //console.log(JSON.stringify(schema, null, 2))
+    //console.log('1 SUCCESS TS PARSE')
+    append('ts-json-schema-generator', 'pass', Date.now() - begin1, path, JSON.stringify(schema))
+  } catch (err) {
+    //console.log('1 FAILED TS PARSE\n' + err.stack)
+    append('ts-json-schema-generator', 'fail', Date.now() - begin1, path, err.message)
+  }
+  const begin2 = Date.now()
+  try {
+    const program = getProgramFromFiles(
+      [tsFile],
+    );
+    const schema = generateSchema(program, type, {required:true});
+    //console.log(JSON.stringify(schema, null, 2))
+    //console.log('2 SUCCESS TS PARSE')
+    append('typescript-json-schema', 'pass', Date.now() - begin2, path, JSON.stringify(schema))
+  } catch (err) {
+    append('typescript-json-schema', 'fail', Date.now() - begin2, path, err.message)
+    //console.log('2 FAILED TS PARSE\n' + err.stack)
+  }
+  /*
+  try {
+    const program = getProgramFromFiles(
+      [tsFile],
+    );
+    const generator = buildGenerator(program,{uniqueNames:true});
+    const symbolList = generator.getSymbols(type);
+    console.log('symbols', symbolList)
+    console.log('select', symbolList[0].name)
+    const schema = generator.getSchemaForSymbol(symbolList[0].name);
+    console.log(JSON.stringify(schema, null, 2))
+    console.log('3 SUCCESS TS PARSE')
+  } catch (err) {
+    console.log('3 FAILED TS PARSE\n' + err.stack)
+  }
+  */
+  return parseDocgen({ source, path, options })
     // if resolved, no need to follow props, no need for .then
     // if rejected, need to follow props
     .catch((parsed) => followComposedProps(parsed, path, options))
     .catch((e) => console.log(`ERROR: Unable to handle composed props for Component at ${path}`, e));
+}
 
 module.exports = followProps;
