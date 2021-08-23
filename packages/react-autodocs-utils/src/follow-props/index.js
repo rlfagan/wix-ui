@@ -100,9 +100,19 @@ const getTypesPathFromPath = path => {
 const append = (...cells) => fs.appendFileSync('/home/jakutis/results.csv', csvStringify([cells]))
 
 const followProps = ({ source, path, options = {} }) => {
-  const tsFile = getTypesPathFromPath(path)
+  if (!options.gatherAllContext.generator) {
+    console.log('creating new')
+    const program = getProgramFromFiles(
+      options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => fs.existsSync(typesPath)),
+    )
+    console.log(
+      options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => !fs.existsSync(typesPath)))
+    options.gatherAllContext.generator = buildGenerator(program, {uniqueNames:false});
+  }
   const type = getTypeFromPath(path) + 'Props'
+  debugger
   //console.log(path, tsFile, type)
+  /*
   const begin1 = Date.now()
   try {
     const schema = createGenerator({
@@ -128,22 +138,21 @@ const followProps = ({ source, path, options = {} }) => {
     append('typescript-json-schema', 'fail', Date.now() - begin2, path, err.message)
     //console.log('2 FAILED TS PARSE\n' + err.stack)
   }
-  /*
-  try {
-    const program = getProgramFromFiles(
-      [tsFile],
-    );
-    const generator = buildGenerator(program,{uniqueNames:true});
-    const symbolList = generator.getSymbols(type);
-    console.log('symbols', symbolList)
-    console.log('select', symbolList[0].name)
-    const schema = generator.getSchemaForSymbol(symbolList[0].name);
-    console.log(JSON.stringify(schema, null, 2))
-    console.log('3 SUCCESS TS PARSE')
-  } catch (err) {
-    console.log('3 FAILED TS PARSE\n' + err.stack)
-  }
   */
+  const begin3 = Date.now()
+  try {
+    //const symbolList = generator.getSymbols(type);
+    //console.log('symbols', symbolList)
+    //console.log('select', symbolList[0].name)
+    const schema = options.gatherAllContext.generator.getSchemaForSymbol(type);
+    //    append('typescript-json-schema-generator', 'pass', Date.now() - begin3, path, JSON.stringify(schema))
+    //console.log(JSON.stringify(schema, null, 2))
+    //console.log('3 SUCCESS TS PARSE')
+  } catch (err) {
+    console.log('fail', type)
+    //console.log('3 FAILED TS PARSE\n' + err.stack)
+    //append('typescript-json-schema-generator', 'fail', Date.now() - begin3, path, err.message)
+  }
   return parseDocgen({ source, path, options })
     // if resolved, no need to follow props, no need for .then
     // if rejected, need to follow props
