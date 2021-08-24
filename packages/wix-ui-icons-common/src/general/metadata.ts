@@ -371,6 +371,13 @@ description: "Button – opens initial setup panel",
 tags: ["setup", "launch", "rocket"],
 sizes: { "18": "GetStartedSmall", "24": "GetStarted" },
   },
+{
+title: "QuickAccess",
+category: "Actions",
+description: "Button – Opens a menu of popular actions",
+tags: ["setup", "launch", "rocket"],
+sizes: { "18": "QuickAccessSmall", "24": "QuickAccess" },
+  },
   {
     title: "Settings",
     category: "General",
