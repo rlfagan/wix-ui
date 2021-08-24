@@ -11,6 +11,30 @@ const readFile = require('../read-file');
 const followExports = require('../follow-exports');
 const resolveNodeModules = require('../resolve-node-modules');
 
+const convert = s => {
+  const props = Object.entries(s.properties).reduce((props, [key, property]) => {
+    const { description, originalType, $ref } = property
+    const { deprecated, type: _type, enum: _enum, properties } = $ref ? s.definitions[$ref.substr('#/definitions/'.length)] : property
+    const type = _enum ? {
+      name: 'enum',
+      value: _enum.map(e => ({value:JSON.stringify(e),computed:false}))
+    } : {
+      name: (originalType.startsWith('React.') || properties) ? originalType : _type
+    }
+
+    const resolvedDescription = description + (deprecated ? ('\n@deprecated ' + deprecated) : '')
+    props[key] = {
+      type,
+      required: false,
+      description: resolvedDescription,
+    }
+    return props;
+  }, {})
+  return {
+    props
+  }
+}
+
 const parseDocgen = ({ source, path, options }) =>
   new Promise((resolve, reject) => {
     const parsed = reactDocgenParse({ source, path, options });
@@ -179,8 +203,10 @@ const followProps = ({ source, path, options = {} }) => {
       })
     })
     .then(a => {
-      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.json', JSON.stringify(a, null, 2))
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.theirs.json', JSON.stringify(a, null, 2))
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.mine.json', JSON.stringify(convert(schema), null, 2))
       if (schema) {
+        /*
         const schemaProps = Object.keys(schema.properties || [])
         const originalProps = Object.keys(a.props)
         const lines = []
@@ -199,6 +225,7 @@ const followProps = ({ source, path, options = {} }) => {
           lines.unshift('schema props ' + schemaProps.length)
           console.log(path + ' parsing is different:\n' + lines.join('\n') + '\n')
         }
+        */
       } else {
         console.log(path + ' parsing failed\n')
       }
