@@ -47,8 +47,7 @@
     "react-docgen": "^4.1.1",
     "react-docgen-typescript": "1.18.0",
     "recast": "0.13.0",
-    "ts-json-schema-generator": "^0.95.0",
     "typescript": "^3.9.10",
-    "typescript-json-schema": "^0.50.1"
+    "typescript-json-schema-jakutis": "1.0.0"
   }
 }

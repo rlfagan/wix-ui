@@ -3,8 +3,8 @@
 const fs = require('fs')
 const csvStringify = require('csv-stringify/lib/sync')
 const { join: pathJoin, dirname: pathDirname } = require('path');
-const { buildGenerator, getProgramFromFiles, generateSchema } = require('typescript-json-schema');
-const { createGenerator } = require('ts-json-schema-generator');
+const { buildGenerator, getProgramFromFiles, generateSchema } = require('typescript-json-schema-jakutis');
+//const { createGenerator } = require('ts-json-schema-generator');
 const { reactDocgenParse } = require('../parser/react-docgen-parse');
 
 const readFile = require('../read-file');
@@ -60,7 +60,10 @@ const followComposedProps = (parsed, currentPath, options) =>
 
       const withComposed = parsedComponents
         .filter(({ parsed }) => parsed.composes)
-        .map(({ parsed, path }) => followComposedProps(parsed, path, options));
+        .map(({ parsed, path }) => {
+          //console.log('composes', parsed, path)
+          return followComposedProps(parsed, path, options)
+        });
 
       const withoutComposed = parsedComponents
         .filter(({ parsed }) => !parsed.composes)
@@ -107,9 +110,12 @@ const followProps = ({ source, path, options = {} }) => {
     )
     console.log(
       options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => !fs.existsSync(typesPath)))
-    options.gatherAllContext.generator = buildGenerator(program, {uniqueNames:false});
+    options.gatherAllContext.generator = buildGenerator(program, {uniqueNames: false, required:true, typeOfKeyword: true, validationKeywords: ['deprecated'], titles: false, ref: true, aliasRef: false, topRef:false});
+    options.gatherAllContext.program = program
   }
   const type = getTypeFromPath(path) + 'Props'
+  const typesPath = getTypesPathFromPath(path)
+  const fn = path.split('/').join('_')
   debugger
   //console.log(path, tsFile, type)
   /*
@@ -140,23 +146,64 @@ const followProps = ({ source, path, options = {} }) => {
   }
   */
   const begin3 = Date.now()
+  let schema
   try {
-    //const symbolList = generator.getSymbols(type);
     //console.log('symbols', symbolList)
     //console.log('select', symbolList[0].name)
-    const schema = options.gatherAllContext.generator.getSchemaForSymbol(type);
+    /*
+    const symbols = options.gatherAllContext.generator.getSymbols(type);
+    if (symbols.length !== 1) {
+      console.log('non-single symbols for ' + type + ': ' + symbols.map(s => s.name))
+    }
+    schema = options.gatherAllContext.generator.getSchemaForSymbol(symbols[0].name);
+    */
+    schema = options.gatherAllContext.generator.getSchemaForSymbol(type);
+    fs.writeFileSync('/home/jakutis/wsr/' + fn + '.schema.json', JSON.stringify(schema, null, 2))
+    fs.writeFileSync('/home/jakutis/wsr/' + fn + '.d.ts', fs.readFileSync(typesPath))
+    fs.writeFileSync('/home/jakutis/wsr/' + fn, fs.readFileSync(path))
     //    append('typescript-json-schema-generator', 'pass', Date.now() - begin3, path, JSON.stringify(schema))
     //console.log(JSON.stringify(schema, null, 2))
     //console.log('3 SUCCESS TS PARSE')
   } catch (err) {
-    console.log('fail', type)
-    //console.log('3 FAILED TS PARSE\n' + err.stack)
+    //console.log('fail', type)
+    console.log('error getting schema of ' + type + ':\n' + err.stack)
     //append('typescript-json-schema-generator', 'fail', Date.now() - begin3, path, err.message)
   }
   return parseDocgen({ source, path, options })
     // if resolved, no need to follow props, no need for .then
     // if rejected, need to follow props
-    .catch((parsed) => followComposedProps(parsed, path, options))
+    .catch((parsed) => {
+      return followComposedProps(parsed, path, options).then(a => {
+        fs.writeFileSync('/home/jakutis/wsr/' + fn + '.composed.json', JSON.stringify(parsed, null, 2))
+        return a
+      })
+    })
+    .then(a => {
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.json', JSON.stringify(a, null, 2))
+      if (schema) {
+        const schemaProps = Object.keys(schema.properties || [])
+        const originalProps = Object.keys(a.props)
+        const lines = []
+        for (const a of schemaProps) {
+          if (!originalProps.includes(a)) {
+            lines.push('original does not have schema prop ' + a)
+          }
+        }
+        for (const a of originalProps) {
+          if (!schemaProps.includes(a)) {
+            lines.push('schema does not have original prop ' + a)
+          }
+        }
+        if (lines.length > 0) {
+          lines.unshift('original props ' + originalProps.length)
+          lines.unshift('schema props ' + schemaProps.length)
+          console.log(path + ' parsing is different:\n' + lines.join('\n') + '\n')
+        }
+      } else {
+        console.log(path + ' parsing failed\n')
+      }
+      return a
+    })
     .catch((e) => console.log(`ERROR: Unable to handle composed props for Component at ${path}`, e));
 }
 
