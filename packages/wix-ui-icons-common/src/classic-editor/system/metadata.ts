@@ -599,11 +599,11 @@ const systemIconsMetadata: Array<IconMetadata> = [
     sizes: { "26": "AddElements" },
   },
   {
-    title: "BusinessApp",
+    title: "BusinessApps",
     category: 'Left Panel',
     description: '',
     tags: [],
-    sizes: { "26": "BusinessApp" },
+    sizes: { "26": "BusinessApps" },
   },
   {
     title: "Elements",
