@@ -590,7 +590,6 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: { "26": "Sections" },
-    },
   },
   {
     title: "AddElements",
@@ -598,7 +597,6 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: { "26": "AddElements" },
-    },
   },
   {
     title: "BusinessApp",
@@ -606,7 +604,6 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: { "26": "BusinessApp" },
-    },
   },
   {
     title: "Elements",
