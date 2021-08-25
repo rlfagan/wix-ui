@@ -583,6 +583,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: undefined,
     tags: [],
     sizes: { "30": "ChevronLeft" },
+    },
   },
   {
     title: "Elements",
@@ -590,6 +591,31 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: { "26": "Elements" },
+    },
+  },
+  {
+    title: "Sections",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "Sections" },
+    },
+  },
+  {
+    title: "AddElements",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "AddElements" },
+    },
+  },
+  {
+    title: "BusinessApp",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "BusinessApp" },
+    },
   },
 ]
 
