@@ -27,7 +27,16 @@ const addToAnyOf = (anyOf, item) => {
   return anyOf
 }
 
+const descriptionAndAnnotations = (description, annotations) => {
+  if (!annotations.length) {
+    return description
+  }
+  const annotationsForDescription = annotations.map(({type, value}) => '@' + type + ' ' + value).join('\n')
+  return (description ? (description + '\n') : '') + annotationsForDescription
+}
+
 const mergeProperties = (target, source) => {
+  // TODO do not loose other fields like description
   Object.entries(source).forEach(([key, _source]) => {
     const _target = target[key]
     if (key in target && jsonStringify(_source) !== jsonStringify(_target)) {
@@ -37,7 +46,6 @@ const mergeProperties = (target, source) => {
         if (!_source.originalType) {
           throw new Error('VYTAS2\n'+JSON.stringify(_source)+'\n'+JSON.stringify(_target))
         }
-      // TODO do not loose other fields like description
       if ((_source.anyOf && _target.enum) || (_source.enum && _target.anyOf) || (_source.type === _target.type && _source.originalType.startsWith('React.') && _target.originalType.startsWith('React.'))) {
         target[key] = {
           anyOf: addToAnyOf([ {originalType: _target.originalType}, ], {originalType: _source.originalType}),
@@ -113,17 +121,19 @@ const mergeProperties = (target, source) => {
   })
 }
 
-const convertToType = (s, {definitions, parent}) => {
+const convertToType = (s, ctx) => {
+  const { descriptions = {} } = ctx
+  const subCtx = Object.assign({}, ctx, {descriptions: descriptions.descriptions})
   // TODO test deprecated
   const { deprecated, description: _description, originalType, $ref } = s
-  const description = _description && (_description + (deprecated ? ('\n@deprecated ' + deprecated) : ''))
+  const description = _description || descriptions.description
   const definitionName = $ref && $ref.substr('#/definitions/'.length)
   const isNodeType = nodeTypes.includes(definitionName) || nodeTypes.includes(originalType)
   const isElementType = elementTypes.includes(definitionName) || elementTypes.includes(originalType)
   const isElementTypeType = elementTypeTypes.includes(definitionName) || elementTypeTypes.includes(originalType)
   const isReactType = originalType && originalType.startsWith('React.')
-  s = definitionName && !isElementType && !isElementTypeType && !isNodeType && !isReactType ? definitions[definitionName] : s
-  const { enum: _enum, properties, anyOf, allOf, value, type: _name } = s
+  s = definitionName && !isElementType && !isElementTypeType && !isNodeType && !isReactType ? ctx.definitions[definitionName] : s
+  const { enum: _enum, properties, anyOf, allOf, type: _name } = s
   if (Array.isArray(_name)) {
     return {
       name: 'union',
@@ -147,60 +157,77 @@ const convertToType = (s, {definitions, parent}) => {
   if (name === undefined) {
     throw new Error('undefined name\n' + JSON.stringify(s, null, 2))
   }
-  // TODO handle array type
-  return {
-    name,
-    value: name === 'enum' ? _enum.map(e => ({value: stringify(e), computed:false})) :
+
+  const shape = name === 'shape' ? convertToProperties(s, Object.assign({}, subCtx, {shape: true})) : {}
+  const value = name === 'enum' ? _enum.map(e => ({value: stringify(e), computed:false})) :
       name === 'union' ? s.anyOf
         .filter(i => i.type !== 'object' || (i.type === 'object' && i.properties))
-        .map(s => convertToType(s, {definitions, parent})) :
-      name === 'arrayOf' ? convertToType(s.items, {definitions, parent}) :
-      name === 'shape' ? convertToProperties(s, {definitions, shape: true, parent}) :
-    value,// TODO is value fallback needed?
-    description,
+        .map(s => convertToType(s, subCtx)) :
+      name === 'arrayOf' ? convertToType(s.items, subCtx) :
+      name === 'shape' ? shape.properties : undefined
+  const annotations = (shape.annotations || []).concat(deprecated ? {type: 'deprecated', value: deprecated} : [])
+
+  return {
+    name,
+    value,
+    description: descriptionAndAnnotations(description, annotations),
   }
 }
 
-const mergeForProperties = s => {
+const mergeForProperties = (s, ctx) => {
   if (s.allOf) {
-    const refs = s.allOf.filter(s => s.$ref).map(s => s.$ref.substr('#/definitions/'.length))
-    // TODO use refs
-    const notRefs = s.allOf.filter(s => !s.$ref)
-    return notRefs.reduce((_s, item) => {
-      if (item.type !== 'object') {
-        throw new Error('expected schema.allOf array item type ' + item.type + ' to be object\n'+JSON.stringify(_s, null, 2) + '\n'+JSON.stringify(item, null, 2) + '\n'+JSON.stringify(s, null, 2))
-      }
-      mergeProperties(_s.properties, item.properties)
-      _s.required = _s.required.concat(item.required)
-      return _s;
-    }, {properties:{}, required:[]})
+    return s.allOf
+      .flatMap(_s => _s.allOf ? _s.allOf : [_s])
+      .reduce((_s, item) => {
+        if (item.$ref) {
+          const definitionName = item.$ref.substr('#/definitions/'.length)
+          if (definitionName.startsWith('React.')) {
+            _s.annotations = _s.annotations.concat({type: 'inheritsPropsOf', value: definitionName})
+            return _s;
+          } else {
+            item = ctx.definitions[definitionName]
+          }
+        }
+        if (item.type !== 'object') {
+          debugger
+          throw new Error('expected schema.allOf array item type ' + item.type + ' to be object\n'+JSON.stringify(item, null, 2) + '\n'+JSON.stringify(_s, null, 2) + '\n'+JSON.stringify(s, null, 2))
+        }
+        mergeProperties(_s.properties, item.properties)
+        _s.required = _s.required.concat(item.required)
+        return _s;
+      }, {properties:{}, required:[], annotations: []})
   }
   if (s.anyOf) {
-    return s.anyOf.map(s => mergeForProperties(s)).reduce((s, _s) => {
+    return s.anyOf.map(s => mergeForProperties(s, ctx)).reduce((s, _s) => {
       mergeProperties(s.properties, _s.properties)
       s.required = s.required.concat(_s.required)
+      s.annotations = s.annotations.concat(_s.annotations)
       return s
-    }, {properties:{}, required:[]})
+    }, {properties:{}, required:[], annotations: []})
   }
   return s
 }
 
-const convertToProperties = (s, {definitions = s.definitions, shape = false, parent} = {}) => {
-  const { properties, required = [] } = mergeForProperties(s)
-  return Object.entries(properties).reduce((props, [key, s]) => {
-    const { name, value, description } = convertToType(s, {definitions, parent});
-    props[key] = {
-      required: required.includes(key),
-      description
-    }
-    if (shape) {
-      props[key].name = name
-      props[key].value = value
-    } else {
-      props[key].type = {name, value}
-    }
-    return props;
-  }, {})
+const convertToProperties = (s, {definitions = s.definitions, shape = false, descriptions = {}} = {}) => {
+  const { properties, required = [], annotations = [] } = mergeForProperties(s, {definitions, descriptions})
+
+  return {
+    annotations,
+    properties: Object.entries(properties).reduce((props, [key, s]) => {
+      const { name, value, description } = convertToType(s, {definitions, descriptions: descriptions[key]});
+      props[key] = {
+        required: required.includes(key),
+        description
+      }
+      if (shape) {
+        props[key].name = name
+        props[key].value = value
+      } else {
+        props[key].type = {name, value}
+      }
+      return props;
+    }, {})
+  }
 }
 
 const parseDocgen = ({ source, path, options }) =>
@@ -378,10 +405,6 @@ const followProps = ({ source, path, options = {} }) => {
       })
       fs.writeFileSync('/home/jakutis/wsr/' + fn + '.theirs.json', jsonStringify(a, {space: 2}))
 
-      const b = {
-        props: schema ? convertToProperties(schema) : {}
-      }
-
       const setDescriptions = (aProps, bProps) => {
         Object.entries(bProps).forEach(([name, bValue]) => {
           const aValue = aProps[name]
@@ -393,23 +416,32 @@ const followProps = ({ source, path, options = {} }) => {
           }
         })
       }
-
-      setDescriptions(a.props, b.props);
+      const createDescriptions = (props) => {
+        return Object.entries(props).reduce((descriptions, [name, value]) => {
+          descriptions[name] = {
+            description: value.description,
+            descriptions: createDescriptions((value.name === 'shape') ? value.value : (value.type && value.type.name === 'shape') ? value.type.value : {})
+          }
+          return descriptions
+        }, {})
+      }
+      debugger
+      const descriptions = createDescriptions(a.props)
+      const {properties: props = {}, annotations = []} = schema ? convertToProperties(schema, {descriptions}) : {}
+      const b = {
+        props
+      }
 
       Object.entries(b.props).forEach(([name, bValue]) => {
         const aValue = a.props[name]
         if (aValue) {
           bValue.defaultValue = aValue.defaultValue
-          bValue.description = bValue.description || aValue.description
-          if (bValue.type.name === 'shape' && aValue.type.name === 'shape') {
-            setDescriptions(aValue.type.value, bValue.type.value);
-          }
         }
       });
 
       fs.writeFileSync('/home/jakutis/wsr/' + fn + '.mine.json', jsonStringify(b, {space: 2}))
       const c = {
-        description: a.description,
+        description: descriptionAndAnnotations(a.description, annotations),
         displayName: a.displayName,
         methods: a.methods,
         context: a.context,
