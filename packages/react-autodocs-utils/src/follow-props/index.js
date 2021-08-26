@@ -1,6 +1,7 @@
 /* global Promise */
 
 const fs = require('fs')
+const jsonStringify = require('json-stable-stringify')
 const csvStringify = require('csv-stringify/lib/sync')
 const { join: pathJoin, dirname: pathDirname } = require('path');
 const { buildGenerator, getProgramFromFiles, generateSchema } = require('typescript-json-schema-jakutis');
@@ -11,28 +12,195 @@ const readFile = require('../read-file');
 const followExports = require('../follow-exports');
 const resolveNodeModules = require('../resolve-node-modules');
 
-const convert = s => {
-  const props = Object.entries(s.properties).reduce((props, [key, property]) => {
-    const { description, originalType, $ref } = property
-    const { deprecated, type: _type, enum: _enum, properties } = $ref ? s.definitions[$ref.substr('#/definitions/'.length)] : property
-    const type = _enum ? {
-      name: 'enum',
-      value: _enum.map(e => ({value:JSON.stringify(e),computed:false}))
-    } : {
-      name: (originalType.startsWith('React.') || properties) ? originalType : _type
-    }
+const stringify = value => typeof value ==='string' ? ('\'' + value + '\'') : jsonStringify(value)
 
-    const resolvedDescription = description + (deprecated ? ('\n@deprecated ' + deprecated) : '')
+const nodeTypes = ['Element', 'Document', 'ChildNode', 'HTMLElement', 'React.ReactText<any>', 'React.ReactText', 'React.ReactPortal<any>', 'React.ReactPortal', 'React.ReactFragment<any>', 'React.ReactFragment', 'React.ReactNodeArray<any>', 'React.ReactNodeArray', 'React.ReactChild<any>', 'React.ReactChild', 'React.ReactNode<any>', 'React.ReactNode', 'ShadowRoot', 'HTMLSlotElement'];
+
+const elementTypes = ['React.ReactElement<any>', 'React.ReactElement'];
+
+const elementTypeTypes = ['React.ComponentType<any>', 'React.ComponentType'];
+
+const addToAnyOf = (anyOf, item) => {
+  if (anyOf.findIndex(i => i.originalType === item.originalType) < 0) {
+    return anyOf.concat([item])
+  }
+  return anyOf
+}
+
+const mergeProperties = (target, source) => {
+  Object.entries(source).forEach(([key, _source]) => {
+    const _target = target[key]
+    if (key in target && jsonStringify(_source) !== jsonStringify(_target)) {
+        if (!_target.originalType) {
+          throw new Error('VYTAS3\n'+JSON.stringify(_source)+'\n'+JSON.stringify(_target))
+        }
+        if (!_source.originalType) {
+          throw new Error('VYTAS2\n'+JSON.stringify(_source)+'\n'+JSON.stringify(_target))
+        }
+      // TODO do not loose other fields like description
+      if ((_source.anyOf && _target.enum) || (_source.enum && _target.anyOf) || (_source.type === _target.type && _source.originalType.startsWith('React.') && _target.originalType.startsWith('React.'))) {
+        target[key] = {
+          anyOf: addToAnyOf([ {originalType: _target.originalType}, ], {originalType: _source.originalType}),
+          mergedAnyOf: true,
+          originalType: _target.originalType + ' or ' + _source.originalType
+        }
+      } else if (_source.mergedAnyOf) {
+        target[key] = {
+          anyOf: addToAnyOf(_source.anyOf, {originalType: _target.originalType}),
+          mergedAnyOf: true,
+          originalType: _target.originalType + ' or ' + _source.originalType
+        }
+      } else if (_target.mergedAnyOf) {
+        target[key] = {
+          anyOf: addToAnyOf(_target.anyOf, {originalType: _source.originalType}),
+          mergedAnyOf: true,
+          originalType: _target.originalType + ' or ' + _source.originalType
+        }
+      } else if (_source.type === _target.type && _source.enum && _target.enum) {
+        target[key] = {
+          type: _source.type,
+          enum: _source.enum.concat(_target.enum),
+          originalType: _target.originalType + ' or ' + _source.originalType
+        }
+      /*
+      } else if (_source.type === 'union' && _target.type === 'union') {
+        target[key] = {
+          type: 'union',
+          value: _target.value.reduce((value, item) => addToAnyOf(value, item), source.value)
+        }
+      } else if (_source.type === 'union') {
+        if (!_source.originalType) {
+          throw new Error('VYTAS1')
+        }
+        target[key] = {
+          type: 'union',
+          value: addToAnyOf(_source.value, {
+            name: _target.originalType
+          })
+        }
+      } else if (_target.type === 'union') {
+        if (!_source.originalType) {
+          throw new Error('VYTAS0')
+        }
+        target[key] = {
+          type: 'union',
+          value: addToAnyOf(_target.value, {
+            name: _source.originalType
+          })
+        }
+      */
+      } else if (_source.type === _target.type && _source.originalType === '() => void' && _target.originalType.startsWith('React.')) {
+        target[key] = {
+          type: _source.type,
+          originalType: _target.originalType
+        }
+      } else if (_source.type === _target.type && _source.originalType.startsWith('React.') && _target.originalType === '() => void') {
+        target[key] = {
+          type: _source.type,
+          originalType: _source.originalType
+        }
+      } else {
+        throw new Error([
+          'VYTAS how to merge?',
+          key,
+          JSON.stringify(_source, null, 2),
+          JSON.stringify(_target, null, 2),
+        ].join('\n'))
+      }
+    } else {
+      target[key] = _source
+    }
+  })
+}
+
+const convertToType = (s, {definitions, parent}) => {
+  // TODO test deprecated
+  const { deprecated, description: _description, originalType, $ref } = s
+  const description = _description && (_description + (deprecated ? ('\n@deprecated ' + deprecated) : ''))
+  const definitionName = $ref && $ref.substr('#/definitions/'.length)
+  const isNodeType = nodeTypes.includes(definitionName) || nodeTypes.includes(originalType)
+  const isElementType = elementTypes.includes(definitionName) || elementTypes.includes(originalType)
+  const isElementTypeType = elementTypeTypes.includes(definitionName) || elementTypeTypes.includes(originalType)
+  const isReactType = originalType && originalType.startsWith('React.')
+  s = definitionName && !isElementType && !isElementTypeType && !isNodeType && !isReactType ? definitions[definitionName] : s
+  const { enum: _enum, properties, anyOf, allOf, value, type: _name } = s
+  if (Array.isArray(_name)) {
+    return {
+      name: 'union',
+      value: _name.map(name => ({ name })),
+      description
+    }
+  }
+
+  const name = isNodeType ? 'node' :
+      isElementType ? 'element' :
+      isElementTypeType ? 'elementType' :
+      isReactType ? originalType :
+      (_name === 'boolean') ? 'bool' :
+      _enum ? 'enum' :
+      (properties || anyOf && anyOf.every(i => i.allOf)) ? 'shape' :
+      anyOf ? 'union' :
+      allOf ? 'shape' :
+      _name === 'array' ? 'arrayOf' :
+      ['string', 'number'].includes(_name) ? _name : 
+      (_name === undefined || (_name === 'object' && !properties)) ? (originalType === '() => void' ? 'func' : originalType) : undefined
+  if (name === undefined) {
+    throw new Error('undefined name\n' + JSON.stringify(s, null, 2))
+  }
+  // TODO handle array type
+  return {
+    name,
+    value: name === 'enum' ? _enum.map(e => ({value: stringify(e), computed:false})) :
+      name === 'union' ? s.anyOf
+        .filter(i => i.type !== 'object' || (i.type === 'object' && i.properties))
+        .map(s => convertToType(s, {definitions, parent})) :
+      name === 'arrayOf' ? convertToType(s.items, {definitions, parent}) :
+      name === 'shape' ? convertToProperties(s, {definitions, shape: true, parent}) :
+    value,// TODO is value fallback needed?
+    description,
+  }
+}
+
+const mergeForProperties = s => {
+  if (s.allOf) {
+    const refs = s.allOf.filter(s => s.$ref).map(s => s.$ref.substr('#/definitions/'.length))
+    // TODO use refs
+    const notRefs = s.allOf.filter(s => !s.$ref)
+    return notRefs.reduce((_s, item) => {
+      if (item.type !== 'object') {
+        throw new Error('expected schema.allOf array item type ' + item.type + ' to be object\n'+JSON.stringify(_s, null, 2) + '\n'+JSON.stringify(item, null, 2) + '\n'+JSON.stringify(s, null, 2))
+      }
+      mergeProperties(_s.properties, item.properties)
+      _s.required = _s.required.concat(item.required)
+      return _s;
+    }, {properties:{}, required:[]})
+  }
+  if (s.anyOf) {
+    return s.anyOf.map(s => mergeForProperties(s)).reduce((s, _s) => {
+      mergeProperties(s.properties, _s.properties)
+      s.required = s.required.concat(_s.required)
+      return s
+    }, {properties:{}, required:[]})
+  }
+  return s
+}
+
+const convertToProperties = (s, {definitions = s.definitions, shape = false, parent} = {}) => {
+  const { properties, required = [] } = mergeForProperties(s)
+  return Object.entries(properties).reduce((props, [key, s]) => {
+    const { name, value, description } = convertToType(s, {definitions, parent});
     props[key] = {
-      type,
-      required: false,
-      description: resolvedDescription,
+      required: required.includes(key),
+      description
+    }
+    if (shape) {
+      props[key].name = name
+      props[key].value = value
+    } else {
+      props[key].type = {name, value}
     }
     return props;
   }, {})
-  return {
-    props
-  }
 }
 
 const parseDocgen = ({ source, path, options }) =>
@@ -128,19 +296,18 @@ const append = (...cells) => fs.appendFileSync('/home/jakutis/results.csv', csvS
 
 const followProps = ({ source, path, options = {} }) => {
   if (!options.gatherAllContext.generator) {
-    console.log('creating new')
-    const program = getProgramFromFiles(
-      options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => fs.existsSync(typesPath)),
-    )
+    const programFiles = options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => fs.existsSync(typesPath))
+    console.log('creating new')//, programFiles)
+    const program = getProgramFromFiles(programFiles)
     console.log(
       options.allPaths.map(path => getTypesPathFromPath(path)).filter(typesPath => !fs.existsSync(typesPath)))
-    options.gatherAllContext.generator = buildGenerator(program, {uniqueNames: false, required:true, typeOfKeyword: true, validationKeywords: ['deprecated'], titles: false, ref: true, aliasRef: false, topRef:false});
+    options.gatherAllContext.generator = buildGenerator(program, {uniqueNames: false, required:true, typeOfKeyword: false, validationKeywords: ['deprecated'], titles: true, ref: true, aliasRef: false, topRef:false});
     options.gatherAllContext.program = program
   }
   const type = getTypeFromPath(path) + 'Props'
   const typesPath = getTypesPathFromPath(path)
   const fn = path.split('/').join('_')
-  debugger
+  fs.writeFileSync('/home/jakutis/wsr/' + fn, fs.readFileSync(path))
   //console.log(path, tsFile, type)
   /*
   const begin1 = Date.now()
@@ -148,9 +315,9 @@ const followProps = ({ source, path, options = {} }) => {
     const schema = createGenerator({
       path: tsFile,
     }).createSchema(type);
-    //console.log(JSON.stringify(schema, null, 2))
+    //console.log(jsonStringify(schema))
     //console.log('1 SUCCESS TS PARSE')
-    append('ts-json-schema-generator', 'pass', Date.now() - begin1, path, JSON.stringify(schema))
+    append('ts-json-schema-generator', 'pass', Date.now() - begin1, path, jsonStringify(schema))
   } catch (err) {
     //console.log('1 FAILED TS PARSE\n' + err.stack)
     append('ts-json-schema-generator', 'fail', Date.now() - begin1, path, err.message)
@@ -161,9 +328,9 @@ const followProps = ({ source, path, options = {} }) => {
       [tsFile],
     );
     const schema = generateSchema(program, type, {required:true});
-    //console.log(JSON.stringify(schema, null, 2))
+    //console.log(jsonStringify(schema))
     //console.log('2 SUCCESS TS PARSE')
-    append('typescript-json-schema', 'pass', Date.now() - begin2, path, JSON.stringify(schema))
+    append('typescript-json-schema', 'pass', Date.now() - begin2, path, jsonStringify(schema))
   } catch (err) {
     append('typescript-json-schema', 'fail', Date.now() - begin2, path, err.message)
     //console.log('2 FAILED TS PARSE\n' + err.stack)
@@ -182,11 +349,10 @@ const followProps = ({ source, path, options = {} }) => {
     schema = options.gatherAllContext.generator.getSchemaForSymbol(symbols[0].name);
     */
     schema = options.gatherAllContext.generator.getSchemaForSymbol(type);
-    fs.writeFileSync('/home/jakutis/wsr/' + fn + '.schema.json', JSON.stringify(schema, null, 2))
+    fs.writeFileSync('/home/jakutis/wsr/' + fn + '.schema.json', jsonStringify(schema, {space: 2}))
     fs.writeFileSync('/home/jakutis/wsr/' + fn + '.d.ts', fs.readFileSync(typesPath))
-    fs.writeFileSync('/home/jakutis/wsr/' + fn, fs.readFileSync(path))
-    //    append('typescript-json-schema-generator', 'pass', Date.now() - begin3, path, JSON.stringify(schema))
-    //console.log(JSON.stringify(schema, null, 2))
+    //    append('typescript-json-schema-generator', 'pass', Date.now() - begin3, path, jsonStringify(schema))
+    //console.log(jsonStringify(schema))
     //console.log('3 SUCCESS TS PARSE')
   } catch (err) {
     //console.log('fail', type)
@@ -198,13 +364,58 @@ const followProps = ({ source, path, options = {} }) => {
     // if rejected, need to follow props
     .catch((parsed) => {
       return followComposedProps(parsed, path, options).then(a => {
-        fs.writeFileSync('/home/jakutis/wsr/' + fn + '.composed.json', JSON.stringify(parsed, null, 2))
+        fs.writeFileSync('/home/jakutis/wsr/' + fn + '.composed.json', jsonStringify(parsed, {space: 2}))
         return a
       })
     })
     .then(a => {
-      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.theirs.json', JSON.stringify(a, null, 2))
-      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.mine.json', JSON.stringify(convert(schema), null, 2))
+      Object.values(a.props).forEach(prop => {
+        if (prop.type.name === 'enum') {
+          if (Array.isArray(prop.type.value)) {
+            prop.type.value.sort((a, b) => a.value > b.value ? 1 : -1)
+          }
+        }
+      })
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.theirs.json', jsonStringify(a, {space: 2}))
+
+      const b = {
+        props: schema ? convertToProperties(schema) : {}
+      }
+
+      const setDescriptions = (aProps, bProps) => {
+        Object.entries(bProps).forEach(([name, bValue]) => {
+          const aValue = aProps[name]
+          if (aValue) {
+            bValue.description = bValue.description || aValue.description
+            if (bValue.name === 'shape' && aValue.name === 'shape') {
+              setDescriptions(aValue.value, bValue.value);
+            }
+          }
+        })
+      }
+
+      setDescriptions(a.props, b.props);
+
+      Object.entries(b.props).forEach(([name, bValue]) => {
+        const aValue = a.props[name]
+        if (aValue) {
+          bValue.defaultValue = aValue.defaultValue
+          bValue.description = bValue.description || aValue.description
+          if (bValue.type.name === 'shape' && aValue.type.name === 'shape') {
+            setDescriptions(aValue.type.value, bValue.type.value);
+          }
+        }
+      });
+
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.mine.json', jsonStringify(b, {space: 2}))
+      const c = {
+        description: a.description,
+        displayName: a.displayName,
+        methods: a.methods,
+        context: a.context,
+        props: b.props || a.props
+      }
+      fs.writeFileSync('/home/jakutis/wsr/' + fn + '.merged.json', jsonStringify(c, {space: 2}))
       if (schema) {
         /*
         const schemaProps = Object.keys(schema.properties || [])
@@ -227,9 +438,9 @@ const followProps = ({ source, path, options = {} }) => {
         }
         */
       } else {
-        console.log(path + ' parsing failed\n')
+        //console.log(path + ' parsing failed\n')
       }
-      return a
+      return c
     })
     .catch((e) => console.log(`ERROR: Unable to handle composed props for Component at ${path}`, e));
 }
