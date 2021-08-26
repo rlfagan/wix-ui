@@ -585,6 +585,27 @@ const systemIconsMetadata: Array<IconMetadata> = [
     sizes: { "30": "ChevronLeft" },
   },
   {
+    title: "Sections",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "Sections" },
+  },
+  {
+    title: "AddElements",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "AddElements" },
+  },
+  {
+    title: "BusinessApps",
+    category: 'Left Panel',
+    description: '',
+    tags: [],
+    sizes: { "26": "BusinessApps" },
+  },
+  {
     title: "Elements",
     category: 'GFPP',
     description: '',
