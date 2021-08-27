@@ -37,6 +37,7 @@ const resolveInput = ({ requirePath, cwd }) => {
     return input;
   } catch (error) {
     if (
+      error instanceof WufError &&
       error.name === 'RequireResolveError' &&
       error.info.requirePath.endsWith('.wuf/components.json')
     ) {

@@ -10,12 +10,17 @@ export class WufError<Info> extends Error {
     name: string;
     kind: ErrorKind;
     message: string;
-    error?: Error;
+    error?: Error | unknown;
     info?: Record<string, Info>;
   }) {
+    const stack =
+      options.error instanceof Error || options.error instanceof WufError
+        ? options?.error?.stack ?? ''
+        : '';
+
     super(
       `WUF ${options.kind} ${options.name}: ${options.message}${
-        options.error ? `\n${options.error.stack}` : ''
+        options.error ? `\n${stack}` : ''
       }`,
     );
     this.info = options.info;
@@ -26,7 +31,7 @@ export class WufError<Info> extends Error {
 
 export const resolveOrThrow = <T>(
   fn: () => T,
-  error: (e: Error) => Error,
+  error: (e: Error | unknown) => Error,
 ): T | never => {
   try {
     return fn();
