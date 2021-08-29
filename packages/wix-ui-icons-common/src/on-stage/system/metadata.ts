@@ -65,6 +65,13 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     sizes: {"16":"CheckXSmall" },
   },
   {
+    title: "Clear",
+    category: "Actions",
+    description: "",
+    tags: [],
+    sizes: { "16":"ClearXSmall" },
+  },
+  {
     title: "Close",
     category: "Actions",
     description: "",
