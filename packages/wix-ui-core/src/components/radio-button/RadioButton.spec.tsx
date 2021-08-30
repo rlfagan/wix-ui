@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { radioButtonDriverFactory } from './RadioButton.driver';
-import { radioButtonUniDriverFactory } from './RadioButton.uni.driver';
+import { radioButtonPrivateDriverFactory as radioButtonUniDriverFactory } from './RadioButton.private.uni.driver';
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
 import { RadioButton, RadioButtonProps } from './RadioButton';
 import {Checkbox} from "../checkbox";
@@ -27,6 +27,7 @@ describe('RadioButton', () => {
 
   describe('[async]', () => {
     runTests(testContainer.createUniRendererAsync(radioButtonUniDriverFactory));
+    runAsyncTests(testContainer.createUniRendererAsync(radioButtonUniDriverFactory));
   });
 
   function runTests(createDriver) {
@@ -151,6 +152,42 @@ describe('RadioButton', () => {
       ref.current.focus();
 
       expect(await radio.isInputFocused()).toBeTruthy();
+    });
+
+    it('should be able to trigger blur', async () => {
+      const ref = React.createRef<any>();
+      const radio = await createDriver(createRadio({autoFocus: true, ref}));
+
+      expect(await radio.isInputFocused()).toBeTruthy();
+      
+      ref.current.blur();
+      
+      expect(await radio.isInputFocused()).toBeFalsy();
+    });
+  }
+
+  function runAsyncTests(createDriver) {
+    describe('aria attributes', async () => {
+      it('should set aria-label', async () => {
+        const ariaLabel = "test";
+        const radio = await createDriver(createRadio({autoFocus: true, "aria-label": ariaLabel}));
+
+        expect(await radio.getAriaLabel()).toBe(ariaLabel);
+      });
+
+      it('should set aria-describedby', async () => {
+        const ariaDescribedBy = "test";
+        const radio = await createDriver(createRadio({autoFocus: true, "aria-describedby": ariaDescribedBy}));
+
+        expect(await radio.getAriaDescribedBy()).toBe(ariaDescribedBy);
+      });
+
+      it('should set aria-labelledby', async () => {
+        const ariaLabeledBy = "test";
+        const radio = await createDriver(createRadio({autoFocus: true, "aria-labelledby": ariaLabeledBy}));
+
+        expect(await radio.getAriaLabeledBy()).toBe(ariaLabeledBy);
+      });
     });
   }
 

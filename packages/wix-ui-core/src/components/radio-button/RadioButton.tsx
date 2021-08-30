@@ -65,6 +65,8 @@ export interface RadioButtonProps {
   'aria-label'?: string;
   /** aria-describedby - Accessibility */
   'aria-describedby'?: string;
+  /** aria-labelledby - Accessibility */
+  'aria-labelledby'?: string;
   /** hook for testing purposes */
   'data-hook'?: string;
   className?: string;
@@ -101,7 +103,11 @@ export class RadioButton extends React.Component<
 
   focus() {
     this.radioRef?.focus();
-  };
+  }
+
+  blur() {
+    this.radioRef?.blur();
+  }
 
   render() {
     const {
@@ -160,6 +166,7 @@ export class RadioButton extends React.Component<
           ref={(radio) => (this.radioRef = radio)}
           aria-label={this.props['aria-label']}
           aria-describedby={this.props['aria-describedby']}
+          aria-labelledby={this.props['aria-labelledby']}
           autoFocus={this.props.autoFocus}
         />
         <span
