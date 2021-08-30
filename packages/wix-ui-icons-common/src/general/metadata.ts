@@ -10,6 +10,13 @@ const generalIconsMetadata: Array<IconMetadata> = [
     tags: ["expand", "enlarge", "increase", "view", "preview"],
     sizes: { "18": "MaximizeSmall", "24": "Maximize" },
   },
+  {
+    title: "Minimise",
+    category: "Media",
+    description: "Button - makes an image smaller",
+    tags: ["contract", "shrink", "view", "preview"],
+    sizes: { "18": "MinimiseSmall", "24": "Minimise" },
+  },
  {
     title: "MediaProofing",
     category: "Media",
