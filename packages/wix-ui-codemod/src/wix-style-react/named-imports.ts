@@ -7,7 +7,7 @@ const betaComponentNameRegex = /^wix-style-react\/beta\/([A-Z][\w-]*?)$/;
 
 const removeImport = (path, name) => {
   path.node.specifiers = path.node.specifiers.filter(
-    spec => spec.local.name !== name,
+    (spec) => spec.local.name !== name,
   );
 };
 
@@ -53,19 +53,19 @@ const transform: Transform = (fileInfo, api, options) => {
   // handle traditional imports
   root
     .find(j.ImportDeclaration)
-    .filter(path =>
+    .filter((path) =>
       [
         path.node.specifiers.length,
         componentNameRegex.test(path.node.source.value as string),
         path.node.importKind === 'value',
       ].every(Boolean),
     )
-    .forEach(path => {
+    .forEach((path) => {
       const sourceNode = path.node.source.value;
       const moduleName = (sourceNode as string).match(componentNameRegex)[1];
       const handlers = ImportHandlersFactory(j, path, resultSpecifiers);
 
-      path.node.specifiers.forEach(specifier => {
+      path.node.specifiers.forEach((specifier) => {
         const localName = specifier.local.name;
         handlers.handleDefault(specifier, moduleName, localName);
         handlers.handleNamed(specifier, localName);
@@ -80,14 +80,14 @@ const transform: Transform = (fileInfo, api, options) => {
   // handle dist imports
   root
     .find(j.ImportDeclaration)
-    .filter(path =>
+    .filter((path) =>
       [
         path.node.specifiers.length,
         componentDistNameRegex.test(path.node.source.value as string),
         path.node.importKind === 'value',
       ].every(Boolean),
     )
-    .forEach(path => {
+    .forEach((path) => {
       const sourceNode = path.node.source.value;
 
       const moduleName = (sourceNode as string).match(
@@ -96,7 +96,7 @@ const transform: Transform = (fileInfo, api, options) => {
 
       const handlers = ImportHandlersFactory(j, path, resultSpecifiers);
 
-      path.node.specifiers.forEach(specifier => {
+      path.node.specifiers.forEach((specifier) => {
         const localName = specifier.local.name;
         handlers.handleDefault(specifier, moduleName, localName);
         handlers.handleNamed(specifier, localName);
@@ -111,14 +111,14 @@ const transform: Transform = (fileInfo, api, options) => {
   // handle beta imports
   root
     .find(j.ImportDeclaration)
-    .filter(path =>
+    .filter((path) =>
       [
         path.node.specifiers.length,
         betaComponentNameRegex.test(path.node.source.value as string),
         path.node.importKind === 'value',
       ].every(Boolean),
     )
-    .forEach(path => {
+    .forEach((path) => {
       const sourceNode = path.node.source.value;
       const moduleName = (sourceNode as string).match(
         betaComponentNameRegex,
@@ -126,7 +126,7 @@ const transform: Transform = (fileInfo, api, options) => {
 
       const handlers = ImportHandlersFactory(j, path, resultSpecifiers);
 
-      path.node.specifiers.forEach(specifier => {
+      path.node.specifiers.forEach((specifier) => {
         const localName = specifier.local.name;
 
         handlers.handleDefault(specifier, `${moduleName}Next`, localName);
@@ -153,7 +153,7 @@ const transform: Transform = (fileInfo, api, options) => {
     root,
     Array.from(resultSpecifiers.keys())
       .sort()
-      .map(source =>
+      .map((source) =>
         j.importDeclaration(
           resultSpecifiers.get(source).sort(),
           j.stringLiteral(source),

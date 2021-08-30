@@ -27,7 +27,7 @@ const transform: Transform = (file, api) => {
     rename?: { from: string; to: string };
     remove?: string;
   }) =>
-    paths.forEach(path => {
+    paths.forEach((path) => {
       (path.node as JSXOpeningElement).attributes = (path.node as JSXOpeningElement).attributes.reduce(
         (props: JSXAttribute[], attribute: JSXAttribute) => {
           if (j.JSXAttribute.check(attribute)) {
@@ -66,7 +66,7 @@ const transform: Transform = (file, api) => {
   );
 
   // rename PopoverMenuNext to PopoverMenu
-  findOpeningTag('PopoverMenuNext').forEach(path => {
+  findOpeningTag('PopoverMenuNext').forEach((path) => {
     (path.node.name as JSXIdentifier).name = 'PopoverMenu';
   });
 
@@ -76,7 +76,7 @@ const transform: Transform = (file, api) => {
     .find(j.ImportSpecifier, {
       imported: { name: 'PopoverMenuNext' },
     })
-    .forEach(path => {
+    .forEach((path) => {
       path.node.imported.name = 'PopoverMenu';
       delete path.node.local;
     });
@@ -96,7 +96,7 @@ const transform: Transform = (file, api) => {
   // add <Card.Divider/> after <Card.Header />
   root
     .find(j.JSXOpeningElement, { name: { name: 'Card' } })
-    .forEach(cardPath => {
+    .forEach((cardPath) => {
       const cardChildren = cardPath.parentPath.value.children;
 
       const headerIndice = cardChildren.reduce((acc, path, index) => {
@@ -106,7 +106,7 @@ const transform: Transform = (file, api) => {
           get(path, 'openingElement.name.property.name') === 'Header' &&
           path.openingElement.selfClosing &&
           get(path, 'openingElement.attributes').filter(
-            attribute => attribute.name.name === 'withoutDivider',
+            (attribute) => attribute.name.name === 'withoutDivider',
           ).length === 0
         ) {
           acc.push(index);

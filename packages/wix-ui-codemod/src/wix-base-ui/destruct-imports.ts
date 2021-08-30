@@ -20,10 +20,20 @@ const transform: Transform = (file, api) => {
     .filter((path) =>
       [
         path.node.specifiers.length,
-        /baseUILib/.test(path.node.source.value as string),
+        /^baseUILib$|^@wix\/wix-base-ui$/.test(
+          path.node.source.value as string,
+        ),
         path.node.importKind === 'value',
       ].every(Boolean),
     );
+
+  // Add current correct imports
+  importNodes
+    .find(j.ImportSpecifier)
+    .find(j.Identifier)
+    .forEach((path) => {
+      namedImports.add(path.node.name);
+    });
 
   // Change elements name
   importNodes
@@ -38,6 +48,28 @@ const transform: Transform = (file, api) => {
         })
         .replaceWith(removeMembers);
     });
+
+  // Get all relevant default imports
+  const importDefaultNodes = root
+    .find(j.ImportNamespaceSpecifier)
+    .filter((path) =>
+      [
+        path.parent.node.specifiers.length,
+        /^@wix\/wix-base-ui$/.test(path.parent.node.source.value),
+        path.parent.node.importKind === 'value',
+      ].every(Boolean),
+    );
+
+  // Change elements name
+  importDefaultNodes.find(j.Identifier).forEach((importNode) => {
+    const importName = importNode.value.name;
+
+    root
+      .find(j.MemberExpression, {
+        object: { name: importName },
+      })
+      .replaceWith(removeMembers);
+  });
 
   // Replace imports
   importNodes.replaceWith((_, i) => {
@@ -55,6 +87,6 @@ const transform: Transform = (file, api) => {
     quote: 'single',
     reuseWhitespace: true,
   });
-}
+};
 
 export default transform;

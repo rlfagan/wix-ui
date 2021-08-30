@@ -12,7 +12,7 @@ const transform: Transform = (fileInfo, api) => {
   };
 
   // Transform ES module imports
-  root.find(api.jscodeshift.ImportDeclaration).forEach(path => {
+  root.find(api.jscodeshift.ImportDeclaration).forEach((path) => {
     const sourceNode = path.value.source;
     if (
       typeof sourceNode.value === 'string' &&
@@ -23,7 +23,7 @@ const transform: Transform = (fileInfo, api) => {
   });
 
   // Transform CommonJS require() calls
-  root.find(api.jscodeshift.CallExpression).forEach(path => {
+  root.find(api.jscodeshift.CallExpression).forEach((path) => {
     const calleeNode = path.value.callee;
     const argNode = path.value.arguments[0];
     if (
