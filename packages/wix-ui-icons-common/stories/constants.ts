@@ -4,3 +4,4 @@ export const ON_STAGE_CATEGORY = 'On Stage Icons'
 
 export const GENERAL_ICONS = 'General Icons'
 export const SYSTEM_ICONS = 'System Icons'
+export const REACTIONS_ICONS = 'Reactions Icons'

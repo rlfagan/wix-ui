@@ -2,42 +2,42 @@ import * as React from "react";
 import CategoryList from "../category-list";
 import { classes } from "./GeneralCategoryListBase.st.css";
 import { IconMetadata } from "../../../src/types";
-import { GeneralCategoryListProps, GeneralTableRow} from '../../types'
+import { GeneralCategoryListProps } from '../../types'
 
+const ICON_NAME_HEADER = 'Icon Name';
+const DESCRIPTION_HEADER = 'Use for';
+const DEFAULT_SEARCH_KEYS = ['title', 'tags', 'aliases'];
+const getHeaderTitle = (size) => `${size}x${size}`;
+const getSearchKey = (size) => `sizes.${size}`;
 
 const GeneralCategoryListBase: React.FC<GeneralCategoryListProps> = ({
   iconComponents,
   iconsMetadata,
-  iconSizes = {
-    smallSize: 18,
-    mediumSize: 24,
-  },
+  iconSizes = [24, 18],
 }) => {
-
+  const searchKeys = [ ...DEFAULT_SEARCH_KEYS, ...iconSizes.map(size => getSearchKey(size)) ];
   const tableHeaderTitles = [
-    `${iconSizes.mediumSize}x${iconSizes.mediumSize}`,
-    "Icon Name",
-    `${iconSizes.smallSize}x${iconSizes.smallSize}`,
-    "Icon Name",
-    "Use for",
+    ...iconSizes.reduce<Array<string>>((acc, size) => {
+      acc.push(getHeaderTitle(size));
+      acc.push(ICON_NAME_HEADER);
+      return acc;
+    }, []),
+    DESCRIPTION_HEADER
   ];
-
-  const searchKeys = ["title", `sizes.${iconSizes.smallSize}`, `sizes.${iconSizes.mediumSize}`, "tags", "aliases"];
 
   const mapIconToRow = (
     {
       description,
       sizes,
-    }: IconMetadata): GeneralTableRow => {
-    const Icon = iconComponents[sizes[iconSizes.mediumSize]]
-    const SmallIcon = iconComponents[sizes[iconSizes.smallSize]]
-    return [
-      Icon && <Icon/>,
-      sizes[iconSizes.mediumSize],
-      SmallIcon && <SmallIcon/>,
-      sizes[iconSizes.smallSize],
-      description,
-    ]
+    }: IconMetadata) => {
+    const row = iconSizes.reduce<Array<any>>((acc, size) => {
+      const Icon = iconComponents[sizes[size]];
+      acc.push(Icon && <Icon />);
+      acc.push(sizes[size]);
+      return acc;
+    }, []);
+
+    return [...row, description];
   }
 
   return (

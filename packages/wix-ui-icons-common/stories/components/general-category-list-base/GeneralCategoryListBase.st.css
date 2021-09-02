@@ -2,15 +2,18 @@
   table-layout: fixed;
 }
 
-.tableList th:nth-child(1),
-.tableList th:nth-child(3) {
+.tableList th:nth-child(odd) {
   width: 36px;
 }
 
-.tableList th:nth-child(2) {
+.tableList th:nth-child(even) {
   width: 160px;
 }
 
-.tableList th:nth-child(4) {
+.tableList th:nth-last-child(2) {
   width: 200px;
+}
+
+.tableList th:last-child {
+  width: initial;
 }
