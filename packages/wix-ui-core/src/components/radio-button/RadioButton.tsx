@@ -7,7 +7,7 @@ import { generateDataAttr } from '../../utils/generateDataAttr';
 const noop = () => null;
 
 export interface RadioButtonChangeEvent
-  extends React.MouseEvent<HTMLDivElement> {
+  extends React.ChangeEvent<HTMLDivElement> {
   value: RadioButtonProps['value'];
 }
 
