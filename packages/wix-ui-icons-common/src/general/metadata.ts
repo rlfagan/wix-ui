@@ -633,6 +633,13 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
     tags: ["server"],
     sizes: { "18": "DataCollectionSmall", "24": "DataCollection" },
   },
+{
+    title: "DataConnect",
+    category: "General",
+    description: "Button - connects item to data source",
+    tags: ["bind"],
+    sizes: { "18": "DataConnectSmall", "24": "DataConnect" },
+  },
   {
     title: "CircleSmallFilled",
     category: "General",
