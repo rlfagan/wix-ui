@@ -410,6 +410,92 @@ describe('make', () => {
     });
 
     it('should support `toCamel`, `toKebab`, `toSnake`, `toPascal` utilities', async () => {
+      const fakeFs = cista({
+        'plugin.js': `
+        module.exports = (data, api) => {
+          return {
+            toCamelWorks: api.toCamel("yes-sir"),
+            toKebabWorks: api.toKebab("yesSir"),
+            toSnakeWorks: api.toSnake("yes-sir"),
+            toPascalWorks: api.toPascal("yes-sir"),
+          }
+        }
+        `,
+        'template.ejs':
+          '<%= toCamelWorks %> <%= toKebabWorks %> <%= toSnakeWorks %> <%= toPascalWorks %>',
+      });
+
+      await make({
+        plugin: ['plugin.js'],
+        template: 'template.ejs',
+        output: 'output',
+        _process: {
+          cwd: fakeFs.dir,
+        },
+      });
+
+      const output = fs.readFileSync(path.join(fakeFs.dir, 'output'), 'utf8');
+      const expectedOutput = 'yesSir yes-sir yes_sir YesSir';
+      expect(output).toEqual(expectedOutput);
+    });
+
+    describe('cleanFolder', () => {
+      it('should remove files from given path', async () => {
+        const fakeFs = cista({
+          'folder/file': '',
+          'folder/file-1': '',
+          'folder/file-2': '',
+          'plugin.js': `module.exports = async (data, { output, cleanFolder }) => { await cleanFolder(output) }`,
+        });
+
+        await make({
+          plugin: ['plugin.js'],
+          output: 'folder',
+          _process: {
+            cwd: fakeFs.dir,
+          },
+        });
+
+        const files = fs.readdirSync(path.join(fakeFs.dir, 'folder'));
+
+        expect(files).toEqual([]);
+      });
+
+      it('should throw error when given path is outside `cwd`', async () => {
+        const fakeFs = cista({
+          'keep-this-file': '',
+          'plugin.js': `
+          const path = require("path");
+          module.exports = async (data, { cwd, cleanFolder }) => { await cleanFolder(path.join(cwd, "..")) }
+          `,
+        });
+
+        const run = () =>
+          make({
+            plugin: ['plugin.js'],
+            output: 'folder',
+            _process: {
+              cwd: fakeFs.dir,
+            },
+          });
+
+        await expect(run()).rejects.toThrowError(
+          `WUF UserError CleanFolderError: Declining to remove file outside of current working directory. This folder will not be cleaned: "${path.join(
+            fakeFs.dir,
+            '..',
+          )}"`,
+        );
+
+        expect(fs.readdirSync(path.join(fakeFs.dir))).toEqual([
+          'keep-this-file',
+          'plugin.js',
+        ]);
+      });
+    });
+  });
+
+  describe('template API', () => {
+    it('should support `toCamel`, `toKebab`, `toSnake`, `toPascal` utilities', async () => {
       await runTest({
         input: getInputPath('two-components.json'),
         template: getTemplatePath('template-with-utils.ejs'),

@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs/promises';
 
 import { WufError, ErrorKind, resolveOrThrow } from '../../errors';
 import { Process, Component, Path } from '../../typings.d';
@@ -6,12 +7,49 @@ import { renderTemplate } from './template';
 import { Options } from './typings';
 import { pathResolver } from './path-resolver';
 import { resolveExport } from './resolve-export';
+import { stringUtils } from './string-utils';
 
 export interface PluginApi {
   cwd: Process['cwd'];
   output: Options['output'];
   renderTemplate: typeof renderTemplate;
+  cleanFolder(path: Path): Promise<void>;
+  toCamel(str: string): string;
+  toKebab(str: string): string;
+  toSnake(str: string): string;
+  toPascal(str: string): string;
 }
+
+const cleanFolder =
+  (cwd: Path) =>
+  async (folderPath: Path): Promise<void> => {
+    const absoluteFolderPath = path.resolve(folderPath);
+
+    if (absoluteFolderPath.length < cwd.length) {
+      throw new WufError({
+        kind: ErrorKind.UserError,
+        name: 'CleanFolderError',
+        message: `Declining to remove file outside of current working directory. This folder will not be cleaned: "${absoluteFolderPath}"`,
+      });
+    }
+
+    const files = await fs.readdir(folderPath, { encoding: 'utf8' });
+
+    for (const file of files) {
+      const removablePath = path.join(folderPath, file);
+
+      try {
+        await fs.rm(removablePath, { recursive: true, force: true });
+      } catch (error) {
+        throw new WufError({
+          kind: ErrorKind.SystemError,
+          name: 'CleanFolderError',
+          message: `Error occurred while trying to remove file ${removablePath}`,
+          error,
+        });
+      }
+    }
+  };
 
 const chain = async <T>({
   plugins,
@@ -118,6 +156,8 @@ export const resolvePlugin = async ({ options, components }) => {
     cwd: options._process.cwd,
     output: options.output,
     renderTemplate,
+    cleanFolder: cleanFolder(options._process.cwd),
+    ...stringUtils,
   };
 
   return await pluginPaths.reduce(

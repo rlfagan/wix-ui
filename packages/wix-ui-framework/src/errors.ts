@@ -13,10 +13,7 @@ export class WufError<Info> extends Error {
     error?: Error | unknown;
     info?: Record<string, Info>;
   }) {
-    const stack =
-      options.error instanceof Error || options.error instanceof WufError
-        ? options?.error?.stack ?? ''
-        : '';
+    const stack = (options?.error as Error | undefined)?.stack ?? '';
 
     super(
       `WUF ${options.kind} ${options.name}: ${options.message}${

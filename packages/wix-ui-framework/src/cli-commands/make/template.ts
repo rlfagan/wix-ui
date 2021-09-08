@@ -1,11 +1,9 @@
 import fs from 'fs-extra';
 import ejs from 'ejs';
-import camelCase from 'lodash/camelCase';
-import kebabCase from 'lodash/kebabCase';
-import snakeCase from 'lodash/snakeCase';
 
 import { fileExists } from '../../file-exists';
 import { WufError, ErrorKind } from '../../errors';
+import { stringUtils } from './string-utils';
 
 export interface RenderTemplate {
   templatePath: string;
@@ -47,18 +45,8 @@ export const renderTemplate = async ({
 };
 
 const ejsRender = ({ template, data }) => {
-  const utils = {
-    toCamel: camelCase,
-    toKebab: kebabCase,
-    toSnake: snakeCase,
-    toPascal: (s: string) => {
-      const camel: string = camelCase(s);
-      return camel[0].toUpperCase() + camel.substring(1);
-    },
-  };
-
   try {
-    return ejs.render(template, { ...data, utils });
+    return ejs.render(template, { ...data, utils: stringUtils });
   } catch (error) {
     throw new WufError({
       name: 'EjsError',

@@ -11,6 +11,11 @@ Types of changes:
 1. **Fixed** for any bug fixes.
 1. **Security** in case of vulnerabilities.
 
+# 3.7.4 - 2021-09-08
+## Added
+- add `cleanFolder` function to plugin API
+- add `toCamel`, `toKebab`, `toSnake`, `toPascal` utility functions to plugin API
+
 # 3.7.3 - 2021-08-17
 ## Fixed
 - fixing a case where requiring `wix-ui-framework/plugins/{plugin-name}` could lead to failures, when imported file imports other files through relative path

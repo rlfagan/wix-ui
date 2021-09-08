@@ -253,6 +253,11 @@ interface Api {
     output: string;
     data: Record<string, unknown>;
   }) => Promise<void>;
+  cleanFolder(path);
+  toCamel(str: string): string;
+  toKebab(str: string): string;
+  toSnake(str: string): string;
+  toPascal(str: string): string;
 }
 ```
 
