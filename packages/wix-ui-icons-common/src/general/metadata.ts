@@ -839,6 +839,22 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
     tags: ["mark"],
     sizes: { "18": "FlagFilledSmall", "24": "FlagFilled" },
   },
+ {
+    title: "FlagDismiss",
+    category: "Toggle",
+    description:
+      "Button – dismisses the report",
+    tags: ["remove", "report"],
+    sizes: { "18": "FlagDismissSmall", "24": "FlagDismiss" },
+  },
+ {
+    title: "FlagFind",
+    category: "Toggle",
+    description:
+      "Button – opens or finds report",
+    tags: ["preview", "report"],
+    sizes: { "18": "FlagFindSmall", "24": "FlagFind" },
+  },
   {
     title: "StatusWarning",
     category: "Toggle",
