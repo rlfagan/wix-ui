@@ -33,6 +33,23 @@ const cleanFolder =
       });
     }
 
+    try {
+      await fs.stat(folderPath);
+    } catch (e) {
+      const error = e as Error;
+      if (error.message && error.message.includes('ENOENT')) {
+        // returning void when folder does not exist is expected behaviour
+        return;
+      } else {
+        throw new WufError({
+          kind: ErrorKind.SystemError,
+          name: 'CleanFolderError',
+          message: `Unexpected error occured while trying to clean folder at ${absoluteFolderPath}`,
+          error,
+        });
+      }
+    }
+
     const files = await fs.readdir(folderPath, { encoding: 'utf8' });
 
     for (const file of files) {

@@ -491,6 +491,25 @@ describe('make', () => {
           'plugin.js',
         ]);
       });
+
+      it('should not throw error when given path does not exist', async () => {
+        const fakeFs = cista({
+          'plugin.js': `module.exports = async (data, { output, cleanFolder }) => { await cleanFolder(output) }`,
+        });
+
+        const run = () =>
+          make({
+            plugin: ['plugin.js'],
+            output: 'folder',
+            _process: {
+              cwd: fakeFs.dir,
+            },
+          });
+
+        await expect(run()).resolves.toEqual(undefined);
+
+        expect(fs.readdirSync(path.join(fakeFs.dir))).toEqual(['plugin.js']);
+      });
     });
   });
 
