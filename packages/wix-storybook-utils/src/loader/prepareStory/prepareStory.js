@@ -5,17 +5,19 @@ const parse = require('react-autodocs-utils/src/parser/parse');
 const print = require('react-autodocs-utils/src/parser/print');
 const get = require('react-autodocs-utils/src/get');
 
-const prepareStory = (storyConfig, sourcePath) => source =>
+const prepareStory = (storyConfig, sourcePath) => (source) =>
   new Promise((resolve, reject) => {
-    const isError = !source && !storyConfig && !sourcePath
+    const isError = !source && !storyConfig && !sourcePath;
     return isError
-    ? reject('ERROR: unable to prepare story, both `storyConfig` and `source` must be provided')
-    : resolve(source)
+      ? reject(
+          'ERROR: unable to prepare story, both `storyConfig` and `source` must be provided',
+        )
+      : resolve(source);
   })
 
     .then(parse)
 
-    .then(ast => {
+    .then((ast) => {
       let isES5 = true;
 
       visit(ast)({
@@ -27,17 +29,25 @@ const prepareStory = (storyConfig, sourcePath) => source =>
 
       if (isES5) {
         // add requires
-        ast.program.body.unshift(parse('const { storiesOf } = require("@storybook/react")'));
-        ast.program.body.unshift(parse('const story = require("wix-storybook-utils/Story").default'));
+        ast.program.body.unshift(
+          parse('const { storiesOf } = require("@storybook/react")'),
+        );
+        ast.program.body.unshift(
+          parse('const story = require("wix-storybook-utils/Story").default'),
+        );
       } else {
         // add imports
-        ast.program.body.unshift(parse('import { storiesOf } from "@storybook/react"'));
-        ast.program.body.unshift(parse('import story from "wix-storybook-utils/Story"'));
+        ast.program.body.unshift(
+          parse('import { storiesOf } from "@storybook/react"'),
+        );
+        ast.program.body.unshift(
+          parse('import story from "wix-storybook-utils/Story"'),
+        );
       }
 
       return ast;
     })
-    .then(ast => {
+    .then((ast) => {
       // TODO: this is not too good, unfortunatelly, i cant return
       // rejected promise from within visitor, babylon complains
       let error = null;
@@ -47,17 +57,28 @@ const prepareStory = (storyConfig, sourcePath) => source =>
 
       visit(configAST)({
         ObjectExpression(path) {
-          const storiesOfProperty = types.objectProperty(types.identifier('storiesOf'), types.identifier('storiesOf'));
+          const storiesOfProperty = types.objectProperty(
+            types.identifier('storiesOf'),
+            types.identifier('storiesOf'),
+          );
 
-          if(storyConfig.playgroundComponentsPath) {
-            const playgroundComponentsPath = pathLib.relative(sourcePath, storyConfig.playgroundComponentsPath);
-            const requireExpression = parse(`require('${playgroundComponentsPath}').default`).program.body[0].expression
-            const playgroundComponentsProperty = types.objectProperty(types.identifier('playgroundComponents'), requireExpression);
+          if (storyConfig.playgroundComponentsPath) {
+            const playgroundComponentsPath = pathLib.relative(
+              sourcePath,
+              storyConfig.playgroundComponentsPath,
+            );
+            const requireExpression = parse(
+              `require('${playgroundComponentsPath}').default`,
+            ).program.body[0].expression;
+            const playgroundComponentsProperty = types.objectProperty(
+              types.identifier('playgroundComponents'),
+              requireExpression,
+            );
             path.node.properties.push(playgroundComponentsProperty);
           }
-      
+
           path.node.properties.push(storiesOfProperty);
-       
+
           configProperties = path.node.properties;
           path.stop();
         },
@@ -69,7 +90,8 @@ const prepareStory = (storyConfig, sourcePath) => source =>
 
         if (exportsIdentifier) {
           const referenceName = node.name;
-          const configObject = path.scope.bindings[referenceName].path.node.init;
+          const configObject =
+            path.scope.bindings[referenceName].path.node.init;
 
           if (!configObject.properties) {
             error = `ERROR: storybook config must export an object, exporting ${configObject.type} instead`;
@@ -77,7 +99,10 @@ const prepareStory = (storyConfig, sourcePath) => source =>
           }
 
           configObject.properties.push(
-            types.objectProperty(types.identifier('_config'), types.objectExpression(configProperties))
+            types.objectProperty(
+              types.identifier('_config'),
+              types.objectExpression(configProperties),
+            ),
           );
 
           return types.callExpression(types.identifier('story'), [node]);
@@ -85,7 +110,10 @@ const prepareStory = (storyConfig, sourcePath) => source =>
 
         if (exportsObject) {
           node.properties.push(
-            types.objectProperty(types.identifier('_config'), types.objectExpression(configProperties))
+            types.objectProperty(
+              types.identifier('_config'),
+              types.objectExpression(configProperties),
+            ),
           );
 
           // wrap exported object with `story()`
@@ -95,7 +123,10 @@ const prepareStory = (storyConfig, sourcePath) => source =>
 
       visit(ast)({
         ExportDefaultDeclaration(path) {
-          path.node.declaration = handleExportObject(path, path.node.declaration);
+          ast.program.body.push(
+            handleExportObject(path, path.node.declaration),
+          );
+          path.remove();
           return false;
         },
 
@@ -107,7 +138,10 @@ const prepareStory = (storyConfig, sourcePath) => source =>
           ].every(Boolean);
 
           if (isModuleExports) {
-            path.node.expression.right = handleExportObject(path, path.node.expression.right);
+            ast.program.body.push(
+              handleExportObject(path, path.node.expression.right),
+            );
+            path.remove();
           }
         },
       });

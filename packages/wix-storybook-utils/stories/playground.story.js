@@ -1,7 +1,7 @@
-import * as React from "react";
-import { header, importExample, description, code } from "../src/Sections";
+import * as React from 'react';
+import { header, importExample, description, code } from '../src/Sections';
 
-import Playground from "../src/Playground";
+import Playground from '../src/Playground';
 
 const codeExample = `
 class Component extends React.Component {
@@ -16,12 +16,12 @@ class Component extends React.Component {
 `;
 
 export default {
-  category: "Components",
-  storyName: "Playground",
+  category: 'Components',
+  storyName: 'Playground',
   sections: [
-    header({ title: "Playground component" }),
+    header({ title: 'Playground component' }),
     importExample("import Playground from 'wix-storybook-utils/Playground'"),
     description(<Playground initialCode={codeExample} />),
-    code({ title: 'Playground example', source: '<Button>Hello</Button>' })
-  ]
+    code({ title: 'Playground example', source: '<Button>Hello</Button>' }),
+  ],
 };

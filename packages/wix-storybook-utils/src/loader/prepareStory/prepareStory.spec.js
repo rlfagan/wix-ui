@@ -7,7 +7,7 @@ describe('prepareStory', () => {
   describe('given erroneous input', () => {
     it('should reject promise with message', () =>
       expect(prepareStory()()).rejects.toEqual(
-        'ERROR: unable to prepare story, both `storyConfig` and `source` must be provided'
+        'ERROR: unable to prepare story, both `storyConfig` and `source` must be provided',
       ));
   });
 
@@ -20,7 +20,7 @@ describe('prepareStory', () => {
       const source = `const something = "hello";
 export default something;`;
 
-    return expect(prepareStory({})(source)).rejects.toMatch('ERROR');
+      return expect(prepareStory({})(source)).rejects.toMatch('ERROR');
     });
 
     it('should wrap exported object with `story()`', () => {
@@ -29,12 +29,12 @@ export default something;`;
 
 import { storiesOf } from "@storybook/react";
 
-export default story({
+story({
   a: 1,
   _config: {
     storiesOf: storiesOf
   }
-});`;
+})`;
 
       return expect(prepareStory({})(source)).resolves.toEqual(expectation);
     });
@@ -46,13 +46,13 @@ export default story({
 
 import { storiesOf } from "@storybook/react";
 
-export default story({
+story({
   a: 1,
   _config: {
     "a": 1,
     storiesOf: storiesOf
   }
-});`;
+})`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
@@ -62,7 +62,10 @@ export default story({
         const config = { a: 1, b: { c: 'hey' } };
         export default config;
       `;
-      const config = { hello: 'config!', time: { to: { say: { good: 'buy' } } } };
+      const config = {
+        hello: 'config!',
+        time: { to: { say: { good: 'buy' } } },
+      };
       const expectation = `import story from "wix-storybook-utils/Story";
 
 import { storiesOf } from "@storybook/react";
@@ -84,7 +87,7 @@ const config = {
     storiesOf: storiesOf
   }
 };
-export default story(config);`;
+story(config)`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
@@ -112,7 +115,7 @@ const stuff = {
     moreThings: ['hello']
   }
 };
-export default story({
+story({
   a: 1,
   b: { ...stuff,
     c: ['d']
@@ -121,7 +124,7 @@ export default story({
     "i-am-config": "yes",
     storiesOf: storiesOf
   }
-});`;
+})`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
@@ -169,7 +172,7 @@ const stuff = {
 
 const callMe = () => true;
 
-export default story({
+story({
   a: 1,
   b: { ...stuff,
     c: ['d']
@@ -192,7 +195,7 @@ export default story({
     },
     storiesOf: storiesOf
   }
-});`;
+})`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
@@ -206,13 +209,13 @@ const {
   storiesOf
 } = require("@storybook/react");
 
-module.exports = story({
+story({
   a: 1,
   _config: {
     "a": 1,
     storiesOf: storiesOf
   }
-});`;
+})`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
@@ -288,11 +291,10 @@ const reference = {
     storiesOf: storiesOf
   }
 };
-module.exports = story(reference);`;
+story(reference)`;
 
       return expect(prepareStory(config)(source)).resolves.toEqual(expectation);
     });
-
 
     it('should inject playgroundComponents require when given playgroundComponentsPath through storyConfig', () => {
       const componentContextPath = '/src/component';
@@ -302,22 +304,24 @@ module.exports = story(reference);`;
       `;
 
       const config = {
-        playgroundComponentsPath: '/.storybook/playground.scope'
+        playgroundComponentsPath: '/.storybook/playground.scope',
       };
 
       const expectation = `import story from "wix-storybook-utils/Story";
 
 import { storiesOf } from "@storybook/react";
 
-export default story({
+story({
   _config: {
     "playgroundComponentsPath": "/.storybook/playground.scope",
     playgroundComponents: require('../../.storybook/playground.scope').default,
     storiesOf: storiesOf
   }
-});`;
+})`;
 
-      return expect(prepareStory(config, componentContextPath)(source)).resolves.toEqual(expectation);
+      return expect(
+        prepareStory(config, componentContextPath)(source),
+      ).resolves.toEqual(expectation);
     });
   });
 });
