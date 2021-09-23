@@ -3,6 +3,13 @@ import { IconMetadata } from "../types";
 export const deprecatedGeneralIcons: Array<string> = ["FilterSmall"];
 
 const generalIconsMetadata: Array<IconMetadata> = [
+{
+    title: "DataDisconnect",
+    category: "General",
+    description: "Button - detaches two objects",
+    tags: ["disconnect", "unlink", "separate", "detach"],
+    sizes: { "18": "DataDisconnectSmall", "24": "DataDisconnect" },
+  },
   {
     title: "Maximize",
     category: "Media",
