@@ -13,6 +13,7 @@
   background: none;
   cursor: pointer;
   color: $B10;
+  padding: 0;
 
   &:not(.disabled):hover {
     color: $B20;
@@ -26,7 +27,7 @@
   vertical-align: middle;
 }
 
-.disabled { 
+.disabled {
   color: #333;
   cursor: default;
 }

@@ -1,4 +1,7 @@
+@import '../ui/typography.scss';
+
 .example {
+  @include font();
   padding: 6px 8px;
   font-size: 14px;
   transition: all .4s;
