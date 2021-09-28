@@ -67,6 +67,13 @@ const generalIconsMetadata: Array<IconMetadata> = [
     sizes: { "18": "PaidPlansSellSmall", "24": "PaidPlansSell" },
   },
   {
+    title: "WixBooking",
+    category: "Wix Brands",
+    description: "Button - opens Wix Booking page",
+    tags: ["Calendar", "Services"],
+    sizes: { "18": "WixBookingSmall", "24": "WixBooking" },
+  },
+  {
     title: "Compose",
     category: "Actions",
     description: "Button - opens message or text composing dialogue",
