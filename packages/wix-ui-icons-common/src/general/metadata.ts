@@ -66,6 +66,13 @@ const generalIconsMetadata: Array<IconMetadata> = [
     tags: ["Subscription", "Pricing", "Membership", "Members"],
     sizes: { "18": "PaidPlansSellSmall", "24": "PaidPlansSell" },
   },
+{
+    title: "Groups",
+    category: "Wix Brands",
+    description: "Button - opens the Groups page",
+    tags: ["People", "Crowd", "Bodies"],
+    sizes: { "18": "GroupsSmall", "24": "Groups" },
+  },
   {
     title: "WixBooking",
     category: "Wix Brands",
