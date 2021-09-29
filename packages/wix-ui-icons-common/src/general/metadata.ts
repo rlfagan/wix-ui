@@ -66,7 +66,7 @@ const generalIconsMetadata: Array<IconMetadata> = [
     tags: ["Subscription", "Pricing", "Membership", "Members"],
     sizes: { "18": "PaidPlansSellSmall", "24": "PaidPlansSell" },
   },
-{
+  {
     title: "Groups",
     category: "Wix Brands",
     description: "Button - opens the Groups page",
@@ -86,6 +86,20 @@ const generalIconsMetadata: Array<IconMetadata> = [
     description: "Button - opens Wix Forum page",
     tags: ["Chat"],
     sizes: { "18": "WixForumSmall", "24": "WixForum" },
+  },
+ {
+    title: "ProGalleries",
+    category: "Wix Brands",
+    description: "Button - opens a ProGalleries page",
+    tags: ["Gallery", "Picture"],
+    sizes: { "18": "ProGalleriesSmall", "24": "ProGalleries" },
+  },
+  {
+    title: "OnlinePrograms",
+    category: "Wix Brands",
+    description: "Button - opens an OnlinePrograms page",
+    tags: ["Laptop", "Computer", "Web",],
+    sizes: { "18": "OnlineProgramsSmall", "24": "OnlinePrograms" },
   },
   {
     title: "Compose",
