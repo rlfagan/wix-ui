@@ -3,7 +3,7 @@ import { IconMetadata } from "../types";
 export const deprecatedGeneralIcons: Array<string> = ["FilterSmall"];
 
 const generalIconsMetadata: Array<IconMetadata> = [
-{
+  {
     title: "DataDisconnect",
     category: "General",
     description: "Button - detaches two objects",
@@ -1052,13 +1052,13 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
     tags: ["call", "number"],
     sizes: { "18": "PhoneSmall", "24": "Phone" },
   },
-	{
-	 title: "Inbox",
-	 category: "Communication",
-	 description: "Button – opens inbox\nStatic Indicator – marks inbox for indication",
-	 tags: ["communication", "message", "email"],
-	 sizes: { "18": "InboxSmall", "24": "Inbox" },
-	 },
+  {
+    title: "Inbox",
+    category: "Communication",
+    description: "Button – opens inbox\nStatic Indicator – marks inbox for indication",
+    tags: ["communication", "message", "email"],
+    sizes: { "18": "InboxSmall", "24": "Inbox" },
+  },
   {
     title: "Document",
     category: "Document",
@@ -2437,6 +2437,13 @@ sizes: { "18": "ESignatureSmall", "24": "ESignature" },
       "Button - stretches the text lines so that each line has equal width",
     tags: ["rich text", "text"],
     sizes: { "18": "TextJustifySmall", "24": "TextJustify" },
+  },
+  {
+    title: "PremiumMove",
+    category: "Wix Brands",
+    description: "Button - assign premium plan to a different site",
+    tags: ["crown", "wix", "move"],
+    sizes: { "18": "PremiumMoveSmall", "24": "PremiumMove" },
   },
   {
     title: "Premium",
