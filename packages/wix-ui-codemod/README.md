@@ -14,7 +14,7 @@ npx wix-ui-codemod <transform> <path> [...options]
   - `--dry` - run in dry mode (will not modify any transformed files on disk).
   - `--print` - print modified files.
 
-##Codemods
+## Codemods
 - [wix-style-react](./src/wix-style-react/README.md)
 - [wix-base-ui](./src/wix-base-ui/README.md)
 - [wix-ui-adi](./src/wix-ui-adi/README.md)
