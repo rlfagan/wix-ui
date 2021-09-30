@@ -2864,6 +2864,7 @@ export const generalIconsMetadata: Array<IconMetadata> = [
     "description": "",
     "tags": [],
     "sizes": {
+      "18": "UserPrivateSmall",
       "24": "UserPrivate"
     }
   },
