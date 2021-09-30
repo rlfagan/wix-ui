@@ -1,3 +1,3 @@
 import { defineTest } from 'jscodeshift/src/testUtils';
 
-defineTest(__dirname, 'destruct-imports', {});
+defineTest(__dirname, 'imports-from-main-index', {});
