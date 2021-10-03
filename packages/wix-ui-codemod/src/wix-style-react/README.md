@@ -1,4 +1,9 @@
-## wix-style-react codemods
+# wix-style-react codemods
+
+## Codemods
+1. [Icons common](#wix-style-reacticons-common)
+2. [Named imports](#wix-style-reactnamed-imports)
+---
 
 ### wix-style-react/icons-common
 ```bash

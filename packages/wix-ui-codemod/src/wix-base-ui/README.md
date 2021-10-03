@@ -1,4 +1,9 @@
-## wix-base-ui codemods
+# wix-base-ui codemods
+
+## Codemods
+1. [Imports from main index](#wix-base-uiimports-from-main-index)
+2. [Destruct imports](#wix-base-uidestruct-imports)
+---
 
 ### wix-base-ui/imports-from-main-index
 ```bash

@@ -1,4 +1,8 @@
-## wix-ui-adi codemods
+# wix-ui-adi codemods
+
+## Codemods
+1. [Imports from main index](#wix-ui-adiimports-from-main-index)
+---
 
 ### wix-ui-adi/imports-from-main-index
 ```bash

@@ -1,9 +1,7 @@
 # wix-ui-codemod
-
 This package contains a collection of [jscodeshift](https://github.com/facebook/jscodeshift) codemod scripts to help migrate and adapt Wix UI projects to API changes.
 
 ## Usage
-
 ```bash
 npx wix-ui-codemod <transform> <path> [...options]
 ```
@@ -20,5 +18,4 @@ npx wix-ui-codemod <transform> <path> [...options]
 - [wix-ui-adi](./src/wix-ui-adi/README.md)
 
 ## Contributing
-
 Thanks! See [contributing guide](./CONTRIBUTING.md).
