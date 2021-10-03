@@ -100,6 +100,13 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     sizes: { "24":"Folder" },
   },
   {
+    title: "GiftSmall",
+    category: "General",
+    description: "Static Indicator – marks an item as Gift Card",
+    tags: [],
+    sizes: { "20": "GiftSmall" },
+  },
+  {
     title: "Group",
     category: "General",
     description: "",
