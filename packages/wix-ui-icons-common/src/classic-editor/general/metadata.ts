@@ -3276,6 +3276,24 @@ export const generalIconsMetadata: Array<IconMetadata> = [
       "24": "Github"
     }
   },
+  {
+    "title": "Alert",
+    "category": "Status",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "18": "AlertSmall"
+    }
+  },
+  {
+    "title": "Success",
+    "category": "Status",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "18": "SuccessSmall"
+    }
+  },
 ]
 
 export default generalIconsMetadata;
