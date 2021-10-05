@@ -23,12 +23,13 @@ const transform: Transform = (file, api) => {
     );
 
   // Add current correct imports
-  importNodes
-    .find(j.ImportSpecifier)
-    .find(j.Identifier)
-    .forEach((path) => {
-      namedImports.add(path.node.name);
-    });
+  importNodes.find(j.ImportSpecifier).forEach((path) => {
+    if (path.node.imported.name !== path.node.local.name) {
+      namedImports.add(`${path.node.imported.name} as ${path.node.local.name}`);
+    } else {
+      namedImports.add(path.node.local.name);
+    }
+  });
 
   // Replace imports
   importNodes.replaceWith((_, i) => {
@@ -42,10 +43,12 @@ const transform: Transform = (file, api) => {
     }
   });
 
-  return root.toSource({
-    quote: 'single',
-    reuseWhitespace: true,
-  });
+  if (importNodes.length > 0) {
+    return root.toSource({
+      quote: 'single',
+      reuseWhitespace: true,
+    });
+  }
 };
 
 export default transform;

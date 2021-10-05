@@ -1,5 +1,14 @@
 import { Hello } from 'hello';
-import { Composites, Divider, ResponsiveComposites, TextLabel } from '@wix/wix-base-ui';
+
+import {
+  Badge,
+  Button as BaseButton,
+  Composites,
+  Divider,
+  ResponsiveComposites,
+  TextLabel,
+} from '@wix/wix-base-ui';
+
 import { Hi } from 'hi';
 
 console.log(Divider);
@@ -12,6 +21,8 @@ console.log(ResponsiveComposites.MultiInputsInRow);
     <Divider>
       <Composites.PopupSmallSize>
         <TextLabel />
+        <BaseButton />
+        <Badge />
       </Composites.PopupSmallSize>
     </Divider>
   </Composites.ActionWithSymbolLabeled>

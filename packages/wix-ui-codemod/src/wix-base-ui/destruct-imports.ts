@@ -83,10 +83,12 @@ const transform: Transform = (file, api) => {
     }
   });
 
-  return root.toSource({
-    quote: 'single',
-    reuseWhitespace: true,
-  });
+  if (importNodes.length > 0 || importDefaultNodes.length > 0) {
+    return root.toSource({
+      quote: 'single',
+      reuseWhitespace: true,
+    });
+  }
 };
 
 export default transform;

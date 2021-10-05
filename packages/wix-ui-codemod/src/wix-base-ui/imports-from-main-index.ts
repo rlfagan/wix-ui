@@ -61,8 +61,15 @@ const transform: Transform = (file, api) => {
     );
 
   // Add current correct imports
-  importNodes.find(j.Identifier).forEach((path) => {
-    namedImports.add(path.node.name);
+  importNodes.find(j.ImportDefaultSpecifier).forEach((path) => {
+    namedImports.add(path.node.local.name);
+  });
+  importNodes.find(j.ImportSpecifier).forEach((path) => {
+    if (path.node.imported.name !== path.node.local.name) {
+      namedImports.add(`${path.node.imported.name} as ${path.node.local.name}`);
+    } else {
+      namedImports.add(path.node.local.name);
+    }
   });
 
   // Replace composites prefix
@@ -107,10 +114,17 @@ const transform: Transform = (file, api) => {
   // Remove CSS imports
   importCSS.replaceWith('');
 
-  return root.toSource({
-    quote: 'single',
-    reuseWhitespace: true,
-  });
+  if (
+    importCSS.length > 0 ||
+    namedImports.size > 0 ||
+    namedCompositesImports.size > 0 ||
+    namedResponsiveCompositesImports.size > 0
+  ) {
+    return root.toSource({
+      quote: 'single',
+      reuseWhitespace: true,
+    });
+  }
 };
 
 export default transform;
