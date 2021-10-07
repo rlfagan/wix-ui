@@ -37,6 +37,13 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     sizes: { "32":"EmailLarge" },
   },
   {
+    title: "Indeterminate",
+    category: "General",
+    description: "",
+    tags: [],
+    sizes: { "16": "IndeterminateXSmall" }
+  },
+  {
     title: "Percent",
     category: "General",
     description: "",
