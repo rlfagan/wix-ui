@@ -13,6 +13,10 @@
   align-items: center;
 }
 
+.prefixIndicationContainer {}
+
+.suffixIndication {}
+
 .barContainer {
   width: 100%;
   position: relative;

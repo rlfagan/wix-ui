@@ -63,6 +63,26 @@ describe('ProgressBar', () => {
       expect(await driver.isErrorIconDisplayed()).toBe(false);
     });
 
+    it('should render prefix', async () => {
+      const driver = await createDriver(
+        <LinearProgressBar
+          {...{ ...defaultProps, prefixIndication: <div>Hello</div> }}
+        />,
+      );
+
+      expect(await driver.hasPrefixIndication()).toBe(true);
+    });
+
+    it('should not render custom suffix when showProgressIndication is false', async () => {
+      const driver = await createDriver(
+        <LinearProgressBar
+          {...{ ...defaultProps, customSuffixIndicationText: '35' }}
+        />,
+      );
+
+      expect(await driver.hasSuffixIndication()).toBe(false);
+    });
+
     describe('testkit methods', () => {
       it('should allow getting numeric value from component', async () => {
         const value = 50;
@@ -79,6 +99,17 @@ describe('ProgressBar', () => {
 
       beforeEach(() => {
         props = { ...defaultProps, showProgressIndication: true };
+      });
+
+      it('should render custom suffix', async () => {
+        driver = await createDriver(
+          <LinearProgressBar
+            {...{ ...props, customSuffixIndicationText: '35' }}
+          />,
+        );
+
+        expect(await driver.hasSuffixIndication()).toBe(true);
+        expect(await driver.getSuffixIndicationText()).toBe('35');
       });
 
       it('should show success icon when reaching 100%', async () => {

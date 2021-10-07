@@ -13,12 +13,18 @@ import {
 export interface LinearProgressBarUniDriver extends BaseUniDriver {
   /** Get the width of the foreground bar (the progress) */
   getWidth(): Promise<string>;
-  /** Returns Promise<boolean that indicates if the success icon exists */
+  /** Returns Promise<boolean> that indicates if the success icon exists */
   isSuccessIconDisplayed(): Promise<boolean>;
-  /** Returns Promise<boolean that indicates if the error icon exists */
+  /** Returns Promise<boolean> that indicates if the error icon exists */
   isErrorIconDisplayed(): Promise<boolean>;
-  /** Returns Promise<boolean that indicates if the progress percentages text exists */
+  /** Returns Promise<boolean> that indicates if the progress percentages text exists */
   isPercentagesProgressDisplayed(): Promise<boolean>;
+  /** Returns Promise<boolean> that indicates if the prefix indication exists */
+  hasPrefixIndication(): Promise<boolean>;
+  /** Returns Promise<boolean> that indicates if the custom suffix indication exists */
+  hasSuffixIndication(): Promise<boolean>;
+  /** Get the suffix indication's text */
+  getSuffixIndicationText(): Promise<string>;
   /** Get the progress percentages value */
   getValue(): Promise<string>;
   /** Get the progress numeric value */
@@ -96,5 +102,11 @@ export const linearProgressBarUniDriverFactory = (
       getDataAttribute(ProgressBarAriaKeys.valuemin, Number),
     getAriaValueText: () => getDataAttribute(ProgressBarAriaKeys.valuetext),
     getRoleAttribute: () => getDataAttribute('role'),
+    hasPrefixIndication: () =>
+      base.$(byDataHook(ProgressBarDataHooks.prefixIndicator)).exists(),
+    hasSuffixIndication: () =>
+      base.$(byDataHook(ProgressBarDataHooks.suffixIndicator)).exists(),
+    getSuffixIndicationText: () =>
+      base.$(byDataHook(ProgressBarDataHooks.suffixIndicator)).text(),
   };
 };

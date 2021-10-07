@@ -24,6 +24,10 @@ export interface LinearProgressBarProps {
   max?: number;
   /** Number of decimal points to keep when normalizing value */
   precision?: number;
+  /** A prefix node for the progress bar */
+  prefixIndication?: React.ReactNode;
+  /** A custom text for the progress bar indication. */
+  customSuffixIndicationText?: string;
   /** Applied as data-hook HTML attribute that can be used to create driver in testing */
   'data-hook'?: string;
   className?: string;
@@ -33,7 +37,7 @@ const FULL_PROGRESS = 100;
 const NO_PROGRESS = 0;
 
 const resolveIndicationElement = (props: LinearProgressBarProps) => {
-  const wrapped = (dataHook: string, children: JSX.Element) => (
+  const wrapped = (dataHook: string, children: JSX.Element | string) => (
     <div data-hook={dataHook} className={classes.indicationContainer}>
       {children}
     </div>
@@ -45,6 +49,15 @@ const resolveIndicationElement = (props: LinearProgressBarProps) => {
 
   if (props.value === FULL_PROGRESS && props.successIcon) {
     return wrapped(ProgressBarDataHooks.successIcon, props.successIcon);
+  }
+
+  if (props.customSuffixIndicationText) {
+    return wrapped(
+      ProgressBarDataHooks.suffixIndicator,
+      <span className={classes.suffixIndication}>
+        {props.customSuffixIndicationText}
+      </span>,
+    );
   }
 
   return wrapped(
@@ -121,7 +134,8 @@ const getAriaAttributes = (
 
 export const LinearProgressBar: React.FunctionComponent<LinearProgressBarProps> =
   (props: LinearProgressBarProps) => {
-    const { error, showProgressIndication, className } = props;
+    const { error, showProgressIndication, prefixIndication, className } =
+      props;
     const _props = normalizeProps(props);
     const success = _props.value === FULL_PROGRESS;
     return (
@@ -134,6 +148,14 @@ export const LinearProgressBar: React.FunctionComponent<LinearProgressBarProps> 
         className={st(classes.root, { error, success }, className)}
         {...filterDataProps(props)}
       >
+        {prefixIndication && (
+          <div
+            data-hook={ProgressBarDataHooks.prefixIndicator}
+            className={classes.prefixIndicationContainer}
+          >
+            {prefixIndication}
+          </div>
+        )}
         {renderBarSection(_props.value)}
 
         {showProgressIndication && (

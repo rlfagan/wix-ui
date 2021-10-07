@@ -20,6 +20,12 @@ export interface LinearProgressBarDriver extends BaseDriver {
   isErrorIconDisplayed(): boolean;
   /** Returns boolean that indicates if the progress percentages text exists */
   isPercentagesProgressDisplayed(): boolean;
+  /** Returns boolean that indicates if the prefix indication exists */
+  hasPrefixIndication(): boolean;
+  /** Returns boolean that indicates if the custom suffix indication exists */
+  hasSuffixIndication(): boolean;
+  /** Get the suffix indication's text */
+  getSuffixIndicationText(): string;
   /** Get the progress percentages value */
   getValue(): string;
   /** Get the progress numeric value */
@@ -92,6 +98,12 @@ export const linearProgressBarDriverFactory: DriverFactory<LinearProgressBarDriv
         getDataAttribute(ProgressBarAriaKeys.valuemin, Number),
       getRoleAttribute: () => getDataAttribute('role'),
       getAriaValueText: () => getDataAttribute(ProgressBarAriaKeys.valuetext),
+      hasPrefixIndication: () =>
+        !!getElement(ProgressBarDataHooks.prefixIndicator),
+      hasSuffixIndication: () =>
+        !!getElement(ProgressBarDataHooks.suffixIndicator),
+      getSuffixIndicationText: () =>
+        getElement(ProgressBarDataHooks.suffixIndicator).textContent,
     };
 
     return driver;

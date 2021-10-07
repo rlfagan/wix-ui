@@ -9,6 +9,8 @@ export enum ProgressBarDataHooks {
   successIcon = 'success-icon',
   errorIcon = 'error-icon',
   progressPercentage = 'progress-percentages',
+  prefixIndicator = 'prefix-indicator',
+  suffixIndicator = 'suffix-indicator',
 }
 
 /**
