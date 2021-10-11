@@ -1628,7 +1628,7 @@ export const generalIconsMetadata: Array<IconMetadata> = [
   },
   {
     "title": "MinusCircle",
-    "category": "Status",
+    "category": "Actions",
     "description": "",
     "tags": [],
     "sizes": {
