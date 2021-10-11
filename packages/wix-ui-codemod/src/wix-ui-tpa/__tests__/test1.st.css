@@ -1,0 +1,16 @@
+:import {
+  -st-from: "wix-ui-tpa/dist/src/components/Button/Button.st.css";
+  -st-default: Button;
+}
+
+/* Change from : */
+/*:import {*/
+/*  -st-from: "wix-ui-tpa/dist/src/components/Button/Button.st.css";*/
+/*  -st-default: Button;*/
+/*}*/
+
+/* to: */
+/*:import {*/
+/*  -st-from: "wix-ui-tpa/index.st.css";*/
+/*  -st-named: Button;*/
+/*}*/

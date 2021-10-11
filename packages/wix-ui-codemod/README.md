@@ -2,6 +2,8 @@
 This package contains a collection of [jscodeshift](https://github.com/facebook/jscodeshift) codemod scripts to help migrate and adapt Wix UI projects to API changes.
 
 ## Usage
+###For JS codemods:
+
 ```bash
 npx wix-ui-codemod <transform> <path> [...options]
 ```
@@ -11,6 +13,13 @@ npx wix-ui-codemod <transform> <path> [...options]
 - `options` - available options are:
   - `--dry` - run in dry mode (will not modify any transformed files on disk).
   - `--print` - print modified files.
+
+###For Stylable codemods:
+```bash
+npx -p wix-ui-codemod wix-ui-codemod-stylable <path>
+```
+
+- `path` - path to file or directory where the codemod will be applied. For example: `wix-ui-tpa/import-stylesheet-via-index-file`
 
 ## Codemods
 - [wix-style-react](./src/wix-style-react/README.md)

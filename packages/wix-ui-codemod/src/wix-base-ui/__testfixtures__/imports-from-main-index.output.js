@@ -32,4 +32,4 @@ console.log(ResponsiveComposites.MultiInputsInRow);
   <ResponsiveComposites.MultiInputsInRow>
     <Divider />
   </ResponsiveComposites.MultiInputsInRow>
-)
+);

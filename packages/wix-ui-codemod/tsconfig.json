@@ -9,9 +9,11 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es5",
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "allowJs": true
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.js"
   ]
 }

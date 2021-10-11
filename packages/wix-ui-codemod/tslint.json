@@ -1,6 +1,0 @@
-{
-  "extends": "tslint-config-yoshi",
-  "rules": {
-    "quotemark": [true, "single", "avoid-escape"]
-  }
-}

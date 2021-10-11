@@ -105,7 +105,7 @@ const transform: Transform = (file, api) => {
   // Get all relevant CSS imports
   const importCSS = root.find(j.ImportDeclaration).filter((path) =>
     [
-      //path.node.specifiers.length,
+      // path.node.specifiers.length,
       importMatch.test(path.node.source.value as string),
       importCSSMatch.test(path.value.source.value as string),
     ].every(Boolean),
