@@ -753,6 +753,13 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
   tags: ["Hamburger", "Burger"],
   sizes: { "18": "MenuSmall", "24": "Menu" }, 
 },
+{
+  title: "Multireference",
+  category: "General",
+  description: "Button - adds multiple data references",
+  tags: ["reference", "link", "data", "connect"],
+  sizes: { "18": "MultireferenceSmall", "24": "Multireference" },
+ },
   {
     title: "Reference",
     category: "General",
