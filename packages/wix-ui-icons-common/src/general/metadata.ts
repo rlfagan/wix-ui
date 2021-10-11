@@ -754,6 +754,13 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
   sizes: { "18": "MenuSmall", "24": "Menu" }, 
 },
   {
+    title: "Reference",
+    category: "General",
+    description: "Button - adds a single data reference",
+    tags: ["reference", "link", "data", "connect"],
+    sizes: { "18": "ReferenceSmall", "24": "Reference" },
+  },
+  {
     title: "Visible",
     category: "Toggle",
     description:
