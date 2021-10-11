@@ -57,7 +57,6 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   _extractRef = (ref) => {
     const { inputRef } = this.props;
-
     this.checkbox = ref;
     if (inputRef) {
       inputRef(ref);
