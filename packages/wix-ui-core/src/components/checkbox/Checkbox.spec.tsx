@@ -59,6 +59,16 @@ describe('Checkbox', () => {
         'custom-tickmark',
       );
     });
+
+    it('should pass ref attribute to native checkbox', async () => {
+      const expectedType = 'checkbox';
+      let ref;
+      const inputRef = (input) => (ref = input);
+
+      createDriver(<Checkbox inputRef={inputRef} />);
+
+      expect(ref.type).toEqual(expectedType);
+    });
   });
 
   describe('Indeterminate', () => {

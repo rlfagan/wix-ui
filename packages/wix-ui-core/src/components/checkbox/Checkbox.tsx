@@ -28,6 +28,7 @@ export interface CheckboxProps extends React.InputHTMLAttributes<HTMLElement> {
   indeterminate?: boolean;
   'aria-invalid'?: React.AriaAttributes['aria-invalid'];
   'aria-describedby'?: React.AriaAttributes['aria-describedby'];
+  inputRef?(input: HTMLInputElement): void;
 }
 
 export interface CheckboxState {
@@ -52,6 +53,15 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   focus() {
     this.checkbox?.focus();
+  };
+
+  _extractRef = (ref) => {
+    const { inputRef } = this.props;
+
+    this.checkbox = ref;
+    if (inputRef) {
+      inputRef(ref);
+    }
   };
 
   public render() {
@@ -91,7 +101,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           onKeyDown={this.handleInputKeyDown}
           onFocus={this.handleInputFocus}
           onBlur={this.handleInputBlur}
-          ref={(ref) => (this.checkbox = ref)}
+          ref={this._extractRef}
           //temp fix
           checked={checked}
           disabled={disabled}
