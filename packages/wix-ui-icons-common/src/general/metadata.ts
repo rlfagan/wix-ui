@@ -2466,6 +2466,14 @@ sizes: { "18": "ESignatureSmall", "24": "ESignature" },
     tags: ["rich text", "text"],
     sizes: { "18": "TextJustifySmall", "24": "TextJustify" },
   },
+{
+    title: "Italic",
+    category: "Text",
+    description:
+      "Button - sets text to italic",
+    tags: ["rich text", "text"],
+    sizes: { "18": "ItalicSmall", "24": "Italic" },
+  },
   {
     title: "PremiumMove",
     category: "Wix Brands",
