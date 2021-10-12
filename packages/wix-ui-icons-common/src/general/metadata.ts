@@ -775,6 +775,13 @@ sizes: { "18": "SidebarUndockSmall", "24": "SidebarUndock" },
   sizes: { "18": "ArraySmall", "24": "Array" },
 },
   {
+    title: "CodeObject",
+    category: "General",
+    description: "Buttons - shows a data object (in code)",
+    tags: ["object", "code", "data"],
+    sizes: { "18": "CodeObjectSmall", "24": "CodeObject" },
+  },
+  {
     title: "Visible",
     category: "Toggle",
     description:
