@@ -3,6 +3,48 @@ import { IconMetadata } from "../types";
 export const deprecatedGeneralIcons: Array<string> = ["FilterSmall"];
 
 const generalIconsMetadata: Array<IconMetadata> = [
+   {
+    title: "PaddingVertical",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding between objects vertically",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingVerticalSmall", "24": "PaddingVertical" },
+   },
+   {
+    title: "PaddingHorizontal",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding between objects horizontally",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingHorizontalSmall", "24": "PaddingHorizontal" },
+   },
+   {
+    title: "PaddingLeft",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding to the left side of the object",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingLeftSmall", "24": "PaddingLeft" },
+   },	
+   {
+    title: "PaddingRight",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding to the right side of the object",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingRightSmall", "24": "PaddingRight" },
+   },	
+   {
+    title: "PaddingBottom",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding to the bottom of the object",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingBottomSmall", "24": "PaddingBottom" },
+  },	
+  {
+    title: "PaddingTop",
+    category: "Composer Layers & Alignment",
+    description: "Button - adds padding to the top of the object",
+    tags: ["spacing", "margins", "distance"],
+    sizes: { "18": "PaddingTopSmall", "24": "PaddingTop" },
+  },	
   {
     title: "DataDisconnect",
     category: "General",
