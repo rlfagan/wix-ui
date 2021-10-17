@@ -269,11 +269,25 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     sizes: { "20":"TagFillSmall", "24":"TagFill" },
   },
   {
+    title: "Like",
+    category: "General",
+    description: "",
+    tags: [],
+    sizes: { "24":"Like" },
+  },
+  {
     title: "ThumbUp",
     category: "General",
     description: "",
     tags: [],
     sizes: { "24":"ThumbUp" },
+  },
+  {
+    title: "ThumbUpFill",
+    category: "General",
+    description: "",
+    tags: [],
+    sizes: { "24":"ThumbUpFill" },
   },
   {
     title: "User",
@@ -579,9 +593,9 @@ const tpaIconsMetadata: Array<IconMetadata> = [
   {
     title: "NotificationsFill",
     category: "Notifications",
-    description: "",
+    description: '',
     tags: [],
-    sizes: {"20":"NotificationsFillSmall" },
+    sizes: {"20":"NotificationsFillSmall", "24": "NotificationsFill" },
   },
   {
     title: "ChevronDown",
@@ -974,6 +988,38 @@ const tpaIconsMetadata: Array<IconMetadata> = [
     description: "",
     tags: [],
     sizes: { "24":"Youtube" },
+  },
+  {
+    title: "PinFill",
+    category: "General",
+    description: `Use For:
+    Button - pin a comment or post at the top
+    Static Item- an indication that an item has been pulled at the top`,
+    tags: [],
+    sizes: { "24":"PinFill" },
+  },
+  {
+    title: "ReactionFill",
+    category: "General",
+    description: `Use For:
+    Button - Marking reactions
+    Static Item- Indication of reaction`,
+    tags: [],
+    sizes: { "24":"ReactionFill" },
+  },
+  {
+    title: "Home",
+    category: "General",
+    description: 'Used with buttons to take the user to the home page on click',
+    tags: [],
+    sizes: { "24":"Home" },
+  },
+  {
+    title: "Explore",
+    category: "General",
+    description: 'Used with buttons to open an Explore page',
+    tags: [],
+    sizes: { "24":"Explore" },
   },
 ];
 
