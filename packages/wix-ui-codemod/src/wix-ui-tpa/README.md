@@ -38,19 +38,19 @@ into 🟢 ⤵️
 ```css
 :import {
    -st-from: "wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css";
-   -st-default: ComponentName as SomeName;
+   -st-default: SomeName;
 }
 ```
 
 into 🟢 ⤵️
 ```css
 :import {
-  -st-from: "wix-ui-tpa/index.st.css";
-  -st-named: ComponentName as SomeName;
+   -st-from: "wix-ui-tpa/index.st.css";
+   -st-named: ComponentName as SomeName;
 }
 ```
 
-3. 🔴 Change from this
+3. 🔴 Change from this:
 
 ```css
 :import {
@@ -67,7 +67,7 @@ into 🟢 ⤵️️
 }
 ```
 
-4. 🔴 Change from this
+4. 🔴 Change from this:
 
 ```css
 :import {
@@ -84,8 +84,42 @@ into 🟢 ⤵️️
 }
 ```
 
-
 5. 🔴 Change from this:
+
+```css
+:import {
+    -st-from: "wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css";
+    -st-named: class1, class2;
+}
+```
+
+into 🟢 ⤵️️
+```css
+:import {
+    -st-from: "wix-ui-tpa/index.st.css";
+    -st-named: ComponentName__class1, ComponentName__class2;
+}
+```
+
+6. 🔴 Change from this:
+
+```css
+:import {
+    -st-from: "wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css";
+    -st-named: class1 as someName1, class2 as someName2, class3;
+}
+```
+
+into 🟢 ⤵️️
+```css
+:import {
+    -st-from: "wix-ui-tpa/index.st.css";
+    -st-named: ComponentName__class1 as someName1, ComponentName__class2 as someName2, ComponentName__class3;
+}
+```
+
+
+7. 🔴 Change from this:
 ```css
    :import {
     -st-from: "wix-ui-tpa/dist/src/common/formatters.st";
@@ -101,7 +135,7 @@ into 🟢 ⤵️
    }
 ```
 
-6. 🔴 Change from this:
+8. 🔴 Change from this:
 ```css
    :import {
     -st-from: "wix-ui-tpa/dist/src/common/formatters.st";
@@ -128,21 +162,21 @@ Support also the new format:
 
 into 🟢 ⤵️
 ```css
-    @st-import ComponentName from 'wix-ui-tpa/index.st.css';
+    @st-import [ComponentName] from 'wix-ui-tpa/index.st.css';
 ```
 
 2. 🔴 Change from this:
 
 ```css
-    @st-import ComponentName as SomeName from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
+    @st-import CustomName from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
 ```
 
 into 🟢 ⤵️
 ```css
-    @st-import ComponentName as SomeName from 'wix-ui-tpa/index.st.css';
+    @st-import [ComponentName as CustomName] from 'wix-ui-tpa/index.st.css';
 ```
 
-3. 🔴 Change from this
+3. 🔴 Change from this:
 
 ```css
     @st-import [overrideStyleParams] from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
@@ -153,15 +187,26 @@ into 🟢 ⤵️️
     @st-import [ComponentName__overrideStyleParams] from 'wix-ui-tpa/index.st.css';
 ```
 
-4. 🔴 Change from this
+4. 🔴 Change from this:
 
 ```css
-    @st-import [overrideStyleParams as SomeName] from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
+    @st-import ComponentName, [overrideStyleParams as SomeName] from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
 ```
 
 into 🟢 ⤵️️
 ```css
     @st-import [ComponentName__overrideStyleParams as SomeName] from 'wix-ui-tpa/index.st.css';
+```
+
+4. 🔴 Change from this:
+
+```css
+    @st-import CustomName, [overrideStyleParams as SomeName] from 'wix-ui-tpa/dist/src/components/ComponentName/ComponentName.st.css';
+```
+
+into 🟢 ⤵️️
+```css
+    @st-import [ComponentName as CustomName, ComponentName__overrideStyleParams as SomeName] from 'wix-ui-tpa/index.st.css';
 ```
 
 5. 🔴 Change from this:

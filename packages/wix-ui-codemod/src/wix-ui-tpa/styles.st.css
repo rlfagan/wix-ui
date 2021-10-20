@@ -1,0 +1,1 @@
+@st-import [Button as TPAButton, Button__overrideStyleParams as SomeName, Button__someClassButton as CustomName] from "wix-ui-tpa/index.st.css";
