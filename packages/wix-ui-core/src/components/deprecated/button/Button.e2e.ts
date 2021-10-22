@@ -1,4 +1,4 @@
-import * as eyes from 'eyes.it';
+import eyes from 'eyes.it';
 import { browser, ExpectedConditions as EC } from 'protractor';
 import {
   createStoryUrl,

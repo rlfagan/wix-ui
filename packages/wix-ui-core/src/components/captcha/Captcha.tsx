@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Reaptcha from 'reaptcha';
+import Reaptcha from 'reaptcha';
 import { Size, CaptchaType, Theme, CaptchaLang } from './types';
 import { st, classes } from './Captcha.st.css';
 import { filterDataProps } from '../../utils/filter-data-props';

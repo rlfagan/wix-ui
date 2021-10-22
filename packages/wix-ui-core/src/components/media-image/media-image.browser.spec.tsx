@@ -6,8 +6,8 @@ import {
   MediaImage,
   MediaImageScaling,
 } from './media-image';
-import * as imageClientSDK from 'image-client-api/dist/imageClientSDK';
-import * as eventually from 'wix-eventually';
+import imageClientSDK from 'image-client-api/dist/imageClientSDK';
+import eventually from 'wix-eventually';
 import { BROKEN_SRC, ERROR_IMAGE_SRC, SRC } from '../image/test-fixtures';
 import { FALLBACK_IMAGE } from '../image';
 

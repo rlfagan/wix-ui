@@ -4,7 +4,7 @@ import {
   waitForVisibilityOf,
 } from 'wix-ui-test-utils/protractor';
 import { browser } from 'protractor';
-import * as eyes from 'eyes.it';
+import eyes from 'eyes.it';
 import { Category } from '../../../stories/utils';
 
 describe('Pagination', () => {

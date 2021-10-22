@@ -1,4 +1,4 @@
-import * as hexToRgb from './index';
+import hexToRgb from './index';
 
 describe('HexToRgb', () => {
   const redHex = '#FF0000';

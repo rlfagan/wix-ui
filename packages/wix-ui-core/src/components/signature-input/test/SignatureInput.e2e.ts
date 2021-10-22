@@ -1,4 +1,4 @@
-import * as eyes from 'eyes.it';
+import eyes from 'eyes.it';
 import { signatureInputTestkitFactory } from '../../../testkit/protractor';
 import { createStoryUrl } from 'wix-ui-test-utils/protractor';
 import { browser } from 'protractor';

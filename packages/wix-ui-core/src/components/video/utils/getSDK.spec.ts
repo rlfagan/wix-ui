@@ -1,4 +1,4 @@
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import { getSDK, mockLoadjs } from './getSDK';
 
 describe('Video/getSDK', () => {

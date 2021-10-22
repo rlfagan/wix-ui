@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import { queryHook } from 'wix-ui-test-utils/dom';
 import { AppendTo } from './Popover';
 import { createModifiers } from './modifiers';

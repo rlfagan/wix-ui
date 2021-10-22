@@ -1,6 +1,6 @@
 import { Simulate } from 'react-dom/test-utils';
 import { queryHook, queryHookAll } from 'wix-ui-test-utils/dom';
-import * as waitForCond from 'wait-for-cond';
+import waitForCond from 'wait-for-cond';
 
 export class AddressInputPrivateDriver {
   constructor(public root: HTMLElement) {}

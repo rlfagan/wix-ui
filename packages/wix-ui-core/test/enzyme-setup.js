@@ -7,8 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 // which is invalid in jest (as a default import) - this will be solved
 // by migarting jest configuration to yoshi 4
 
-jest.mock('signature_pad', () => ({
-  default: function MockSignaturePad() {
+jest.mock('signature_pad', () => function MockSignaturePad() {
     this.clear = jest.fn();
     this.off = jest.fn();
     this.on = jest.fn();
@@ -18,5 +17,4 @@ jest.mock('signature_pad', () => ({
     this.fromDataURL = jest.fn();
     this.isEmpty = jest.fn();
     this.onEnd = jest.fn();
-  }
-}));
+});

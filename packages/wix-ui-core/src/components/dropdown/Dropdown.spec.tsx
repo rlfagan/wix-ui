@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 import { ReactDOMTestContainer } from '../../../test/dom-test-container';
 import { dropdownDriverFactory } from './Dropdown.driver';
 import { Dropdown } from './';

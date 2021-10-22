@@ -1,4 +1,4 @@
-import * as waitForCond from 'wait-for-cond';
+import waitForCond from 'wait-for-cond';
 import {
   createAddress,
   createGeocode,

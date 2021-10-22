@@ -4,7 +4,7 @@ import { imageDriverFactory } from './image.driver.private';
 import { Image } from './image';
 import { FALLBACK_IMAGE } from './consts';
 import { SRC, BROKEN_SRC, ERROR_IMAGE_SRC } from './test-fixtures';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 
 describe('Image', () => {
   const testContainer = new ReactDOMTestContainer().unmountAfterEachTest();

@@ -1,5 +1,5 @@
-import * as eyes from 'eyes.it';
-import * as eventually from 'wix-eventually';
+import eyes from 'eyes.it';
+import eventually from 'wix-eventually';
 import { browser } from 'protractor';
 import {
   createStoryUrl,

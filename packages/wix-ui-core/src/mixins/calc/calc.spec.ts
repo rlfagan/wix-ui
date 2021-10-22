@@ -1,4 +1,4 @@
-import * as calc from './index';
+import calc from './index';
 
 describe('calc mixin', () => {
   it('should calculate an expression with no units', () => {

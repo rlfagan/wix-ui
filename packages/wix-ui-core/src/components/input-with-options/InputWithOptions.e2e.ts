@@ -1,4 +1,4 @@
-import * as eyes from 'eyes.it';
+import eyes from 'eyes.it';
 import { browser } from 'protractor';
 import {
   waitForVisibilityOf,

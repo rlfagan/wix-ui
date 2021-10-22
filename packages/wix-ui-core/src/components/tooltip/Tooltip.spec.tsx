@@ -9,7 +9,7 @@ import { tooltipPrivateDriverFactory } from './Tooltip.private.uni.driver';
 import { ButtonNext } from '../button-next';
 import { Tooltip } from './';
 import * as Tooltipas from '../tooltip-next';
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 
 const { TooltipNext } = Tooltipas;
 

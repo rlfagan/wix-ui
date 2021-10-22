@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { createRendererWithDriver, cleanup } from '../../../test/utils/react';
 
-import * as eventually from 'wix-eventually';
+import eventually from 'wix-eventually';
 
 import { TooltipProps } from '../tooltip';
 
