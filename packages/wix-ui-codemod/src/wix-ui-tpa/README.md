@@ -2,6 +2,7 @@
 
 ## Codemods
 1. [Import stylesheet via index.st.css](#wix-base-uiimport-stylesheet-via-index-file)
+2. [Replace old icon imports]
 ---
 
 ### wix-ui-tpa/import-stylesheet-via-index-file
@@ -227,4 +228,27 @@ into 🟢 ⤵️
 into 🟢 ⤵️
 ```css
     @st-import [font as SomeName] from 'wix-ui-tpa/style-processor-formatters';
+```
+
+### wix-ui-tpa/replace-old-icon-imports
+```bash
+npx wix-ui-codemod wix-ui-tpa/replace-old-icon-imports <PATH_TO_A_FILE/FOLDER>
+```
+
+This codemod will replace the `wix-ui-tpa` deprecated icon imports via the `dist` folder to the the new icon imports.
+
+It transforms the imports in the following way:
+
+1. Default import
+
+```diff
+- import { ReactComponent as Calendar } from 'wix-ui-tpa/dist/src/assets/icons/Calendar.svg’;
++ import Calendar from 'wix-ui-icons-common/on-stage/Calendar';
+```
+
+2. Import with alias
+
+```diff
+- import { ReactComponent as MyCheckAlias } from 'wix-ui-tpa/dist/src/assets/icons/Check.svg';
++ import MyCheckAlias from 'wix-ui-icons-common/on-stage/Check';
 ```
