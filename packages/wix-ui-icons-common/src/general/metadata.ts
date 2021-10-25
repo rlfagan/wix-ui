@@ -3,7 +3,14 @@ import { IconMetadata } from "../types";
 export const deprecatedGeneralIcons: Array<string> = ["FilterSmall"];
 
 const generalIconsMetadata: Array<IconMetadata> = [
-   {
+{
+    title: "TableReservation",
+    category: "General",
+    description: "Button – shows table reservation list",
+    tags: ["table", "card", "reservated"],
+    sizes: { "18": "TableReservationSmall", "24": "TableReservation" },
+   },   
+{
     title: "PaddingVertical",
     category: "Composer Layers & Alignment",
     description: "Button - adds padding between objects vertically",
