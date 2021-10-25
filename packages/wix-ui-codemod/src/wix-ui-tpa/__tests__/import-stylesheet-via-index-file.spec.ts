@@ -58,7 +58,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Button__overrideStyleParams; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Button__overrideStyleParams as overrideStyleParams; }',
       );
     });
 
@@ -86,7 +86,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light, Badge__priority-primary; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as priority-light, Badge__priority-primary as priority-primary; }',
       );
     });
 
@@ -100,7 +100,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary; }',
       );
     });
 
@@ -142,13 +142,13 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary; } :import { -st-from: "wix-ui-tpa/style-processor-formatters"; -st-named: font, color; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary; } :import { -st-from: "wix-ui-tpa/style-processor-formatters"; -st-named: font, color; }',
       );
     });
 
     it('imports with non-standard spaces', () => {
       populateDirectorySync(tempDir.path, {
-        'style.st.css': `:import { -st-from:      "wix-ui-tpa/dist/src/components/Badge/Badge.st.css"; -st-named:    priority-light as light,    priority-primary as primary,     priority-secondary; }`,
+        'style.st.css': `:import { -st-from: "wix-ui-tpa/dist/src/components/Badge/Badge.st.css"; -st-named:    priority-light as light,    priority-primary as primary,     priority-secondary; }`,
       });
 
       runCliCodeMod(['--rootDir', tempDir.path, '-e', rulePath]);
@@ -156,7 +156,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from:      "wix-ui-tpa/index.st.css"; -st-named:    Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named:    Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary; }',
       );
     });
   });
@@ -200,7 +200,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Button__overrideStyleParams] from "wix-ui-tpa/index.st.css";',
+        '@st-import [Button__overrideStyleParams as overrideStyleParams] from "wix-ui-tpa/index.st.css";',
       );
     });
 
@@ -228,7 +228,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Badge__priority-light, Badge__priority-primary] from "wix-ui-tpa/index.st.css";',
+        '@st-import [Badge__priority-light as priority-light, Badge__priority-primary as priority-primary] from "wix-ui-tpa/index.st.css";',
       );
     });
 
@@ -242,7 +242,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary] from "wix-ui-tpa/index.st.css";',
+        '@st-import [Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary] from "wix-ui-tpa/index.st.css";',
       );
     });
 
@@ -256,7 +256,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary] from "wix-ui-tpa/index.st.css";',
+        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary] from "wix-ui-tpa/index.st.css";',
       );
     });
 
@@ -270,7 +270,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary] from "wix-ui-tpa/index.st.css";',
+        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary] from "wix-ui-tpa/index.st.css";',
       );
     });
 
@@ -312,7 +312,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary] from "wix-ui-tpa/index.st.css"; @st-import [font as fontFormatter, fallback, color as colorFormatter] from "wix-ui-tpa/style-processor-formatters";',
+        '@st-import [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary] from "wix-ui-tpa/index.st.css"; @st-import [font as fontFormatter, fallback, color as colorFormatter] from "wix-ui-tpa/style-processor-formatters";',
       );
     });
 
@@ -326,7 +326,7 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        '@st-import   [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary] from "wix-ui-tpa/index.st.css";',
+        '@st-import   [Badge as TPABadge, Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary] from "wix-ui-tpa/index.st.css";',
       );
     });
   });

@@ -89,7 +89,7 @@ const replaceNamedImportWithPrefixNamedImport = (exportsNames, prefix) => {
       const splittedNamedImport = getExportsNameAndAlias(exportsName);
       newExportsNameValue = `${prefix}__${splittedNamedImport.exportsName} as ${splittedNamedImport.alias}`;
     } else {
-      newExportsNameValue = `${prefix}__${exportsName}`;
+      newExportsNameValue = `${prefix}__${exportsName} as ${exportsName}`;
     }
     return newExportsNameValue;
   });
