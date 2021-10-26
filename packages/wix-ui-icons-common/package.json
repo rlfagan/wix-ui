@@ -44,7 +44,7 @@
     "buildClassicEditorSystemIcons": "svg2react-icon --typescript --monochrome  src/classic-editor/system/raw src/classic-editor/system/dist",
     "create-aliases": "npm run create-wsr-aliases && npm run create-classic-editor-aliases && npm run create-on-stage-aliases",
     "create-on-stage-aliases": "npm run create-on-stage-general-aliases && npm run create-on-stage-system-aliases && npm run create-on-stage-reactions-aliases",
-    "create-on-stage-general-aliases": "node ./scripts/create-aliases.js ./dist/src/on-stage/general/dist/components on-stage",
+    "create-on-stage-general-aliases": "node ./scripts/create-aliases.js ./dist/src/on-stage/general/dist/components on-stage on-stage",
     "create-on-stage-system-aliases": "node ./scripts/create-aliases.js ./dist/src/on-stage/system/dist/components on-stage/system ./dist/src/on-stage/system/dist",
     "create-on-stage-reactions-aliases": "node ./scripts/create-aliases.js ./dist/src/on-stage/reactions/dist/components on-stage/reactions ./dist/src/on-stage/reactions/dist",
     "create-wsr-aliases": "npm run create-wsr-general-aliases && npm run create-wsr-system-aliases",
