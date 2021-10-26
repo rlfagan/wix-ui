@@ -1,6 +1,9 @@
-const snippetDatastoreUrl = `https://www.wix.com/_serverless/wix-style-react-playground/snippet`;
+const defaultSnippetDatastoreUrl = `https://www.wix.com/_serverless/wix-style-react-playground/snippet`;
 
-export const loadSnippet = async (snippetId: string) => {
+export const loadSnippet = async (
+  snippetId: string,
+  snippetDatastoreUrl = defaultSnippetDatastoreUrl,
+) => {
   try {
     const response = await fetch(`${snippetDatastoreUrl}/${snippetId}`);
     const { isSafe, code } = await response.json();
@@ -18,7 +21,10 @@ export const loadSnippet = async (snippetId: string) => {
   }
 };
 
-export const saveSnippet = async (code: string): Promise<string> => {
+export const saveSnippet = async (
+  code: string,
+  snippetDatastoreUrl = defaultSnippetDatastoreUrl,
+): Promise<string> => {
   try {
     const response = await fetch(snippetDatastoreUrl, {
       method: 'POST',

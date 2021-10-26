@@ -31,6 +31,7 @@ interface State {
 }
 
 interface Props extends LiveCodeExampleProps {
+  snippetDatastoreUrl?: string;
   formatSnippetUrl(snippetId: string): string;
 }
 
@@ -41,6 +42,7 @@ let dirty = false;
 const Playground: React.FunctionComponent<Props> = ({
   initialCode = '',
   formatSnippetUrl,
+  snippetDatastoreUrl,
   ...rest
 }) => {
   const initialState: State = {
@@ -65,7 +67,7 @@ const Playground: React.FunctionComponent<Props> = ({
 
     if (snippetId) {
       setState({ viewState: ViewState.Loading });
-      loadSnippet(snippetId)
+      loadSnippet(snippetId, snippetDatastoreUrl)
         .then(loaded =>
           setState({
             loadedCode: formatCode(loaded.code),
@@ -118,7 +120,7 @@ const Playground: React.FunctionComponent<Props> = ({
       <TextButton
         onClick={() => {
           setState({ viewState: ViewState.Saving });
-          saveSnippet(state.editorCode)
+          saveSnippet(state.editorCode, snippetDatastoreUrl)
             .then(snippetId =>
               setState({ snippetId, viewState: ViewState.SaveSuccess }),
             )
