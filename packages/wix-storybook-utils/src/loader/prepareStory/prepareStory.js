@@ -5,6 +5,14 @@ const parse = require('react-autodocs-utils/src/parser/parse');
 const print = require('react-autodocs-utils/src/parser/print');
 const get = require('react-autodocs-utils/src/get');
 
+// pre storybook 6 era storybook configuration
+const createTitlePreEra = () => {
+  const raw =
+    '${storybookUtilsConfig.category}/${storybookUtilsConfig.storyName}';
+
+  return types.templateLiteral([types.templateElement({ raw })], []);
+};
+
 const prepareStory = (storyConfig, sourcePath) => (source) =>
   new Promise((resolve, reject) => {
     const isError = !source && !storyConfig && !sourcePath;
@@ -14,9 +22,7 @@ const prepareStory = (storyConfig, sourcePath) => (source) =>
         )
       : resolve(source);
   })
-
     .then(parse)
-
     .then((ast) => {
       let isES5 = true;
 
@@ -30,21 +36,15 @@ const prepareStory = (storyConfig, sourcePath) => (source) =>
       if (isES5) {
         // add requires
         ast.program.body.unshift(
-          parse('const { storiesOf } = require("@storybook/react")'),
-        );
-        ast.program.body.unshift(
-          parse('const story = require("wix-storybook-utils/Story").default'),
+          parse(
+            'const StoryPage = require("wix-storybook-utils/StoryPage").default',
+          ),
         );
       } else {
-        // add imports
         ast.program.body.unshift(
-          parse('import { storiesOf } from "@storybook/react"'),
-        );
-        ast.program.body.unshift(
-          parse('import story from "wix-storybook-utils/Story"'),
+          parse('import StoryPage from "wix-storybook-utils/StoryPage"'),
         );
       }
-
       return ast;
     })
     .then((ast) => {
@@ -52,84 +52,126 @@ const prepareStory = (storyConfig, sourcePath) => (source) =>
       // rejected promise from within visitor, babylon complains
       let error = null;
 
-      const configAST = parse(`(${JSON.stringify(storyConfig)})`);
-      let configProperties;
+      const enhanceWithMetadata = (declaration) => {
+        const configAST = parse(`(${JSON.stringify(storyConfig)})`);
+        let configProperties = null;
 
-      visit(configAST)({
-        ObjectExpression(path) {
-          const storiesOfProperty = types.objectProperty(
-            types.identifier('storiesOf'),
-            types.identifier('storiesOf'),
-          );
+        visit(configAST)({
+          ObjectExpression(path) {
+            /**
+             *  This below is a feature where user can reference components
+             *  that he would like to see in playgrounds loaded.
+             * */
+            if (storyConfig.playgroundComponentsPath) {
+              // resolving relative path for playgroundComponentsPath
+              const resolvedPath = pathLib.relative(
+                sourcePath,
+                storyConfig.playgroundComponentsPath,
+              );
 
-          if (storyConfig.playgroundComponentsPath) {
-            const playgroundComponentsPath = pathLib.relative(
-              sourcePath,
-              storyConfig.playgroundComponentsPath,
-            );
-            const requireExpression = parse(
-              `require('${playgroundComponentsPath}').default`,
-            ).program.body[0].expression;
-            const playgroundComponentsProperty = types.objectProperty(
-              types.identifier('playgroundComponents'),
-              requireExpression,
-            );
-            path.node.properties.push(playgroundComponentsProperty);
-          }
+              // Creating an expression as require function
+              const requireExpression = parse(
+                `require('${resolvedPath}').default`,
+              ).program.body[0].expression;
 
-          path.node.properties.push(storiesOfProperty);
+              // Creating object property called playgroundComponents
+              const playgroundComponentsProperty = types.objectProperty(
+                types.identifier('playgroundComponents'),
+                requireExpression,
+              );
 
-          configProperties = path.node.properties;
-          path.stop();
-        },
-      });
+              path.node.properties.push(playgroundComponentsProperty);
+            }
 
-      const handleExportObject = (path, node) => {
-        const exportsObject = types.isObjectExpression(node);
-        const exportsIdentifier = types.isIdentifier(node);
+            // metadata values saved
+            configProperties = path.node.properties;
+            path.stop();
+          },
+        });
 
-        if (exportsIdentifier) {
-          const referenceName = node.name;
-          const configObject =
-            path.scope.bindings[referenceName].path.node.init;
+        // here we enhance the general story object with metadata
+        declaration.properties.push(
+          types.objectProperty(
+            types.identifier('_config'),
+            types.objectExpression(configProperties),
+          ),
+        );
 
-          if (!configObject.properties) {
-            error = `ERROR: storybook config must export an object, exporting ${configObject.type} instead`;
-            return false;
-          }
-
-          configObject.properties.push(
-            types.objectProperty(
-              types.identifier('_config'),
-              types.objectExpression(configProperties),
-            ),
-          );
-
-          return types.callExpression(types.identifier('story'), [node]);
-        }
-
-        if (exportsObject) {
-          node.properties.push(
-            types.objectProperty(
-              types.identifier('_config'),
-              types.objectExpression(configProperties),
-            ),
-          );
-
-          // wrap exported object with `story()`
-          return types.callExpression(types.identifier('story'), [node]);
-        }
+        return declaration;
       };
+
+      const createStorybookUtilsConfig = (declaration) => {
+        return types.variableDeclaration('const', [
+          types.variableDeclarator(
+            types.identifier('storybookUtilsConfig'),
+            enhanceWithMetadata(declaration),
+          ),
+        ]);
+      };
+
+      const createJSXStoryPageFunction = () => {
+        const storybookUtilsConfigSpread = types.jSXSpreadAttribute(
+          types.identifier('storybookUtilsConfig'),
+        );
+        const jSXOpeningElement = types.jSXOpeningElement(
+          types.jSXIdentifier('StoryPage'),
+          [storybookUtilsConfigSpread],
+          true,
+        );
+        return types.arrowFunctionExpression(
+          [],
+          types.jSXElement(jSXOpeningElement, null, []),
+        );
+      };
+
+      const createCsfExport = (declaration) => {
+        const title = declaration.properties.find(
+          ({ key }) => key.name === 'title',
+        );
+
+        // Handle storybook 6 and up
+        if (title) {
+          return types.objectExpression([
+            types.objectProperty(types.identifier('title'), title.value),
+            types.objectProperty(
+              types.identifier('component'),
+              createJSXStoryPageFunction(),
+            ),
+          ]);
+        }
+
+        const storyName = declaration.properties.find(
+          ({ key }) => key.name === 'storyName',
+        );
+        const category = declaration.properties.find(
+          ({ key }) => key.name === 'category',
+        );
+
+        // Handle pre storybook 6 era
+        if (storyName && category) {
+          return types.objectExpression([
+            types.objectProperty(
+              types.identifier('title'),
+              createTitlePreEra(),
+            ),
+            types.objectProperty(
+              types.identifier('component'),
+              createJSXStoryPageFunction(),
+            ),
+          ]);
+        }
+
+        return null;
+      };
+
+      let consumerStoryConfig = null;
 
       visit(ast)({
         ExportDefaultDeclaration(path) {
-          ast.program.body.push(
-            handleExportObject(path, path.node.declaration),
-          );
-          path.remove();
+          consumerStoryConfig = path.node.declaration;
+          path.node.declaration = createCsfExport(path.node.declaration);
           return false;
         },
-
         ExpressionStatement(path) {
           const isModuleExports = [
             types.isMemberExpression(path.node.expression.left),
@@ -138,13 +180,26 @@ const prepareStory = (storyConfig, sourcePath) => (source) =>
           ].every(Boolean);
 
           if (isModuleExports) {
-            ast.program.body.push(
-              handleExportObject(path, path.node.expression.right),
-            );
-            path.remove();
+            consumerStoryConfig = path.node.declaration;
+            path.node.declaration = createCsfExport(path);
           }
         },
       });
+
+      // Finding whats the position of export default
+      const exportIndex = ast.program.body.findIndex(
+        ({ type }) => type === 'ExportDefaultDeclaration',
+      );
+      // Save the identifier with all its values
+      const exportItentifier = ast.program.body[exportIndex];
+
+      // Override that position with storybook utils config
+      ast.program.body[exportIndex] = createStorybookUtilsConfig(
+        consumerStoryConfig,
+      );
+
+      // Lets put the module export or export default back at the end
+      ast.program.body[exportIndex + 1] = exportItentifier;
 
       return error ? Promise.reject(error) : ast;
     })

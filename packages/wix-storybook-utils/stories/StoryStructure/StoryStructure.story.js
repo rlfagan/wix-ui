@@ -1,15 +1,14 @@
-import React from 'react'
-import { description } from '../../src/Sections'
+import React from 'react';
+import { description } from '../../src/Sections';
 import Component from '../Component';
 import content from './StoryStructure.content.json';
 import * as examples from './examples';
 import demo from './demo';
 
-const StyleComponent = () => <div>I am cool</div>
+const StyleComponent = () => <div>I am cool</div>;
 
 export default {
-  category: 'StoryStructure',
-  storyName: 'Component',
+  title: 'Amazing',
   component: Component,
   componentPath: '../Component.js',
   story: {
@@ -23,23 +22,28 @@ export default {
       tabs.playground,
       {
         title: 'Custom Section',
-        sections: [description({
-          text: 'I AM SECTION'
-        })]
+        sections: [
+          description({
+            text: 'I AM SECTION',
+          }),
+        ],
       },
       {
         title: 'Custom Section 2',
       },
       {
         title: 'Style API',
-        node: <StyleComponent/>,
-        sections: [description({
-          text: 'I AM SECTION'
-        })]
-      }
+        node: <StyleComponent />,
+        sections: [
+          description({
+            text: 'I AM SECTION',
+          }),
+        ],
+      },
     ],
-    playgroundComponents: (globalComponents) => ({...globalComponents,  StyleComponent})
+    playgroundComponents: (globalComponents) => ({
+      ...globalComponents,
+      StyleComponent,
+    }),
   },
 };
-
-

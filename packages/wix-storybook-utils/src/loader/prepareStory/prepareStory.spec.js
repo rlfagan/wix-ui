@@ -11,6 +11,71 @@ describe('prepareStory', () => {
       ));
   });
 
+  describe.only('csf format', () => {
+    describe('title', () => {
+      it('should include constructed title property [when] provided storyName and category', async () => {
+        const source = `export default { storyName: 'ComponentName', category: 'Cat' };`;
+        const expectation = `const storybookUtilsConfig = {
+  storyName: 'ComponentName',
+  category: 'Cat',
+  _config: {}
+};
+export default {
+  title: \`\${storybookUtilsConfig.category}/\${storybookUtilsConfig.storyName}\`,
+  component: () => <StoryPage {...storybookUtilsConfig} />
+};`;
+
+        expect(await prepareStory({})(source)).toEqual(expectation);
+      });
+
+      it('should include title [when] provided title', async () => {
+        const source = `export default { title: 'hello' };`;
+        const expectation = `const storybookUtilsConfig = {
+  title: 'hello',
+  _config: {}
+};
+export default {
+  title: 'hello',
+  component: () => <StoryPage {...storybookUtilsConfig} />
+};`;
+
+        expect(await prepareStory({})(source)).toEqual(expectation);
+      });
+
+      it('should ignore storyName and category [when] given title', async () => {
+        const source = `export default { title: 'hello', storyName: 'ComponentName', category: 'Cat' };`;
+        const expectation = `const storybookUtilsConfig = {
+  title: 'hello',
+  storyName: 'ComponentName',
+  category: 'Cat',
+  _config: {}
+};
+export default {
+  title: 'hello',
+  component: () => <StoryPage {...storybookUtilsConfig} />
+};`;
+
+        expect(await prepareStory({})(source)).toEqual(expectation);
+      });
+    });
+
+    describe('component', () => {
+      it('should include component with spreaded storybookUtilsConfig', async () => {
+        const source = `export default { title: 'hello' };`;
+        const expectation = `const storybookUtilsConfig = {
+  title: 'hello',
+  _config: {}
+};
+export default {
+  title: 'hello',
+  component: () => <StoryPage {...storybookUtilsConfig} />
+};`;
+
+        expect(await prepareStory({})(source)).toEqual(expectation);
+      });
+    });
+  });
+
   describe('with 2 curried calls', () => {
     it('should return promise', () => {
       expect(prepareStory({})('test').then).toBeDefined();
@@ -21,22 +86,6 @@ describe('prepareStory', () => {
 export default something;`;
 
       return expect(prepareStory({})(source)).rejects.toMatch('ERROR');
-    });
-
-    it('should wrap exported object with `story()`', () => {
-      const source = 'export default { a: 1 };';
-      const expectation = `import story from "wix-storybook-utils/Story";
-
-import { storiesOf } from "@storybook/react";
-
-story({
-  a: 1,
-  _config: {
-    storiesOf: storiesOf
-  }
-})`;
-
-      return expect(prepareStory({})(source)).resolves.toEqual(expectation);
     });
 
     it('should add _config to exported object', () => {

@@ -15,13 +15,13 @@ interface StoryPageProps extends StoryConfig {
   activeTabId?: string;
 }
 
-const prepareMetadata: (StoryPageProps) => Metadata = props => ({
+const prepareMetadata: (StoryPageProps) => Metadata = (props) => ({
   ...props.metadata,
   displayName: props.displayName || props.metadata.displayName,
-  props: omit(props.metadata.props)(prop => props.hiddenProps.includes(prop)),
+  props: omit(props.metadata.props)((prop) => props.hiddenProps.includes(prop)),
 });
 
-const makeSections: (a: StoryPageProps) => Section[] = props =>
+const makeSections: (a: StoryPageProps) => Section[] = (props) =>
   [
     {
       when: props.sections && props.componentPath,
@@ -72,6 +72,7 @@ const StoryPage: React.FunctionComponent<StoryPageProps> = (
     />
   );
 };
+
 StoryPage.defaultProps = {
   config: {
     importFormat: '',
