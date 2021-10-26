@@ -22,6 +22,8 @@ const applyCodemod = (ast, _postCss, replacementsModel) => {
   ast.walkRules((rule) => {
     if (rule.selector === ':import') {
       rule.walkDecls('-st-from', (fromDecl) => {
+        let transformedExportNames = [];
+
         matchedReplacementRule = getMatchedReplacementRule(
           fromDecl.value,
           replacementsModel.rules,
@@ -37,23 +39,28 @@ const applyCodemod = (ast, _postCss, replacementsModel) => {
             );
 
             rule.walkDecls('-st-named', (namedDecl) => {
-              namedDecl.value = replaceNamedImportWithPrefixNamedImport(
-                namedDecl.value,
-                componentName,
+              namedDecl.remove();
+              transformedExportNames.push(
+                replaceNamedImportWithPrefixNamedImport(
+                  namedDecl.value,
+                  componentName,
+                ),
               );
             });
 
             rule.walkDecls('-st-default', (defaultDecl) => {
-              defaultDecl.replaceWith(
-                _postCss.decl({
-                  prop: '-st-named',
-                  value: replaceDefaultWithNamed(
-                    defaultDecl.value,
-                    componentName,
-                  ),
-                }),
+              defaultDecl.remove();
+              transformedExportNames.push(
+                replaceDefaultWithNamed(defaultDecl.value, componentName),
               );
             });
+
+            rule.append(
+              _postCss.decl({
+                prop: '-st-named',
+                value: transformedExportNames.join(', '),
+              }),
+            );
           }
 
           fromDecl.value = JSON.stringify(matchedReplacementRule.changeTo);

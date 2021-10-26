@@ -156,7 +156,21 @@ describe('CLI Codemods st-import-to-at-import', () => {
       const dirContent = loadDirSync(tempDir.path);
 
       expect(dirContent['style.st.css']).toBe(
-        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named:    Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary; }',
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Badge__priority-light as light, Badge__priority-primary as primary, Badge__priority-secondary as priority-secondary; }',
+      );
+    });
+
+    it('named and default', () => {
+      populateDirectorySync(tempDir.path, {
+        'style.st.css': `:import { -st-from: "wix-ui-tpa/dist/src/components/Button/Button.st.css"; -st-named: overrideStyleParams; -st-default: TPAButton; }`,
+      });
+
+      runCliCodeMod(['--rootDir', tempDir.path, '-e', rulePath]);
+
+      const dirContent = loadDirSync(tempDir.path);
+
+      expect(dirContent['style.st.css']).toBe(
+        ':import { -st-from: "wix-ui-tpa/index.st.css"; -st-named: Button__overrideStyleParams as overrideStyleParams, Button as TPAButton; }',
       );
     });
   });
