@@ -3,14 +3,21 @@ import { IconMetadata } from "../types";
 export const deprecatedGeneralIcons: Array<string> = ["FilterSmall"];
 
 const generalIconsMetadata: Array<IconMetadata> = [
-{
+   {
+    title: "Tax",
+    category: "Money",
+    description: "Button – opens tax managment form",
+    tags: ["bill", "payment", "dollars", "customs"],
+    sizes: { "18": "TaxSmall", "24": "Tax" },
+   }, 
+   {
     title: "TableReservation",
     category: "General",
     description: "Button – shows table reservation list",
-    tags: ["table", "card", "reservated"],
+    tags: ["restaurant", "card", "reserved", "booked"],
     sizes: { "18": "TableReservationSmall", "24": "TableReservation" },
    },   
-{
+   {
     title: "PaddingVertical",
     category: "Composer Layers & Alignment",
     description: "Button - adds padding between objects vertically",
