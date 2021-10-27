@@ -60,6 +60,13 @@ const generalIconsMetadata: Array<IconMetadata> = [
     sizes: { "18": "PaddingTopSmall", "24": "PaddingTop" },
   },	
   {
+    title: "Shipping",
+    category: "Actions",
+    description: "Button - opens shipping settings",
+    tags: ["truck", "shipment", "post", "dispatch"],
+    sizes: { "18": "ShippingSmall", "24": "Shipping" },
+  },	
+  {
     title: "DataDisconnect",
     category: "General",
     description: "Button - detaches two objects",
