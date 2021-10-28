@@ -1,0 +1,46 @@
+@st-import [B10, B50, D10, G10, D10-006, D10-012] from "../Foundation/colors.st.css";
+@st-import [text-tiny-thin, heading-h3] from '../Foundation/typography.st.css';
+
+.root {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.root:hover .link {
+  background-color: value(B50);
+}
+
+.link {
+  display: flex;
+  color: value(B10);
+  padding: 3px;
+  border-radius: 18px;
+  margin-inline-end: 6px;
+  margin-inline-start: -30px;
+}
+
+.title {
+  -st-mixin: heading-h3;
+}
+
+.tooltip {
+  width: 60px;
+  border-radius: 8px;
+  padding: 8px 13px 7px 12px;
+  box-shadow: 0 6px 6px 0 value(D10-006) , 0 0 18px 0 value(D10-012);
+  background-color: value(D10);
+}
+
+.tooltipContent {
+  -st-mixin: text-tiny-thin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 18px;
+}
+
+.tooltip svg {
+  margin-inline-end: 5px;
+  color: value(G10);
+}

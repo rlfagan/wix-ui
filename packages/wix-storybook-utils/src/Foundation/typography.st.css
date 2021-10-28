@@ -1,0 +1,57 @@
+:vars {
+  /* Fonts */
+  wsr-font-family: 'Madefor,"Helvetica Neue",Helvetica,Arial,"メイリオ","meiryo","ヒラギノ角ゴ pro w3","hiragino kaku gothic pro", sans-serif';
+
+  /** Font Weight **/
+  wsr-font-weight-regular: 400;
+  wsr-font-weight-medium: 530;
+  wsr-font-weight-bold: 700;
+
+  /** Text Font Sizes **/
+  wsr-text-font-size-tiny: 12px;
+  wsr-text-font-size-small: 14px;
+  wsr-text-font-size-medium: 16px;
+
+  /** Text Line Height **/
+  wsr-text-line-height-tiny: 15px;
+  wsr-text-line-height-small: 18px;
+  wsr-text-line-height-medium: 24px;
+
+  /** Heading Font Sizes */
+  wsr-heading-font-size-h1: 32px;
+  wsr-heading-font-size-h2: 24px;
+  wsr-heading-font-size-h3: 20px;
+  wsr-heading-font-size-h4: 18px;
+  wsr-heading-font-size-h5: 12px;
+  wsr-heading-font-size-h6: 10px;
+
+  /** Heading Line Height **/
+  wsr-heading-line-height-h1: 42px;
+  wsr-heading-line-height-h2: 30px;
+  wsr-heading-line-height-h3: 24px;
+  wsr-heading-line-height-h4: 24px;
+  wsr-heading-line-height-h5: 24px;
+  wsr-heading-line-height-h6: 18px;
+
+  /** Caption Font Sizes */
+  wsr-caption-font-size-1: 10px;
+
+  /** Caption Font Sizes */
+  wsr-caption-line-height-1: 12px;
+}
+
+
+.text-tiny-thin {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-tiny);
+  font-weight: value(wsr-font-weight-regular);
+  line-height: value(wsr-text-line-height-tiny);
+}
+
+
+.heading-h3 {
+  font-family: value(wsr-font-family);
+  font-size:  value(wsr-heading-font-size-h3);
+  font-weight: value(wsr-font-weight-bold);
+  line-height: value(wsr-heading-line-height-h3);
+}

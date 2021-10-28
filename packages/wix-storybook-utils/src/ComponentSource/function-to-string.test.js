@@ -7,23 +7,23 @@ describe('functionToString', () => {
     it('should convert to arrow function and return it', () => {
       /* tslint:disable */
       function prop(arg) {
-        return "value" + arg;
+        return 'value' + arg;
       }
       /* tslint:enable */
 
-      expect(functionToString(prop)).toEqual(`arg => "value" + arg`);
+      expect(functionToString(prop)).toEqual(`arg => 'value' + arg`);
     });
 
     it('should handle multiple arguments', () => {
       /* tslint:disable */
       function prop(arg1, arg2, arg3) {
-        const anything = "hello";
+        var anything = 'hello';
         return arg1 + arg2 + arg3 + anything;
       }
       /* tslint:enable */
 
       expect(functionToString(prop)).toEqual(`(arg1, arg2, arg3) => {
-  const anything = "hello";
+  var anything = 'hello';
   return arg1 + arg2 + arg3 + anything;
 }`);
     });
@@ -42,7 +42,7 @@ describe('functionToString', () => {
         // intentional ignore
         // @ts-ignore
         return setState({
-          value: value
+          value: value,
         });
       }
       /* tslint:enable */

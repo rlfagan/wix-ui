@@ -1,1 +1,1 @@
-export { AnchoredTitle } from '../../AnchoredTitle'
+export { AnchoredTitle } from '../../AnchoredTitle/AnchoredTitle';

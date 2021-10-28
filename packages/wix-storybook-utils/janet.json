@@ -1,0 +1,6 @@
+{
+  "name": "wix-storybook-utils",
+  "rootDir": "storybook-static",
+  "files": ["*"],
+  "exposure": ["wix-pages"]
+}
