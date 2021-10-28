@@ -1,0 +1,28 @@
+@st-import [D10, D40] from "../Foundation/colors.st.css";
+@st-import [heading-h1, heading-h2, heading-h3] from "../Foundation/typography.st.css";
+
+.root {
+ -st-states: as(enum(h1, h2, h3, h4, h5));
+ color: value(D10);
+}
+
+.root:as(h1) {
+  -st-mixin: heading-h1;
+}
+
+.root:as(h2) {
+  -st-mixin: heading-h2;
+}
+
+.root:as(h3) {
+  -st-mixin: heading-h3;
+}
+
+.root:as(h4) {
+  -st-mixin: heading-h3;
+}
+
+.root:as(h5) {
+  -st-mixin: heading-h3;
+  color: value(D40);
+}

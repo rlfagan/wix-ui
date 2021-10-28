@@ -20,10 +20,6 @@
   margin-inline-start: -30px;
 }
 
-.title {
-  -st-mixin: heading-h3;
-}
-
 .tooltip {
   width: 60px;
   border-radius: 8px;

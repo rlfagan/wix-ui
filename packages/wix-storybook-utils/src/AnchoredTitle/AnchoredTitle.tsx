@@ -4,6 +4,7 @@ import copy from 'copy-to-clipboard';
 import ReactTooltip from 'react-tooltip';
 import addons from '@storybook/addons';
 
+import Heading from '../Heading';
 import { classes } from './AnchoredTitle.st.css';
 
 export const AnchoredTitle = ({ title, children = null }) => {
@@ -48,7 +49,7 @@ export const AnchoredTitle = ({ title, children = null }) => {
       >
         <LinkSmall />
       </a>
-      {!children ? <div className={classes.title}>{title}</div> : children}
+      {!children ? <Heading as="h3">{title}</Heading> : children}
       <ReactTooltip
         id={id}
         effect="solid"
