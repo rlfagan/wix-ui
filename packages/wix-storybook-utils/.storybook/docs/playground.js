@@ -3,6 +3,7 @@ import { default as Button } from '../../src/ui/button';
 import { default as TextButton } from '../../src/TextButton';
 import Heading from '../../src/Heading';
 import Text from '../../src/Text';
+import DoDont from '../../src/DoDont';
 import { StorybookComponents } from '../../src/StorybookComponents';
 
 export default {
@@ -12,4 +13,5 @@ export default {
   Heading,
   Text,
   StorybookComponents,
+  DoDont,
 };

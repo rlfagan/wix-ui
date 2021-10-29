@@ -22,7 +22,6 @@
   "scripts": {
     "lint": "yoshi lint",
     "build": "yoshi build && import-path --path src",
-    "postbuild": "npm run docs:sections",
     "pretest": "npm run lint",
     "test": "npm run test:unit && npm run test:visual",
     "posttest": "SKIP_THREAD_LOADER=true build-storybook -c ./.storybook/docs && npx janet deploy --ci",

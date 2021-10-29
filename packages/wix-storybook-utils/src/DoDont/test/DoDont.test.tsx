@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import { DoDont } from './DoDont';
+import DoDont from '../DoDont';
 
 const doList = [
   'Use it to insert names, titles and other short textual information.',
@@ -43,8 +43,6 @@ describe('DoDont', () => {
     };
     const container = render(<DoDont {...props} />);
 
-    expect(container.getByText(`Don't`).textContent).toBe(
-      `Don't`,
-    );
+    expect(container.getByText(`Don't`).textContent).toBe(`Don't`);
   });
 });

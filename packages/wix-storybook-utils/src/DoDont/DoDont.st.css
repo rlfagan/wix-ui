@@ -1,5 +1,5 @@
-@import '../ui/colors.scss';
-@import '../ui/typography.scss';
+
+@st-import [D56, G20, R20, G10, R10, D80] from "../Foundation/colors.st.css";
 
 .root {
   display: flex;
@@ -10,33 +10,38 @@
 }
 
 .block {
+  -st-states: skin(enum(green, red)), full;
   display: flex;
   flex-direction: column;
   width: 50%;
-  background-color: #f7f9fb;
+  background-color: value(D56);
   border: 1px solid #e5e5e5;
   padding: 18px 24px;
 }
 
-.blockFull {
+.block:skin(green) {
+  border-top: 6px solid value(G20);
+}
+
+.block:skin(red) {
+  border-top: 6px solid value(R20);
+}
+
+.block:full {
   width: 100%;
 }
 
-.blockDo {
-  border-top:  6px solid $G20;
-}
-
-.blockDont {
-  border-top: 6px solid $R20;
-}
-
 .title {
-  @include font();
-  @include fontWeight(bold);
-  font-size: 16px;
-  line-height: 1.5;
+  -st-states: skin(enum(green, red));
   margin-bottom: 15px;
-  line-height: 24px;
+}
+
+.title:skin(green) {
+  color: value(G10);
+}
+
+.title:skin(red) {
+  color: value(R10);
 }
 
 .list {
@@ -46,11 +51,8 @@
 }
 
 .listItem {
-  @include font();
-  @include fontWeight(medium);
   display: flex;
   align-items: flex-start;
-  font-size: 16px;
 }
 
 .dismissContainer {
@@ -59,26 +61,21 @@
   margin-right: 8px;
   display: flex;
   align-items: center;
+  margin-top: 4px;
 }
 
 .dismissIcon {
-  background-color: $R10;
+  background-color: value(R10);
   border-radius: 50%;
-  color: white;
+  color: value(D80);
   width: 14px;
   height: 14px;
 }
 
 .completeIcon {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
   margin-right: 8px;
-  color: $G10;
+  color: value(G10);
 }
-
-.red {
-  color: $R10;
-}
-
-.green {
-  color: $G10;
-}
-

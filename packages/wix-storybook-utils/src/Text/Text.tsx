@@ -8,6 +8,8 @@ export type TextProps = {
   secondary?: boolean;
   light?: boolean;
   children?: React.ReactNode;
+  className?: string;
+  as?: 'span' | 'p';
 };
 
 const Text: React.FC<TextProps> = ({
@@ -16,13 +18,16 @@ const Text: React.FC<TextProps> = ({
   secondary,
   light,
   children,
-}) => (
-  <p className={st(classes.root, { size, weight, secondary, light })}>
-    {children}
-  </p>
-);
+  className,
+  as,
+}) =>
+  React.createElement(as, {
+    className: st(classes.root, { size, weight, secondary, light }, className),
+    children,
+  });
 
 Text.defaultProps = {
+  as: 'p',
   size: 'medium',
   weight: 'thin',
 };

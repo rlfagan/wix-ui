@@ -8,6 +8,10 @@ text-medium-thin, text-medium-normal, text-medium-bold
 .root {
  -st-states: size(enum(tiny,small,medium)), weight(enum(thin,normal,bold)), secondary, light;
  color: value(D10);
+ margin-block-start: 0em;
+ margin-block-end: 0em;
+ margin-inline-start: 0px;
+ margin-inline-end: 0px;
 }
 
 .root:size(tiny):weight(thin)  {

@@ -1,19 +1,23 @@
-import * as React from 'react';
-import classnames from 'classnames';
+import React from 'react';
+
+import Text from '../Text';
+import { st, classes } from './DoDont.st.css';
 
 import { StatusCompleteFilledSmall, DismissSmall } from 'wix-ui-icons-common';
-import { DoDontProps } from './DoDont.types';
 
-import styles from './styles.scss';
+export type DoDontProps = {
+  do?: { title?: string; list: String[] };
+  dont?: { title?: string; list: String[] };
+};
 
 const DismisIcon = () => (
-  <div className={styles.dismissContainer}>
-    <DismissSmall className={styles.dismissIcon} />
+  <div className={classes.dismissContainer}>
+    <DismissSmall className={classes.dismissIcon} />
   </div>
 );
 
 const CompleteIcon = () => (
-  <div className={styles.completeIcon}>
+  <div className={classes.completeIcon}>
     <StatusCompleteFilledSmall />
   </div>
 );
@@ -21,58 +25,46 @@ const CompleteIcon = () => (
 const List: React.FC<{
   list: DoDontProps['do']['list'];
   skin: 'red' | 'green';
-}> = props => (
-  <div className={styles.list}>
-    {props.list.map((item, id) => (
-      <div key={id} className={styles.listItem}>
-        {props.skin === 'red' ? <DismisIcon /> : <CompleteIcon />}
-        <div>{item}</div>
-      </div>
+}> = ({ skin, list }) => (
+  <div className={classes.list}>
+    {list.map((item, id) => (
+      <Text as="span" key={id} weight="normal" className={classes.listItem}>
+        {skin === 'red' ? <DismisIcon /> : <CompleteIcon />}
+        {item}
+      </Text>
     ))}
   </div>
 );
 
-const Title: React.FC<{
-  title: DoDontProps['do']['title'];
-  skin?: 'red' | 'green';
-}> = props => (
-  <div
-    className={classnames(styles.title, {
-      [styles.red]: props.skin === 'red',
-      [styles.green]: props.skin === 'green',
-    })}
-  >
-    {props.title
-      ? props.title
-      : props.skin === 'red'
-      ? `Don't`
-      : `Do`}
+const Block: React.FC<{
+  full: boolean;
+  skin: 'red' | 'green';
+  dataHook: string;
+}> = ({ skin, full, children, dataHook }) => (
+  <div data-hook={dataHook} className={st(classes.block, { skin, full })}>
+    {children}
   </div>
 );
 
-export const DoDont = (props: DoDontProps) => (
-  <div className={styles.root}>
+const DoDont: React.FC<DoDontProps> = props => (
+  <div className={classes.root}>
     {props.do && (
-      <div
-        data-hook="dodont-do"
-        className={classnames(styles.block, styles.blockDo, {
-          [styles.blockFull]: !props.do || !props.dont,
-        })}
-      >
-        <Title title={props.do.title} skin="green" />
+      <Block dataHook="dodont-do" skin="green" full={!props.do || !props.dont}>
+        <Text weight="bold" className={st(classes.title, { skin: 'green' })}>
+          {props.do.title ? props.do.title : 'Do'}
+        </Text>
         <List list={props.do.list} skin="green" />
-      </div>
+      </Block>
     )}
     {props.dont && (
-      <div
-        data-hook="dodont-dont"
-        className={classnames(styles.block, styles.blockDont, {
-          [styles.blockFull]: !props.do || !props.dont,
-        })}
-      >
-        <Title title={props.dont.title} skin="red" />
+      <Block dataHook="dodont-dont" skin="red" full={!props.do || !props.dont}>
+        <Text weight="bold" className={st(classes.title, { skin: 'red' })}>
+          {props.dont.title ? props.dont.title : `Don't`}
+        </Text>
         <List list={props.dont.list} skin="red" />
-      </div>
+      </Block>
     )}
   </div>
 );
+
+export default DoDont;

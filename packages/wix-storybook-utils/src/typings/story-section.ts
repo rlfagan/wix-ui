@@ -1,6 +1,6 @@
 import React from 'react';
 import { StoryConfig } from './story-config';
-import { DoDontProps } from '../DoDont/DoDont.types';
+import { DoDontProps } from '../DoDont/DoDont';
 import { StoryExamples, StoryContent, StoryDemo, StoryTabs } from './story';
 
 export enum SectionType {
