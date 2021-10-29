@@ -174,6 +174,7 @@ export default class LiveCodeExample extends React.PureComponent<Props, State> {
       returnValue = transformCode(code);
       newParseError = null;
     } catch (error) {
+      // @ts-expect-error
       newParseError = error.message;
     }
 
