@@ -41,6 +41,63 @@
   line-height: value(wsr-text-line-height-tiny);
 }
 
+.text-tiny-normal {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-tiny);
+  font-weight: value(wsr-font-weight-medium);
+  line-height: value(wsr-text-line-height-tiny);
+}
+
+.text-tiny-bold {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-tiny);
+  font-weight: value(wsr-font-weight-bold);
+  line-height: value(wsr-text-line-height-tiny);
+}
+
+.text-small-thin {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-small);
+  font-weight: value(wsr-font-weight-regular);
+  line-height:  value(wsr-text-line-height-small);
+}
+
+.text-small-normal {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-small);
+  font-weight: value(wsr-font-weight-medium);
+  line-height: value(wsr-text-line-height-small);
+}
+
+.text-small-bold {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-small);
+  font-weight: value(wsr-font-weight-bold);
+  line-height: value(wsr-text-line-height-small);
+}
+
+.text-medium-thin {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-medium);
+  font-weight: value(wsr-font-weight-regular);
+  line-height: value(wsr-text-line-height-medium);
+}
+
+.text-medium-normal {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-medium);
+  font-weight: value(wsr-font-weight-medium);
+  line-height: value(wsr-text-line-height-medium);
+}
+
+.text-medium-bold {
+  font-family: value(wsr-font-family);
+  font-size: value(wsr-text-font-size-medium);
+  font-weight: value(wsr-font-weight-bold);
+  line-height: value(wsr-text-line-height-medium);
+}
+
+
 .heading-h1 {
   font-family: value(wsr-font-family);
   font-size: value(wsr-heading-font-size-h1);

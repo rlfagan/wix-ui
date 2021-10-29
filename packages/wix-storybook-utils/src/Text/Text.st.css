@@ -1,0 +1,59 @@
+@st-import [D10, D20, D40, D80] from "../Foundation/colors.st.css";
+@st-import [
+text-tiny-thin, text-tiny-normal, text-tiny-bold,
+text-small-thin, text-small-normal, text-small-bold,
+text-medium-thin, text-medium-normal, text-medium-bold 
+] from "../Foundation/typography.st.css";
+
+.root {
+ -st-states: size(enum(tiny,small,medium)), weight(enum(thin,normal,bold)), secondary, light;
+ color: value(D10);
+}
+
+.root:size(tiny):weight(thin)  {
+  -st-mixin: text-tiny-thin;
+} 
+
+.root:size(tiny):weight(normal)  {
+  -st-mixin: text-tiny-normal;
+}
+
+.root:size(tiny):weight(bold)  {
+  -st-mixin: text-tiny-bold;
+}
+
+.root:size(small):weight(thin)  {
+  -st-mixin: text-small-thin;
+}
+
+.root:size(small):weight(normal)  {
+  -st-mixin: text-small-normal;
+}
+
+.root:size(small):weight(bold)  {
+  -st-mixin: text-small-bold;
+}
+
+.root:size(medium):weight(thin)  {
+  -st-mixin: text-medium-thin;
+} 
+
+.root:size(medium):weight(normal)  {
+  -st-mixin: text-medium-normal;
+}
+
+.root:size(medium):weight(bold)  {
+  -st-mixin: text-medium-bold;
+}
+
+.root:secondary {
+  color: value(D20);
+}
+
+.root:light {
+  color: value(D80);
+}
+
+.root:secondary:light {
+  color: value(D40);
+}
