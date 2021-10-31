@@ -1,5 +1,5 @@
-const DecorateMainConfig = require('../../src/StorybookConfigs/decorateMainConfig');
+const DecorateMainConfig = require('wix-storybook-config');
 
-module.exports = DecorateMainConfig({
+module.exports = DecorateMainConfig.decorateMainConfig({
   stories: ['../../src/**/*.visual.tsx'],
 });

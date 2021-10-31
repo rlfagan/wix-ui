@@ -1,7 +1,8 @@
-const { decorateMainDocsConfig } = require('../../src/StorybookConfigs');
 const path = require('path');
+const WixStorybookWebpackPlugin = require('../../src/WixStorybookWebpackPlugin');
+const { decorateMainConfig } = require('wix-storybook-config');
 
-const storybookUtilsPluginConfig = {
+const options = {
   moduleName: 'wix-storybook-utils',
   issueURL: 'https://github.com/wix/wix-ui/issues/new/choose',
   repoBaseURL:
@@ -23,14 +24,14 @@ const storybookUtilsPluginConfig = {
   },
 };
 
-module.exports = decorateMainDocsConfig({
+module.exports = decorateMainConfig({
   stories: ['../../stories/index.js', '../../src/**/*.story.ts'],
-  storybookUtilsPluginConfig,
   webpackFinal: config => {
     config.resolve.alias = {
       ...config.resolve.alias,
       'wix-storybook-utils': path.resolve(__dirname, '..', '..', 'src'),
     };
+    config.plugins.push(new WixStorybookWebpackPlugin(options));
     return config;
   },
 });

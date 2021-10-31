@@ -59,7 +59,6 @@
     "@babel/standalone": "^7.13.14",
     "@babel/traverse": "^7.11.0",
     "@babel/types": "^7.11.0",
-    "browserify-fs": "^1.0.0",
     "classnames": "^2.2.5",
     "codemirror": "^5.60.0",
     "copy-to-clipboard": "^3.0.8",
@@ -71,7 +70,6 @@
     "loader-utils": "^1.1.0",
     "lodash": "^4.17.15",
     "parse-prop-types": "^0.3.0",
-    "path-browserify": "^1.0.1",
     "prettier": "^1.16.2",
     "query-string": "^6.0.0",
     "react-autodocs-utils": "^3.5.0",
@@ -84,7 +82,6 @@
     "react-syntax-highlighter": "^9.0.0",
     "react-tooltip": "4.2.13",
     "sass-loader": "^7.3.1",
-    "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.1",
     "webpack-inject-plugin": "^1.5.5",
     "wix-ui-icons-common": "^2.0.311"
@@ -96,8 +93,10 @@
     "@storybook/builder-webpack5": "^6.3.12",
     "@storybook/manager-webpack5": "^6.3.12",
     "@storybook/react": "^6.3.12",
-    "@stylable/jest": "^3.13.0",
-    "@stylable/runtime": "^3.13.0",
+    "@stylable/core": "^4.7.4",
+    "@stylable/jest": "^4.7.4",
+    "@stylable/runtime": "^4.7.4",
+    "@stylable/webpack-plugin": "^4.7.4",
     "@testing-library/react": "^11.2.5",
     "@types/codemirror": "0.0.108",
     "@types/jest": "^23.3.8",
@@ -121,9 +120,8 @@
     "tslint-config-prettier": "^1.18.0",
     "typedoc": "^0.15.0",
     "typescript": "^4.4.4",
-    "wix-ui-test-utils": "^1.0.120",
-    "yoshi-style-dependencies": "^4.11.1",
-    "@stylable/webpack-plugin": "^4.7.4",
-    "webpack": "^5.60.0"
+    "webpack": "^5.60.0",
+    "wix-storybook-config": "^1.0.0",
+    "wix-ui-test-utils": "^1.0.120"
   }
 }
