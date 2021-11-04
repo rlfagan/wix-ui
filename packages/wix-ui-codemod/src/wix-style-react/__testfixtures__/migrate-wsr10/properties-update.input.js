@@ -1,5 +1,17 @@
+/* eslint-disable */
 import React from 'react';
-import { Checkbox } from 'wix-style-react';
+import {
+  Input,
+  AutoComplete,
+  Dropdown,
+  MultiSelect,
+  MultiSelectCheckbox,
+  NumberInput,
+  Search,
+  InputArea,
+  MarketingLayout,
+  RadioGroup,
+} from 'wix-style-react';
 
 export default class extends React.Component {
   render() {
@@ -19,7 +31,7 @@ export default class extends React.Component {
         <InputArea size="normal" />
         <MarketingLayout size="large" />
         <MarketingLayout size="not_remove" />
-        <RadioGroup lineHeigh="24px" />
+        <RadioGroup lineHeight="24px" />
       </div>
     );
   }

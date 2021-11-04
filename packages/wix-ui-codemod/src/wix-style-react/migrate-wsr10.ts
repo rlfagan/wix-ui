@@ -1,4 +1,9 @@
-import { Transform, JSXOpeningElement, JSXAttribute } from 'jscodeshift';
+import {
+  Transform,
+  JSXOpeningElement,
+  JSXAttribute,
+  JSXIdentifier,
+} from 'jscodeshift';
 import { Collection } from 'jscodeshift/src/Collection';
 
 type RenameInterface = {
@@ -11,19 +16,126 @@ type RemoveInterface = {
   value?: string;
 };
 
+const propertiesUpdates = {
+  Input: {
+    rename: [
+      {
+        from: { prop: 'size', value: 'normal' },
+        to: { prop: 'size', value: 'medium' },
+      },
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  InputArea: {
+    rename: [
+      {
+        from: { prop: 'size', value: 'normal' },
+        to: { prop: 'size', value: 'medium' },
+      },
+    ],
+  },
+  MarketingLayout: {
+    remove: [
+      {
+        prop: 'size',
+        value: 'large',
+      },
+    ],
+  },
+  RadioGroup: {
+    remove: [
+      {
+        prop: 'lineHeight',
+      },
+    ],
+  },
+  AutoComplete: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  Dropdown: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  MultiSelect: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  MultiSelectCheckbox: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  NumberInput: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+  Search: {
+    rename: [
+      {
+        from: { prop: 'roundInput' },
+        to: { prop: 'border', value: 'round' },
+      },
+    ],
+  },
+};
+
+const renamedComponents = [
+  {
+    originalName: 'TimeInputNext',
+    newName: 'TimeInput',
+  },
+  {
+    originalName: 'SortableList',
+    newName: 'SortableListBase',
+  },
+  {
+    originalName: 'StyledNestableList',
+    newName: 'NestableList',
+  },
+];
+
 const transform: Transform = (file, api) => {
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  const findOpeningTag = (name: string) =>
-    root.find(j.JSXOpeningElement, { name: { name } });
+  const findWSRComponentImport = (name: string) =>
+    root
+      .find(j.ImportDeclaration, {
+        source: {
+          value: 'wix-style-react',
+        },
+      })
+      .find(j.ImportSpecifier, {
+        imported: { name },
+      });
 
-  const findJSXElementThatContains = (name: string) =>
-    root.find(j.JSXElement, {
-      openingElement: {
-        name: { name },
-      },
-    });
+  const findOpeningTagPaths = (name: string) =>
+    findWSRComponentImport(name).length
+      ? root.find(j.JSXOpeningElement, { name: { name } })
+      : [];
 
   const executeRename = (
     props: JSXAttribute[],
@@ -155,95 +267,26 @@ const transform: Transform = (file, api) => {
     });
   };
 
-  const updates = {
-    Input: {
-      rename: [
-        {
-          from: { prop: 'size', value: 'normal' },
-          to: { prop: 'size', value: 'medium' },
-        },
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    InputArea: {
-      rename: [
-        {
-          from: { prop: 'size', value: 'normal' },
-          to: { prop: 'size', value: 'medium' },
-        },
-      ],
-    },
-    MarketingLayout: {
-      remove: [
-        {
-          prop: 'size',
-          value: 'large',
-        },
-      ],
-    },
-    RadioGroup: {
-      remove: [
-        {
-          prop: 'lineHeight',
-        },
-      ],
-    },
-    AutoComplete: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    Dropdown: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    MultiSelect: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    MultiSelectCheckbox: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    NumberInput: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-    Search: {
-      rename: [
-        {
-          from: { prop: 'roundInput' },
-          to: { prop: 'border', value: 'round' },
-        },
-      ],
-    },
-  };
+  Object.entries(propertiesUpdates).forEach(([component, update]) => {
+    const paths = findOpeningTagPaths(
+      component,
+    ) as Collection<JSXOpeningElement>;
 
-  Object.entries(updates).forEach(([component, update]) =>
-    updateProperty({ paths: findOpeningTag(component), ...update }),
-  );
+    if (paths) {
+      updateProperty({ paths, ...update });
+    }
+  });
+
+  renamedComponents.forEach(({ originalName, newName }) => {
+    findOpeningTagPaths(originalName).forEach((path) => {
+      (path.node.name as JSXIdentifier).name = newName;
+    });
+
+    findWSRComponentImport(originalName).forEach((path) => {
+      path.node.imported.name = newName;
+      delete path.node.local;
+    });
+  });
 
   return root.toSource({
     reuseWhitespace: true,

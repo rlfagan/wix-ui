@@ -1,5 +1,17 @@
+/* eslint-disable */
 import React from 'react';
-import { Checkbox } from 'wix-style-react';
+import {
+  Input,
+  AutoComplete,
+  Dropdown,
+  MultiSelect,
+  MultiSelectCheckbox,
+  NumberInput,
+  Search,
+  InputArea,
+  MarketingLayout,
+  RadioGroup,
+} from 'wix-style-react';
 
 export default class extends React.Component {
   render() {
