@@ -22,7 +22,7 @@ const IncludedComponents: React.FC<IncludedComponentsProps> = ({
 
         return (
           <div key={`item-${id}`} className={classes.listItem}>
-            <TextButton onClick={linkTo(category, title)}>{`<${title}/>`}</TextButton>
+            <TextButton onClick={linkTo(category as string, title as string)}>{`<${title}/>`}</TextButton>
             {optional && (
               <Text
                 className={classes.optionalText}

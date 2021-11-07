@@ -3,5 +3,5 @@ import { IncludedComponentsSection } from '../../typings/story-section';
 import IncludedComponents from '../../IncludedComponents';
 
 export const includedComponents = (props: IncludedComponentsSection) => (
-    <IncludedComponents componentsList={props.componentsList}  />
+  <IncludedComponents componentsList={props.componentsList} />
 );
