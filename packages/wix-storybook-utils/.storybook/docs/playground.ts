@@ -4,6 +4,7 @@ import { default as TextButton } from '../../src/TextButton';
 import Heading from '../../src/Heading';
 import Text from '../../src/Text';
 import DoDont from '../../src/DoDont';
+import IncludedComponents from '../../src/IncludedComponents';
 import { StorybookComponents } from '../../src/StorybookComponents';
 
 export default {
@@ -12,6 +13,7 @@ export default {
   TextButton,
   Heading,
   Text,
+  IncludedComponents,
   StorybookComponents,
   DoDont,
 };

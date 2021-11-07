@@ -1,0 +1,18 @@
+.root {
+    display: flex;
+    gap: 30px;
+    flex-direction: row;
+    align-items: stretch;
+    margin-bottom: 54px;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.listItem {
+    display: flex;
+    align-items: flex-start;
+}

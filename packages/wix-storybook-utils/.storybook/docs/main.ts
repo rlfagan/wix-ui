@@ -26,6 +26,7 @@ const options = {
 
 module.exports = decorateMainConfig({
   stories: ['../../stories/index.js', '../../src/**/*.story.ts'],
+  addons: ['@storybook/addon-links'],
   webpackFinal: config => {
     config.resolve.alias = {
       ...config.resolve.alias,

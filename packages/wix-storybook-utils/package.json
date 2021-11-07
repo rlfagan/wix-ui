@@ -59,6 +59,7 @@
     "@babel/standalone": "^7.13.14",
     "@babel/traverse": "^7.11.0",
     "@babel/types": "^7.11.0",
+    "@storybook/addon-links": "^5.3.21",
     "classnames": "^2.2.5",
     "codemirror": "^5.60.0",
     "copy-to-clipboard": "^3.0.8",
