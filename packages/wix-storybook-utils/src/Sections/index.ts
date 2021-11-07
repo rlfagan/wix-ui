@@ -21,6 +21,7 @@ import {
   DoDontSection,
   DemoSection,
   StoryPageSection,
+  IncludedComponentsSection,
 } from '../typings/story-section';
 
 // functions exported in this file are used as builders for `sections` array in story config. they are typed
@@ -147,6 +148,14 @@ export const example = (config: Partial<ExampleSection>): ExampleSection =>
 export const doDont = (config: Partial<DoDontSection>): ExampleSection =>
   base({
     type: SectionType.DoDont,
+    ...config,
+  });
+
+export const includedComponents = (
+  config: Partial<IncludedComponentsSection>,
+) =>
+  base({
+    type: SectionType.IncludedComponents,
     ...config,
   });
 

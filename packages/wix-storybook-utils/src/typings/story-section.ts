@@ -1,6 +1,7 @@
 import React from 'react';
 import { StoryConfig } from './story-config';
 import { DoDontProps } from '../DoDont/DoDont';
+import { IncludedComponentsProps } from '../IncludedComponents/IncludedComponents';
 import { StoryExamples, StoryContent, StoryDemo, StoryTabs } from './story';
 
 export enum SectionType {
@@ -21,6 +22,7 @@ export enum SectionType {
   Plugin = 'plugin',
   Example = 'example',
   DoDont = 'doDont',
+  IncludedComponents = 'includedComponents',
   Demo = 'demo',
   StoryPage = 'storyPage',
 }
@@ -304,6 +306,17 @@ export interface TitleSection extends StorySection {}
  */
 
 export interface DoDontSection extends DoDontProps, StorySection {}
+
+/** IncludedComponents section is used for
+ *
+ * ```
+ * includedComponents({})
+ *
+ */
+
+export interface IncludedComponentsSection
+  extends IncludedComponentsProps,
+    StorySection {}
 
 export interface DemoSection extends StorySection {
   component: React.ReactNode;
