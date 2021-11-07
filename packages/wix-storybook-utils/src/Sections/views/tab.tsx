@@ -21,6 +21,7 @@ import { title } from './title';
 import { plugin } from './plugin';
 import { example } from './example';
 import { doDont } from './do-dont';
+import { includedComponents } from './includedComponents';
 import { demo } from './demo';
 import { storyPage } from './story-page';
 
@@ -53,6 +54,7 @@ const views = {
   plugin,
   example,
   doDont,
+  includedComponents,
   demo,
   storyPage,
 };
