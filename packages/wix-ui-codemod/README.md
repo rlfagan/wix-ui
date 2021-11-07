@@ -16,10 +16,10 @@ npx wix-ui-codemod <transform> <path> [...options]
 
 ###For Stylable codemods:
 ```bash
-npx -p wix-ui-codemod wix-ui-codemod-stylable <path>
+npx -p wix-ui-codemod wix-ui-codemod-stylable <transform>
 ```
 
-- `path` - path to file or directory where the codemod will be applied. For example: `wix-ui-tpa/import-stylesheet-via-index-file`
+- `transform` - name of transform, see available options below. For example: `wix-ui-tpa/import-stylesheet-via-index-file`
 
 ## Codemods
 - [wix-style-react](./src/wix-style-react/README.md)

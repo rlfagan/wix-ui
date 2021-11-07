@@ -236,6 +236,7 @@ npx wix-ui-codemod wix-ui-tpa/replace-old-icon-imports <PATH_TO_A_FILE/FOLDER>
 ```
 
 This codemod will replace the `wix-ui-tpa` deprecated icon imports via the `dist` folder to the the new icon imports.
+- `PATH_TO_A_FILE/FOLDER` - path to file or directory where the codemod will be applied.
 
 It transforms the imports in the following way:
 
@@ -258,4 +259,16 @@ It transforms the imports in the following way:
 ```diff
 - import { ReactComponent as CopyLink } from 'wix-ui-tpa/dist/src/assets/icons/Social/CopyLink.svg';
 + import CopyLink from 'wix-ui-icons-common/on-stage/Link';
+```
+
+4. Imports from the index file
+
+```diff
+- import { ReactComponent as Error } from 'wix-ui-tpa/dist/src/assets/icons';
++ import Error from 'wix-ui-icons-common/on-stage/Error';
+```
+
+```diff
+- import { ReactComponent as Share } from 'wix-ui-tpa/dist/src/assets/icons/index';
++ import Share from 'wix-ui-icons-common/on-stage/Share';
 ```
