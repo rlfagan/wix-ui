@@ -1,9 +1,8 @@
 export const _includedComponents = `
 <StorybookComponents.Stack flexDirection="column">
-  <IncludedComponents list={[
-      {category: 'Tal', title: 'Title', optional: true}, 
-      {category: 'Tal2', title: 'Title2', optional: false}, 
-      {category: 'Tal3', title: 'Title3' }, 
+  <IncludedComponents componentsList={[
+      {category: 'Category', title: 'FirstComponent', optional: true}, 
+      {category: 'Category', title: 'SecondComponent'}
      ]} />
 </StorybookComponents.Stack>;
 `;

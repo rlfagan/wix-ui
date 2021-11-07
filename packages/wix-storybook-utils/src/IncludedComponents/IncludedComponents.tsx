@@ -1,10 +1,10 @@
 import React from 'react';
-import { LinkTo } from '@storybook/addon-links';
+import { linkTo } from '@storybook/addon-links';
 import Text from '../Text';
+import TextButton from '../TextButton';
 import { classes } from './IncludedComponents.st.css';
-import AnchoredTitle from '../AnchoredTitle';
 
-export type IncludedComponentsProps = { list: IncludedComponent[] };
+export type IncludedComponentsProps = { componentsList: IncludedComponent[] };
 
 export type IncludedComponent = {
   category: String;
@@ -12,30 +12,31 @@ export type IncludedComponent = {
   optional?: boolean;
 };
 
-const List: React.FC<IncludedComponentsProps> = ({ list }) => (
-  <div className={classes.list}>
-    {list.map((item, id) => {
-      const { category, title, optional } = item;
+const IncludedComponents: React.FC<IncludedComponentsProps> = ({
+  componentsList,
+}) =>
+  componentsList && (
+    <div className={classes.list}>
+      {componentsList.map((componentItem, id) => {
+        const { category, title, optional } = componentItem;
 
-      return (
-        <div key={id} className={classes.listItem}>
-          <LinkTo kind={category} story={`${category}/${title}`} />
-          <Text weight="normal" className={classes.listItem}>
-            {optional}
-          </Text>
-        </div>
-      );
-    })}
-  </div>
-);
-
-const IncludedComponents: React.FC<IncludedComponentsProps> = ({ list }) =>
-  list && (
-    <div className={classes.root}>
-      <AnchoredTitle title="Included Components">
-        <Text weight="bold">Included Components</Text>
-        <List list={list} />
-      </AnchoredTitle>
+        return (
+          <div key={`item-${id}`} className={classes.listItem}>
+            <TextButton onClick={linkTo(category, title)}>{`<${title}/>`}</TextButton>
+            {optional && (
+              <Text
+                className={classes.optionalText}
+                size="small"
+                weight="thin"
+                light
+                secondary
+              >
+                Optional
+              </Text>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 
