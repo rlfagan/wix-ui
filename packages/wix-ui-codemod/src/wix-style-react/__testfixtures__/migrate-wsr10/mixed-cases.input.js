@@ -2,17 +2,17 @@
 import React from 'react';
 import {
   Input,
-  Dropdown,
+  Dropdown as WSRDropdown,
   MultiSelectCheckbox,
-  Search,
+  Search as WSRSearch,
   MarketingLayout,
-  TimeInputNext,
+  TimeInputNext as WSRTimeInputNext,
   StyledNestableList,
-  FontUpgrade
+  FontUpgrade as WSRFontUpgrade
 } from 'wix-style-react';
 
 import {
-  AutoComplete,
+  AutoComplete as AutoCompleteFromOtherLibrary,
   MultiSelect,
   NumberInput,
   InputArea,
@@ -24,24 +24,24 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <FontUpgrade>
+        <WSRFontUpgrade>
           <Input size="normal" />
-        </FontUpgrade>
+        </WSRFontUpgrade>
         <Input size={'normal'} />
         <Input size="not_remove" />
         <Input size={'not_remove'} />
         <Input roundInput={true} />
-        <AutoComplete roundInput />
-        <Dropdown roundInput />
+        <AutoCompleteFromOtherLibrary roundInput />
+        <WSRDropdown roundInput />
         <MultiSelect roundInput />
         <MultiSelectCheckbox roundInput />
         <NumberInput roundInput />
-        <Search roundInput />
+        <WSRSearch roundInput />
         <InputArea size="normal" />
         <MarketingLayout size="large" />
         <MarketingLayout size="not_remove" />
         <RadioGroup lineHeight="24px" />
-        <TimeInputNext width="auto" placeholder="Auto" />
+        <WSRTimeInputNext width="auto" placeholder="Auto" />
         <SortableList
           containerId="single-area-2"
           items={this.state.items}

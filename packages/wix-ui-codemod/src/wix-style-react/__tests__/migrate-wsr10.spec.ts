@@ -1,5 +1,6 @@
 import { defineTest } from 'jscodeshift/src/testUtils';
 
+defineTest(__dirname, 'migrate-wsr10', {}, 'migrate-wsr10/aliased-imports');
 defineTest(__dirname, 'migrate-wsr10', {}, 'migrate-wsr10/components-rename');
 defineTest(__dirname, 'migrate-wsr10', {}, 'migrate-wsr10/components-remove');
 defineTest(__dirname, 'migrate-wsr10', {}, 'migrate-wsr10/properties-update');

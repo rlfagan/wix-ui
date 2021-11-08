@@ -134,10 +134,22 @@ const transform: Transform = (file, api) => {
       imported: { name },
     });
 
-  const findOpeningTagPaths = (name: string) =>
-    findWSRComponentImport(name).length
-      ? root.find(j.JSXOpeningElement, { name: { name } })
+  const findImportedWSRComponentLocalName = (name: string) => {
+    const nodes = findWSRImport()
+      .find(j.ImportSpecifier, {
+        imported: { name },
+      })
+      .nodes();
+
+    return nodes.length ? nodes[0].local.name : null;
+  };
+
+  const findOpeningTagPaths = (name: string) => {
+    const localName = findImportedWSRComponentLocalName(name);
+    return localName
+      ? root.find(j.JSXOpeningElement, { name: { name: localName } })
       : [];
+  };
 
   const executeRename = (
     props: JSXAttribute[],
@@ -276,7 +288,7 @@ const transform: Transform = (file, api) => {
       ? root.find(j.JSXElement, {
           openingElement: {
             name: {
-              name: componentName,
+              name: findImportedWSRComponentLocalName(componentName),
             },
           },
         })
@@ -315,13 +327,18 @@ const transform: Transform = (file, api) => {
   });
 
   renamedComponents.forEach(({ originalName, newName }) => {
-    findOpeningTagPaths(originalName).forEach((path) => {
-      (path.node.name as JSXIdentifier).name = newName;
-    });
+    const componentTagExists = root.find(j.JSXOpeningElement, {
+      name: { name: originalName },
+    }).length;
+
+    if (componentTagExists) {
+      findOpeningTagPaths(originalName).forEach((path) => {
+        (path.node.name as JSXIdentifier).name = newName;
+      });
+    }
 
     findWSRComponentImport(originalName).forEach((path) => {
       path.node.imported.name = newName;
-      delete path.node.local;
     });
   });
 
