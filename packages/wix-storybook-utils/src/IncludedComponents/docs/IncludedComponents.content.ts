@@ -11,4 +11,7 @@ export default {
       example: '_includedComponents',
     },
   ],
+  includedComponents: [
+    { category: 'Category', title: 'IncludedComponents', optional: true },
+  ],
 };

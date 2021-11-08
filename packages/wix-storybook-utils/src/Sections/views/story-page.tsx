@@ -72,7 +72,7 @@ const doDont = (props: { do: string[]; dont: string[] }) => {
 const divider = () => ({ type: SectionType.Divider });
 const title = (text: string) => ({ type: SectionType.Title, title: text });
 
-const includedComponents = (props: IncludedComponents) => ({
+const includedComponents = (props: IncludedComponents[]) => ({
   type: SectionType.IncludedComponents,
   includedComponents: props,
 });
@@ -94,12 +94,7 @@ const designTab = (props: StoryPageSection, storyConfig: StoryConfig) => {
       }),
       doDont({ do: content.do, dont: content.dont }),
       importExample(storyConfig),
-      showIncludedComponents &
-        includedComponents({
-          category: content.category,
-          title: content.title,
-          optional: content.optional,
-        }),
+      showIncludedComponents & includedComponents(content.includedComponents),
       divider(),
       title('Variations'),
       ...examples(props.content.featureExamples, props.examples),
