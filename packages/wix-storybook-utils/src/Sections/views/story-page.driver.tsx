@@ -157,7 +157,21 @@ const buildOutput = (content: any) => {
       component: content.demo,
     };
   };
+
+  const includedComponentsModule = () => {
+    if (!content.includedComponents) {
+      return null;
+    }
+
+    return {
+      title: 'Included Components',
+      type: 'includedComponents',
+      component: content.includedComponents,
+    };
+  };
+
   const showCommonUseCaseExamples = content.commonUseCaseExamples.length;
+  const showIncludedComponents = content.includedComponents.length;
 
   return [
     { type: 'header', sourceUrl: '/Story' },
@@ -176,6 +190,7 @@ const buildOutput = (content: any) => {
             },
             doDontModule(),
             { title: 'Import', type: 'importExample', source: 'import' },
+            showIncludedComponents ? includedComponentsModule() : null,
             { type: 'divider' },
             { type: 'title', title: 'Variations' },
             ...featureExamples,

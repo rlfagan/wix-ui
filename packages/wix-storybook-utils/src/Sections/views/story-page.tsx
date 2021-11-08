@@ -94,7 +94,9 @@ const designTab = (props: StoryPageSection, storyConfig: StoryConfig) => {
       }),
       doDont({ do: content.do, dont: content.dont }),
       importExample(storyConfig),
-      showIncludedComponents & includedComponents(content.includedComponents),
+      showIncludedComponents
+        ? includedComponents(content.includedComponents)
+        : null,
       divider(),
       title('Variations'),
       ...examples(props.content.featureExamples, props.examples),
