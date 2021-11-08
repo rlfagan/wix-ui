@@ -23,7 +23,9 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <Input size="medium" />
+        <>
+          <Input size="medium" />
+        </>
         <Input size="medium" />
         <Input size="not_remove" />
         <Input size={'not_remove'} />

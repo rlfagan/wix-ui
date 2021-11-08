@@ -3,6 +3,7 @@ import {
   JSXOpeningElement,
   JSXAttribute,
   JSXIdentifier,
+  StringLiteral,
 } from 'jscodeshift';
 import { Collection } from 'jscodeshift/src/Collection';
 
@@ -121,16 +122,17 @@ const transform: Transform = (file, api) => {
   const j = api.jscodeshift;
   const root = j(file.source);
 
+  const findWSRImport = () =>
+    root.find(j.ImportDeclaration, {
+      source: {
+        value: 'wix-style-react',
+      },
+    });
+
   const findWSRComponentImport = (name: string) =>
-    root
-      .find(j.ImportDeclaration, {
-        source: {
-          value: 'wix-style-react',
-        },
-      })
-      .find(j.ImportSpecifier, {
-        imported: { name },
-      });
+    findWSRImport().find(j.ImportSpecifier, {
+      imported: { name },
+    });
 
   const findOpeningTagPaths = (name: string) =>
     findWSRComponentImport(name).length
@@ -267,6 +269,41 @@ const transform: Transform = (file, api) => {
     });
   };
 
+  const removeFontUpgrade = () => {
+    const componentName = 'FontUpgrade';
+
+    const fontUpgradeNodes = findWSRComponentImport(componentName).length
+      ? root.find(j.JSXElement, {
+          openingElement: {
+            name: {
+              name: componentName,
+            },
+          },
+        })
+      : [];
+
+    fontUpgradeNodes.forEach((path) => {
+      const asProp: JSXAttribute | undefined = (path.node.openingElement
+        .attributes as JSXAttribute[]).find((attr) => attr.name.name === 'as');
+      const elementName: string = j.JSXAttribute.check(asProp)
+        ? (asProp.value as StringLiteral).value
+        : '';
+      (path.node.openingElement.name as JSXIdentifier).name = elementName;
+      (path.node.closingElement.name as JSXIdentifier).name = elementName;
+      path.node.openingElement.attributes = [];
+    });
+
+    findWSRComponentImport(componentName).forEach((path) => {
+      path.prune();
+    });
+
+    findWSRImport().forEach((importPath) => {
+      if (!importPath.value.specifiers.length) {
+        importPath.prune();
+      }
+    });
+  };
+
   Object.entries(propertiesUpdates).forEach(([component, update]) => {
     const paths = findOpeningTagPaths(
       component,
@@ -287,6 +324,8 @@ const transform: Transform = (file, api) => {
       delete path.node.local;
     });
   });
+
+  removeFontUpgrade();
 
   return root.toSource({
     reuseWhitespace: true,

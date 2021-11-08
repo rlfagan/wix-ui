@@ -13,14 +13,17 @@ import {
   RadioGroup,
   TimeInputNext,
   SortableList,
-  StyledNestableList
+  StyledNestableList,
+  FontUpgrade,
 } from 'some-other-library';
 
 export default class extends React.Component {
   render() {
     return (
       <div>
-        <Input size="normal" />
+        <FontUpgrade>
+          <Input size="normal" />
+        </FontUpgrade>
         <Input size={'normal'} />
         <Input size="not_remove" />
         <Input size={'not_remove'} />
