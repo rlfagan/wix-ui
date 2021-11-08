@@ -8,10 +8,17 @@ export interface Example {
   wide?: boolean;
 }
 
+export interface IncludedComponents {
+  category: string;
+  title: string;
+  optional?: boolean;
+}
+
 export interface StoryContent {
   description?: string;
   do?: string[];
   dont?: string[];
+  includedComponents?: IncludedComponents[];
   featureExamples?: Example[];
   commonUseCaseExamples?: Example[];
 }

@@ -4,7 +4,7 @@ import {
   TabSection,
 } from '../../typings/story-section';
 import { StoryConfig } from '../../typings/story-config';
-import { Example, Tabs } from '../../typings/story';
+import { Example, Tabs, IncludedComponents } from '../../typings/story';
 import React from 'react';
 import { width } from '../../ui/Tabs/core/constants/tab-prop-types';
 
@@ -72,9 +72,16 @@ const doDont = (props: { do: string[]; dont: string[] }) => {
 const divider = () => ({ type: SectionType.Divider });
 const title = (text: string) => ({ type: SectionType.Title, title: text });
 
+const includedComponents = (props: IncludedComponents) => ({
+  type: SectionType.IncludedComponents,
+  includedComponents: props,
+});
+
 const designTab = (props: StoryPageSection, storyConfig: StoryConfig) => {
   const { content } = props;
   const showCommonUseCaseExamples = props.content.commonUseCaseExamples?.length;
+  const showIncludedComponents = props.content.includedComponents?.length;
+
   return {
     title: 'Design',
     type: SectionType.Tab,
@@ -87,6 +94,12 @@ const designTab = (props: StoryPageSection, storyConfig: StoryConfig) => {
       }),
       doDont({ do: content.do, dont: content.dont }),
       importExample(storyConfig),
+      showIncludedComponents &
+        includedComponents({
+          category: content.category,
+          title: content.title,
+          optional: content.optional,
+        }),
       divider(),
       title('Variations'),
       ...examples(props.content.featureExamples, props.examples),

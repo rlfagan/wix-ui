@@ -17,6 +17,10 @@ export const createStoryBuilder = (content?: any, config?: any) => {
         example: '_structure',
       },
     ],
+    includedComponents: [
+      { category: 'Category', title: 'FirstComponent', optional: true },
+      { category: 'Category', title: 'SecondComponent' },
+    ],
     commonUseCaseExamples: [],
     examples: { _structure },
     demo: <div />,
