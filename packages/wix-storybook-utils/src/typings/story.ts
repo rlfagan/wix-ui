@@ -8,7 +8,7 @@ export interface Example {
   wide?: boolean;
 }
 
-export interface IncludedComponents {
+export interface IncludedComponent {
   category: string;
   title: string;
   optional?: boolean;
@@ -18,7 +18,7 @@ export interface StoryContent {
   description?: string;
   do?: string[];
   dont?: string[];
-  includedComponents?: IncludedComponents[];
+  includedComponents?: IncludedComponent[];
   featureExamples?: Example[];
   commonUseCaseExamples?: Example[];
 }

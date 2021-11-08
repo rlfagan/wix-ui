@@ -3,14 +3,9 @@ import { linkTo } from '@storybook/addon-links';
 import Text from '../Text';
 import TextButton from '../TextButton';
 import { classes } from './IncludedComponents.st.css';
+import { IncludedComponent } from '../typings/story';
 
 export type IncludedComponentsProps = { componentsList: IncludedComponent[] };
-
-export type IncludedComponent = {
-  category: String;
-  title: String;
-  optional?: boolean;
-};
 
 const IncludedComponents: React.FC<IncludedComponentsProps> = ({
   componentsList,

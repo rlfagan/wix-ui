@@ -4,7 +4,7 @@ import {
   TabSection,
 } from '../../typings/story-section';
 import { StoryConfig } from '../../typings/story-config';
-import { Example, Tabs, IncludedComponents } from '../../typings/story';
+import { Example, Tabs, IncludedComponent } from '../../typings/story';
 import React from 'react';
 import { width } from '../../ui/Tabs/core/constants/tab-prop-types';
 
@@ -72,7 +72,7 @@ const doDont = (props: { do: string[]; dont: string[] }) => {
 const divider = () => ({ type: SectionType.Divider });
 const title = (text: string) => ({ type: SectionType.Title, title: text });
 
-const includedComponents = (props: IncludedComponents[]) => ({
+const includedComponents = (props: IncludedComponent[]) => ({
   type: SectionType.IncludedComponents,
   includedComponents: props,
 });
