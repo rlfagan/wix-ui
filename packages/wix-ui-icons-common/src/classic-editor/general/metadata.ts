@@ -3294,6 +3294,159 @@ export const generalIconsMetadata: Array<IconMetadata> = [
       "18": "SuccessSmall"
     }
   },
+  {
+    "title": "Minus",
+    "category": "",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Minus"
+    }
+  },
+  {
+    "title": "ContextMenuVertical",
+    "category": "Actions",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "ContextMenuVertical"
+    }
+  },
+  {
+    "title": "Minimize",
+    "category": "Actions",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Minimize"
+    }
+  },
+  {
+    "title": "Maximize",
+    "category": "Actions",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Maximize"
+    }
+  },
+  {
+    "title": "ElementProperties",
+    "category": "Actions",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "ElementProperties"
+    }
+  },
+  {
+    "title": "SettingsLocked",
+    "category": "General",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "SettingsLocked"
+    }
+  },
+  {
+    "title": "DataTable",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "DataTable"
+    }
+  },
+  {
+    "title": "DataTableLinked",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "DataTableLinked"
+    }
+  },
+  {
+    "title": "SingleItemCollection",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "SingleItemCollection"
+    }
+  },
+  {
+    "title": "Package",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Package"
+    }
+  },
+  {
+    "title": "AddPackage",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "AddPackage"
+    }
+  },
+  {
+    "title": "JS",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "JS"
+    }
+  },
+  {
+    "title": "JSLocked",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "JSLocked"
+    }
+  },
+  {
+    "title": "CSS",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "CSS"
+    }
+  },
+  {
+    "title": "JSW",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "JSW"
+    }
+  },
+  {
+    "title": "PageCode",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "PageCode"
+    }
+  },
+  {
+    "title": "Custom",
+    "category": "Files & Data",
+    "description": "",
+    "tags": [],
+    "sizes": {
+      "24": "Custom"
+    }
+  },
 ]
 
 export default generalIconsMetadata;
