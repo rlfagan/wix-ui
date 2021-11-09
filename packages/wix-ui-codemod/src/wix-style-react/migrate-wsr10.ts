@@ -118,7 +118,7 @@ const renamedComponents = [
   },
 ];
 
-const transform: Transform = (file, api) => {
+const transform: Transform = (file, api, { backwardsCompatibleOnly }) => {
   const j = api.jscodeshift;
   const root = j(file.source);
 
@@ -316,33 +316,42 @@ const transform: Transform = (file, api) => {
     });
   };
 
-  Object.entries(propertiesUpdates).forEach(([component, update]) => {
-    const paths = findOpeningTagPaths(
-      component,
-    ) as Collection<JSXOpeningElement>;
+  const updateComponentsProperties = () => {
+    Object.entries(propertiesUpdates).forEach(([component, update]) => {
+      const paths = findOpeningTagPaths(
+        component,
+      ) as Collection<JSXOpeningElement>;
 
-    if (paths) {
-      updateProperty({ paths, ...update });
-    }
-  });
-
-  renamedComponents.forEach(({ originalName, newName }) => {
-    const componentTagExists = root.find(j.JSXOpeningElement, {
-      name: { name: originalName },
-    }).length;
-
-    if (componentTagExists) {
-      findOpeningTagPaths(originalName).forEach((path) => {
-        (path.node.name as JSXIdentifier).name = newName;
-      });
-    }
-
-    findWSRComponentImport(originalName).forEach((path) => {
-      path.node.imported.name = newName;
+      if (paths) {
+        updateProperty({ paths, ...update });
+      }
     });
-  });
+  };
 
-  removeFontUpgrade();
+  const renameComponents = () => {
+    renamedComponents.forEach(({ originalName, newName }) => {
+      const componentTagExists = root.find(j.JSXOpeningElement, {
+        name: { name: originalName },
+      }).length;
+
+      if (componentTagExists) {
+        findOpeningTagPaths(originalName).forEach((path) => {
+          (path.node.name as JSXIdentifier).name = newName;
+        });
+      }
+
+      findWSRComponentImport(originalName).forEach((path) => {
+        path.node.imported.name = newName;
+      });
+    });
+  };
+
+  updateComponentsProperties();
+
+  if (!backwardsCompatibleOnly) {
+    renameComponents();
+    removeFontUpgrade();
+  }
 
   return root.toSource({
     reuseWhitespace: true,

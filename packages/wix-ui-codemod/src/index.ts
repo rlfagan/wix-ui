@@ -1,10 +1,16 @@
 import program from 'commander';
 import { execFileSync } from 'child_process';
 
+const BACKWARDS_COMPATIBLE_SCRIPTS = ['wix-style-react/migrate-wsr10'];
+
 program
   .arguments('<transform> [path]')
   .option('-p, --print', 'print modified files to stdout')
-  .option('-d, --dry', 'run in dry mode (will not modify any files on disk)');
+  .option('-d, --dry', 'run in dry mode (will not modify any files on disk)')
+  .option(
+    '--backwards-compatible-only',
+    'change code to new major version API which is backwards compatible with previous major version as well.',
+  );
 
 program.parse(process.argv);
 
@@ -13,10 +19,25 @@ if (program.args.length < 2) {
 }
 
 let transformPath: string;
+
+const migrationScript = program.args[0];
+
 try {
-  transformPath = require.resolve(`./${program.args[0]}`);
+  transformPath = require.resolve(`./${migrationScript}`);
 } catch {
-  console.error(`Error: Transform "${program.args[0]}" not found.`);
+  console.error(`Error: Transform "${migrationScript}" not found.`);
+  process.exit(1);
+}
+
+const isBackwardsCompatibleOnly = program.opts().backwardsCompatibleOnly;
+
+if (
+  !BACKWARDS_COMPATIBLE_SCRIPTS.includes(migrationScript) &&
+  isBackwardsCompatibleOnly
+) {
+  console.error(
+    `Error: "${migrationScript}" does not support backwards compatible mode.`,
+  );
   process.exit(1);
 }
 
@@ -28,6 +49,10 @@ if (program.dry) {
 
 if (program.print) {
   args.push('--print');
+}
+
+if (isBackwardsCompatibleOnly) {
+  args.push('--backwardsCompatibleOnly');
 }
 
 args.push('--ignore-pattern=**/node_modules/**');
