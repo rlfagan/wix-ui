@@ -190,7 +190,7 @@ const buildOutput = (content: any) => {
             },
             doDontModule(),
             { title: 'Import', type: 'importExample', source: 'import' },
-            showIncludedComponents ? includedComponentsModule() : null,
+            showIncludedComponents && includedComponentsModule(),
             { type: 'divider' },
             { type: 'title', title: 'Variations' },
             ...featureExamples,
