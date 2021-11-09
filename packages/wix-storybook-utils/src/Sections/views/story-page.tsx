@@ -73,6 +73,7 @@ const divider = () => ({ type: SectionType.Divider });
 const title = (text: string) => ({ type: SectionType.Title, title: text });
 
 const includedComponents = (props: IncludedComponent[]) => ({
+  title: 'Included Components',
   type: SectionType.IncludedComponents,
   includedComponents: props,
 });

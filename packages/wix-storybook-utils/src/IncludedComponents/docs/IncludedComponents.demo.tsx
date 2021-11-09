@@ -5,7 +5,7 @@ import IncludedComponents from '..';
 export default () => (
   <StorybookComponents.Stack flexDirection="column">
     <IncludedComponents
-        componentsList={[
+        includedComponents={[
         { category: 'Category', title: 'FirstComponent', optional: true },
         { category: 'Category', title: 'SecondComponent' },
       ]}

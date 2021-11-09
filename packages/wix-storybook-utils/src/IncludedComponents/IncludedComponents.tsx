@@ -5,14 +5,16 @@ import TextButton from '../TextButton';
 import { classes } from './IncludedComponents.st.css';
 import { IncludedComponent } from '../typings/story';
 
-export type IncludedComponentsProps = { componentsList: IncludedComponent[] };
+export type IncludedComponentsProps = {
+  includedComponents: IncludedComponent[];
+};
 
 const IncludedComponents: React.FC<IncludedComponentsProps> = ({
-  componentsList,
+  includedComponents,
 }) =>
-  componentsList && (
+  includedComponents && (
     <div className={classes.list}>
-      {componentsList.map((componentItem, id) => {
+      {includedComponents.map((componentItem, id) => {
         const { category, title, optional } = componentItem;
 
         return (
