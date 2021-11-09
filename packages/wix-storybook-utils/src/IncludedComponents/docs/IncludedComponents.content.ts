@@ -6,8 +6,11 @@ export default {
   ],
   featureExamples: [
     {
-      title: 'Included Components',
-      description: `Provide a list of components included with a specific components composition.`,
+      title: 'Included Components Section',
+      description: `Provide a list of components included in a specific components composition.<br/>
+        &emsp;- The \`category\` prop is the story page category.<br/>
+        &emsp;- The \`title\` prop is the story (component) name.<br/>
+        &emsp;- The \`optional\` prop is used to display whether the component is optionally used within a composite.`,
       example: '_includedComponents',
     },
   ],
