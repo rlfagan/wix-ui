@@ -11,24 +11,30 @@ export type IncludedComponentsProps = {
 
 const IncludedComponents: React.FC<IncludedComponentsProps> = ({
   includedComponents,
-}) =>
-  includedComponents && (
-    <div className={classes.root}>
-      {includedComponents.map((componentItem, id) => {
-        const { category, title, optional } = componentItem;
+}) => (
+  <div className={classes.root}>
+    {includedComponents.map((componentItem, id) => {
+      const { category, title, optional } = componentItem;
 
-        return (
-          <div key={`item-${id}`} className={classes.item}>
-            <TextButton onClick={linkTo(category as string, title as string)}>{`<${title}/>`}</TextButton>
-            {optional && (
-              <Text size="small" weight="thin" light secondary>
-                Optional
-              </Text>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
+      return (
+        <div key={`item-${id}`} className={classes.item}>
+          <TextButton
+            onClick={linkTo(category as string, title as string)}
+          >{`<${title}/>`}
+          </TextButton>
+          {optional && (
+            <Text size="small" weight="thin" light secondary>
+              Optional
+            </Text>
+          )}
+        </div>
+      );
+    })}
+  </div>
+);
+
+IncludedComponents.defaultProps = {
+  includedComponents: [],
+};
 
 export default IncludedComponents;

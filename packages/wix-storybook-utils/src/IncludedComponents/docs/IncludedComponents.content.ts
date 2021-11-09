@@ -14,9 +14,4 @@ export default {
       example: '_includedComponents',
     },
   ],
-  includedComponents: [
-    { category: 'Category', title: 'FirstComponent', optional: true },
-    { category: 'Category', title: 'SecondComponent' },
-    { category: 'Category', title: 'ThirdComponent', optional: true },
-  ],
 };
