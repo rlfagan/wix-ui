@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import IncludedComponents from '..';
 
-const componentsList = [
+const includedComponents = [
   { category: 'Category', title: 'FirstComponent', optional: true },
   { category: 'Category', title: 'SecondComponent' },
 ];
@@ -10,7 +10,7 @@ const componentsList = [
 const tests = [
   {
     it: `should render included components list`,
-    props: { componentsList },
+    props: { includedComponents },
   },
 ] as const;
 
