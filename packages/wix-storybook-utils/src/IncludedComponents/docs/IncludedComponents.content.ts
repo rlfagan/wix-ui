@@ -12,6 +12,8 @@ export default {
     },
   ],
   includedComponents: [
-    { category: 'Category', title: 'IncludedComponents', optional: true },
+    { category: 'Category', title: 'FirstComponent', optional: true },
+    { category: 'Category', title: 'SecondComponent' },
+    { category: 'Category', title: 'ThirdComponent', optional: true },
   ],
 };
