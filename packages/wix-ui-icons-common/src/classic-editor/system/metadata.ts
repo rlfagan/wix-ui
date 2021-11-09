@@ -232,7 +232,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'MobileTools',
+      '30': 'MobileTools',
     },
   },
   {
@@ -241,7 +241,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'MobileLayout',
+      '30': 'MobileLayout',
     },
   },
   {
@@ -250,7 +250,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'HiddenElements',
+      '30': 'HiddenElements',
     },
   },
   {
@@ -259,7 +259,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'BackToTop',
+      '30': 'BackToTop',
     },
   },
   {
@@ -268,7 +268,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Add',
+      '30': 'Add',
     },
   },
   {
@@ -277,16 +277,16 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'AppManager',
+      '30': 'AppManager',
     },
   },
   {
-    title: 'AppMarketNew',
+    title: 'AppMarket',
     category: 'Left Panel',
     description: '',
     tags: [],
     sizes: {
-      '32': 'AppMarketNew',
+      '30': 'AppMarket',
     },
   },
   {
@@ -295,7 +295,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Ascend',
+      '30': 'Ascend',
     },
   },
   {
@@ -304,16 +304,16 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Background',
+      '30': 'Background',
     },
   },
   {
-    title: 'BlogNew',
+    title: 'Blog',
     category: 'Left Panel',
     description: '',
     tags: [],
     sizes: {
-      '32': 'BlogNew',
+      '30': 'Blog',
     },
   },
   {
@@ -322,7 +322,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Bookings',
+      '30': 'Bookings',
     },
   },
   {
@@ -331,7 +331,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'ContentManager',
+      '30': 'ContentManager',
     },
   },
   {
@@ -340,7 +340,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Media',
+      '30': 'Media',
     },
   },
   {
@@ -349,7 +349,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Pages',
+      '30': 'Pages',
     },
   },
   {
@@ -358,7 +358,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Shoutout',
+      '30': 'Shoutout',
     },
   },
   {
@@ -367,7 +367,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'Stores',
+      '30': 'Stores',
     },
   },
   {
@@ -376,7 +376,7 @@ const systemIconsMetadata: Array<IconMetadata> = [
     description: '',
     tags: [],
     sizes: {
-      '32': 'ThemeManager',
+      '30': 'ThemeManager',
     },
   },
   {
@@ -589,28 +589,28 @@ const systemIconsMetadata: Array<IconMetadata> = [
     category: 'Left Panel',
     description: '',
     tags: [],
-    sizes: { "26": "Sections" },
+    sizes: { "30": "Sections" },
   },
   {
     title: "AddElements",
     category: 'Left Panel',
     description: '',
     tags: [],
-    sizes: { "26": "AddElements" },
+    sizes: { "30": "AddElements" },
   },
   {
     title: "BusinessApps",
     category: 'Left Panel',
     description: '',
     tags: [],
-    sizes: { "26": "BusinessApps" },
+    sizes: { "30": "BusinessApps" },
   },
   {
     title: "Elements",
     category: 'GFPP',
     description: '',
     tags: [],
-    sizes: { "26": "Elements" },
+    sizes: { "30": "Elements" },
   },
 ]
 
