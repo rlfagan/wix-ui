@@ -310,7 +310,9 @@ export interface DoDontSection extends DoDontProps, StorySection {}
 /** IncludedComponents section is used for
  *
  * ```
- * includedComponents({})
+ * includedComponents({
+ *
+ * })
  *
  */
 
