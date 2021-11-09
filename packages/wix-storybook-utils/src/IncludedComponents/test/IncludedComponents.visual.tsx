@@ -24,7 +24,5 @@ const tests = [
 ] as const;
 
 tests.forEach(({ it, props }) => {
-  storiesOf('IncludedComponents', module).add(it, () => (
-    <IncludedComponents {...props} />
-  ));
+  storiesOf('IncludedComponents', module).add(it, () => <IncludedComponents {...props} />);
 });

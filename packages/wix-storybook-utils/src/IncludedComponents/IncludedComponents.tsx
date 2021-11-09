@@ -13,21 +13,15 @@ const IncludedComponents: React.FC<IncludedComponentsProps> = ({
   includedComponents,
 }) =>
   includedComponents && (
-    <div className={classes.list}>
+    <div className={classes.root}>
       {includedComponents.map((componentItem, id) => {
         const { category, title, optional } = componentItem;
 
         return (
-          <div key={`item-${id}`} className={classes.listItem}>
+          <div key={`item-${id}`} className={classes.item}>
             <TextButton onClick={linkTo(category as string, title as string)}>{`<${title}/>`}</TextButton>
             {optional && (
-              <Text
-                className={classes.optionalText}
-                size="small"
-                weight="thin"
-                light
-                secondary
-              >
+              <Text size="small" weight="thin" light secondary>
                 Optional
               </Text>
             )}
